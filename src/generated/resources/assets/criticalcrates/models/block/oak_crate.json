@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "criticalcrates:block/wood/oak_crate_top",
+    "side": "criticalcrates:block/wood/oak_crate"
+  }
+}

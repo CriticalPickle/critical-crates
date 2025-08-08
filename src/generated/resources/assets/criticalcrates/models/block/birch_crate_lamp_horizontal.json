@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "criticalcrates:block/wood/birch_crate_lamp_top",
+    "side": "criticalcrates:block/wood/birch_crate_lamp"
+  }
+}

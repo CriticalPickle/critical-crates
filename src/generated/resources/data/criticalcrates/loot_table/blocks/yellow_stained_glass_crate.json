@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "components": {
+              "minecraft:enchantments": {
+                "levels": {
+                  "minecraft:silk_touch": 1
+                }
+              }
+            }
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:custom_data",
+                "minecraft:fire_resistant"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "criticalcrates:yellow_stained_glass_crate"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "criticalcrates:blocks/yellow_stained_glass_crate"
+}

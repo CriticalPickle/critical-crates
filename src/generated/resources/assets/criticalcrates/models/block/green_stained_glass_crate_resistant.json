@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "end": "criticalcrates:block/glass/green_stained_glass_crate_resistant_top",
+    "side": "criticalcrates:block/glass/green_stained_glass_crate_resistant"
+  }
+}

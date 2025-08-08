@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "criticalcrates:block/wood/bamboo_crate_resistant_top",
+    "side": "criticalcrates:block/wood/bamboo_crate_resistant"
+  }
+}

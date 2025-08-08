@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "criticalcrates:pliers"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "criticalcrates:obsidian_reinforcement"
+  }
+}

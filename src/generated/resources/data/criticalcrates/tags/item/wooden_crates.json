@@ -1,0 +1,15 @@
+{
+  "values": [
+    "criticalcrates:oak_crate",
+    "criticalcrates:spruce_crate",
+    "criticalcrates:birch_crate",
+    "criticalcrates:jungle_crate",
+    "criticalcrates:acacia_crate",
+    "criticalcrates:dark_oak_crate",
+    "criticalcrates:mangrove_crate",
+    "criticalcrates:cherry_crate",
+    "criticalcrates:bamboo_crate",
+    "criticalcrates:crimson_crate",
+    "criticalcrates:warped_crate"
+  ]
+}
