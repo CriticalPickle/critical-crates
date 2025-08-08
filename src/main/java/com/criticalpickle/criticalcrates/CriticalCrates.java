@@ -26,6 +26,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
+// Coded by CriticalPickle
+
 @Mod(CriticalCrates.MODID)
 public class CriticalCrates {
     public static final String MODID = "criticalcrates";
