@@ -1,3 +1,9 @@
 Critical Crates
 =======
-Critical Crates is a Minecraft storage mod that aims to help players mange and protect their storage more effectively.
+Critical Crates focuses on storage improvements for a variety of different types of players by providing a new crate block. These crates have a large number of variations from each type of vanilla wood to all current forms of glass. Some types may even have their own features! In addition, they can even be customized further with a decent assortment of upgrades to allow the player to attempt to solve storage or item destruction. However, pick your upgrade carefully as a crate can only handle being upgraded once.
+
+This mod is currently only developed and maintained for Minecraft [NeoForge](https://neoforged.net/) 1.21.1, but may be updated to newer and different versions/loaders in the future.
+
+Please view the [wiki](https://github.com/CriticalPickle/critical-crates/wiki) for more details on features and other useful information.
+
+Any issues found can be reported [here](https://github.com/CriticalPickle/critical-crates/issues).
