@@ -113,7 +113,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     // Fire effects block: Y/N
-    private static boolean hasFireEffect(BlockState state) {
+    protected boolean hasFireEffect(BlockState state) {
         return !state.is(ModBlocks.CRIMSON_CRATE.get()) && !state.is(ModBlocks.WARPED_CRATE.get()) && !state.getValue(FIREPROOF);
     }
 

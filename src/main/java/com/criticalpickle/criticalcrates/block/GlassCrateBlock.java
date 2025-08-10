@@ -30,6 +30,11 @@ public class GlassCrateBlock extends CrateBlock {
     }
 
     @Override
+    protected boolean hasFireEffect(BlockState state) {
+        return false;
+    }
+
+    @Override
     protected SoundEvent getInventoryOpenSound() {
         return SoundEvents.COPPER_BULB_PLACE;
     }
