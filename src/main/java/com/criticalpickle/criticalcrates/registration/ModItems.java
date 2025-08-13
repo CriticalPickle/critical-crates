@@ -60,4 +60,15 @@ public class ModItems {
         Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem)).toArray(Item[]::new);
         return temp[index];
     }
+
+    public static Item findCrateItemByID(String ID) {
+        String crateID;
+        for(int i = 0; i < ModItems.getCrateItems().length; i++) {
+            crateID = ModItems.getCrateItems(i).getDescriptionId();
+            if(crateID.equals(ID)) {
+                return ModItems.getCrateItems(i);
+            }
+        }
+        return null;
+    }
 }

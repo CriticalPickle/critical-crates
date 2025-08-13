@@ -89,9 +89,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     // Generate both glass crate recipes
     private void simpleGlassCrate(Block block, Block pane, Item dye, RecipeOutput output) {
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, block, 1)
-                .requires(ModTags.Items.WOODEN_CRATES)
-                .requires(pane, 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, block, 1)
+                .pattern("-##")
+                .pattern("###")
+                .pattern("#  ")
+                .define('-', ModTags.Items.WOODEN_CRATES)
+                .define('#', pane)
                 .unlockedBy("has_wood_crate", has(ModTags.Items.WOODEN_CRATES))
                 .save(output);
 
@@ -107,9 +110,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
             Ingredient glassCrateVariantsIngredient = Ingredient.of(glassCrateVariants.toArray(new Block[0]));
 
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, block, 1)
-                    .requires(glassCrateVariantsIngredient)
-                    .requires(dye)
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, block, 1)
+                    .pattern("-# ")
+                    .pattern("#  ")
+                    .pattern("   ")
+                    .define('-', glassCrateVariantsIngredient)
+                    .define('#', dye)
                     .unlockedBy("has_glass_crate", has(ModTags.Items.GLASS_CRATES))
                     .save(output, ResourceLocation.fromNamespaceAndPath(CriticalCrates.MODID, "dye_"
                             + block.getDescriptionId().substring(block.getDescriptionId().indexOf("s.") + 2)));

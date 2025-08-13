@@ -1,28 +1,18 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    {
+  "key": {
+    "#": {
+      "item": "minecraft:light_gray_stained_glass_pane"
+    },
+    "-": {
       "tag": "criticalcrates:wooden_crates"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
-    },
-    {
-      "item": "minecraft:light_gray_stained_glass_pane"
     }
+  },
+  "pattern": [
+    "-##",
+    "###",
+    "#  "
   ],
   "result": {
     "count": 1,

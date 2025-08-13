@@ -1,8 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    [
+  "key": {
+    "#": {
+      "item": "minecraft:orange_dye"
+    },
+    "-": [
       {
         "item": "criticalcrates:glass_crate"
       },
@@ -51,10 +54,12 @@
       {
         "item": "criticalcrates:pink_stained_glass_crate"
       }
-    ],
-    {
-      "item": "minecraft:orange_dye"
-    }
+    ]
+  },
+  "pattern": [
+    "-# ",
+    "#  ",
+    "   "
   ],
   "result": {
     "count": 1,
