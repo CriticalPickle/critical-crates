@@ -117,7 +117,7 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Crate");
+        return Component.translatable("container.criticalcrates.crate");
     }
 
     @Override

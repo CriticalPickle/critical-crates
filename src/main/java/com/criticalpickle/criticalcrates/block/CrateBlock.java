@@ -233,7 +233,7 @@ public class CrateBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         } else {
             if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
-                player.openMenu(new SimpleMenuProvider(blockEntity, Component.literal("Crate")), pos);
+                player.openMenu(new SimpleMenuProvider(blockEntity, Component.translatable("container.criticalcrates.crate")), pos);
                 level.playSound(null, pos, getInventoryOpenSound(), SoundSource.BLOCKS, 0.5f, 1f);
             }
 

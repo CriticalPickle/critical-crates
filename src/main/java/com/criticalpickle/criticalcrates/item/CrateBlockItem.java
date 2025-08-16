@@ -74,13 +74,13 @@ public class CrateBlockItem extends BlockItem {
 
         // Set tooltip for appropriate property
         if(resistant) {
-            tooltipComponents.add(Component.literal("Blast Resistant").withStyle(ChatFormatting.RED));
+            tooltipComponents.add(Component.translatable("tooltip.crate.obsidian_reinforcement_upgraded").withStyle(ChatFormatting.RED));
         }
         else if(lamp) {
-            tooltipComponents.add(Component.literal("Light Emissive").withStyle(ChatFormatting.YELLOW));
+            tooltipComponents.add(Component.translatable("tooltip.crate.lamp_simulator_upgraded").withStyle(ChatFormatting.YELLOW));
         }
         else if(fire) {
-            tooltipComponents.add(Component.literal("Fireproof").withStyle(ChatFormatting.GOLD));
+            tooltipComponents.add(Component.translatable("tooltip.crate.fireproofing_upgraded").withStyle(ChatFormatting.GOLD));
         }
     }
 }

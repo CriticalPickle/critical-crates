@@ -87,9 +87,9 @@ public class PliersItem extends Item {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         if(Config.ADDONS_REMOVABLE.getAsBoolean()) {
             if(Screen.hasShiftDown()) {
-                tooltipComponents.add(Component.literal("Right click on a crate to remove upgrade!"));
+                tooltipComponents.add(Component.translatable("tooltip.pliers.shift"));
             } else {
-                tooltipComponents.add(Component.literal("Press SHIFT to view more info").withStyle(ChatFormatting.GRAY));
+                tooltipComponents.add(Component.translatable("tooltip.pliers").withStyle(ChatFormatting.GRAY));
             }
         }
     }

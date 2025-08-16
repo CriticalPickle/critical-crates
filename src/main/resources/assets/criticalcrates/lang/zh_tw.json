@@ -1,5 +1,6 @@
 {
   "itemGroup.criticalcrates": "Critical Crates",
+  "container.criticalcrates.crate": "箱",
 
   "block.criticalcrates.oak_crate": "橡木箱",
   "block.criticalcrates.spruce_crate": "杉木箱",
@@ -31,9 +32,14 @@
   "block.criticalcrates.pink_stained_glass_crate": "粉紅色玻璃木箱",
 
   "item.criticalcrates.pliers": "鉗子",
+  "tooltip.pliers": "按下 SHIFT 查看更多資訊",
+  "tooltip.pliers.shift": "右鍵單擊任意框以移除升級！",
   "item.criticalcrates.obsidian_reinforcement": "黑曜石加固",
   "item.criticalcrates.lamp_simulator": "燈光模擬器",
   "item.criticalcrates.fireproofing": "防火處理",
+  "tooltip.crate.obsidian_reinforcement_upgraded": "抗爆",
+  "tooltip.crate.lamp_simulator_upgraded": "發光",
+  "tooltip.crate.fireproofing_upgraded": "防火",
 
   "criticalcrates.configuration.title": "Critical Crates 設定",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "Critical Crates 設定",

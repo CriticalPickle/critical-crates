@@ -1,5 +1,6 @@
 {
   "itemGroup.criticalcrates": "Critical Crates",
+  "container.criticalcrates.crate": "Crate",
 
   "block.criticalcrates.oak_crate": "Oak Crate",
   "block.criticalcrates.spruce_crate": "Spruce Crate",
@@ -31,9 +32,14 @@
   "block.criticalcrates.pink_stained_glass_crate": "Pink Stained Glass Crate",
 
   "item.criticalcrates.pliers": "Pliers",
+  "tooltip.pliers": "Press SHIFT to view more info",
+  "tooltip.pliers.shift": "Right click on a crate to remove upgrade!",
   "item.criticalcrates.obsidian_reinforcement": "Obsidian Reinforcement",
   "item.criticalcrates.lamp_simulator": "Lamp Simulator",
   "item.criticalcrates.fireproofing": "Fireproofing",
+  "tooltip.crate.obsidian_reinforcement_upgraded": "Blast Resistant",
+  "tooltip.crate.lamp_simulator_upgraded": "Light Emissive",
+  "tooltip.crate.fireproofing_upgrade": "Fireproof",
 
   "criticalcrates.configuration.title": "CriticalCrates Configs",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "CriticalCrates Configs",
