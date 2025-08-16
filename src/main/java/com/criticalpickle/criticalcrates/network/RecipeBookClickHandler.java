@@ -151,7 +151,6 @@ public class RecipeBookClickHandler {
                 for (Item pane : panes) {
                     if (pane.getDescriptionId().contains(color)) {
                         otherIngredient = pane;
-                        break;
                     }
                 }
             }
