@@ -94,7 +94,8 @@ public class CriticalCrates {
         if(!(itemEntity.getItem().getItem() instanceof CrateBlockItem)) return;
         ItemStack stack = itemEntity.getItem();
         if(!stack.isEmpty() && stack.get(DataComponents.CUSTOM_DATA) != null
-                && stack.get(DataComponents.CUSTOM_DATA).contains("crafting_item")) {
+                && (stack.get(DataComponents.CUSTOM_DATA).contains("crafting_item")
+                || stack.get(DataComponents.CUSTOM_DATA).contains("player_crafting"))) {
            event.getLevel().getServer().execute(() -> {
                 itemEntity.remove(Entity.RemovalReason.DISCARDED);
             });
