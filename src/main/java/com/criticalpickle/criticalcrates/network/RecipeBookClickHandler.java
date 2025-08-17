@@ -14,7 +14,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.item.Item;
@@ -56,7 +55,8 @@ public class RecipeBookClickHandler {
     public static void handle(RecipeBookClickPayload payload, ServerPlayer player) {
         String recipeID = payload.recipeID().toString(), recipeReq = "none";
         Item crateItem = null;
-        boolean changedRecipeType = false, changedValidRecipe, giveItemBack, isCrateRecipe = (payload.prevInputItemID().contains("criticalcrates")
+        boolean changedRecipeType = false, noMoreItemsOfTag = false, invalidComponentItemAmount = false,
+                changedValidRecipe, giveItemBack, isCrateRecipe = (payload.prevInputItemID().contains("criticalcrates")
                 && payload.prevInputItemID().contains("crate")) || payload.prevInputItemID().equals("none");
         CompoundTag dataTag = payload.prevInputItemDataTag();
 
@@ -77,40 +77,122 @@ public class RecipeBookClickHandler {
         if(!recipeReq.equals("none")) {
             List<String> itemsNeeded = new ArrayList<>(List.of());
             Item otherIngredient;
-            int otherIngredientMin;
             Map<String, Object> otherIngredientMap = findRecipeIngredients(recipeReq, recipeID, itemsNeeded);
             Inventory inventory = player.getInventory();
             ItemStack firstValidItemStack;
 
+            int otherIngredientMin;
             otherIngredient = (Item) otherIngredientMap.get("ingredient");
             otherIngredientMin = (Integer) otherIngredientMap.get("amount");
 
-            // If different recipe make sure to return previous crate stack
+            // Find valid item stack depending on if the first one has dataTag or not
+            int validInventoryItemCount = 0, validGridItemCount = 0;
+            if(dataTag != null) {
+                firstValidItemStack = PlayerInventoryUtils.getStackWithIDListAndTag(itemsNeeded, dataTag, inventory);
+            }
+            else {
+                firstValidItemStack = PlayerInventoryUtils.getStackWithIDList(itemsNeeded, inventory);
+
+                // Set valid item count here in case something that has null data needs to trigger slot changes
+                validInventoryItemCount = PlayerInventoryUtils.getItemCount(firstValidItemStack.getItem(), player.getInventory());
+                validGridItemCount = CraftingGridUtils.getItemCount(firstValidItemStack.getItem(), (CraftingMenu) player.containerMenu);
+            }
+
+            // Two different cases for data components in the stacks (second is needed for "empty" slot calculations)
+            if(dataTag != null) {
+                validInventoryItemCount = PlayerInventoryUtils.getItemIDWithDataTagCount(payload.prevInputItemID(), dataTag, player.getInventory());
+                validGridItemCount = CraftingGridUtils.getItemIDWithDataTagCount(payload.prevInputItemID(), dataTag, (CraftingMenu) player.containerMenu);
+                noMoreItemsOfTag = payload.prevInputItemID().contains("criticalcrates") && payload.prevInputItemID().contains("crate")
+                        && validInventoryItemCount <= 0;
+            }
+            else if(!firstValidItemStack.isEmpty() && firstValidItemStack.get(DataComponents.CUSTOM_DATA) != null) {
+                CompoundTag validStackTag = firstValidItemStack.get(DataComponents.CUSTOM_DATA).copyTag();
+                validInventoryItemCount = PlayerInventoryUtils.getItemIDWithDataTagCount(firstValidItemStack.getItem().getDescriptionId(), validStackTag, player.getInventory());
+                validGridItemCount = CraftingGridUtils.getItemIDWithDataTagCount(firstValidItemStack.getItem().getDescriptionId(), validStackTag, (CraftingMenu) player.containerMenu);
+            }
+
+            // If different recipe, or no more items of this stack in inventory, make sure to return previous crate stack
             changedValidRecipe = changedRecipeType || (!otherIngredient.getDescriptionId().equals(payload.prevOtherIngredientID())
                     && !payload.prevOtherIngredientID().equals("none") && payload.prevInputItemID().contains("criticalcrates")
                     && payload.prevInputItemID().contains("crate") && payload.prevInputItemCount() >= 1);
-            giveItemBack = crateItem != null && changedValidRecipe;
+            giveItemBack = crateItem != null && (changedValidRecipe || noMoreItemsOfTag);
 
             if(giveItemBack) {
-                returnCraftingItem(crateItem, payload.prevInputItemCount(), dataTag, player);
+                CraftingGridUtils.returnCraftingItem(crateItem, payload.prevInputItemCount(), dataTag, player.getInventory());
             }
 
-            firstValidItemStack = PlayerInventoryUtils.getStackWithIDListAndTag(itemsNeeded, inventory);
+            int otherIngredientCount = 0, maxAvailableOtherIngredient, validItemCount;
+            otherIngredientCount += PlayerInventoryUtils.getItemCount(otherIngredient, inventory);
+            otherIngredientCount += CraftingGridUtils.getItemCount(otherIngredient, (CraftingMenu) player.containerMenu);
 
-            int otherIngredientCount = 0;
-            otherIngredientCount += PlayerInventoryUtils.getItemAmount(otherIngredient, inventory);
-            otherIngredientCount += CraftingGridUtils.getItemAmount(otherIngredient, player);
+            maxAvailableOtherIngredient = otherIngredientCount / otherIngredientMin;
+            validItemCount = validInventoryItemCount + validGridItemCount;
+            invalidComponentItemAmount = (validItemCount < 64 && validItemCount < maxAvailableOtherIngredient && payload.shiftDown());
 
-            if(!firstValidItemStack.isEmpty() && (otherIngredientCount >= otherIngredientMin)) {
-                setCraftingSlotToStack(player, changedValidRecipe, isCrateRecipe, firstValidItemStack, 1, 2,
+            // Variable input slot index for easier editing
+            int inSlot = 1;
+
+            // Determine if slot logic needs special component case or not
+            if(!firstValidItemStack.isEmpty() && !invalidComponentItemAmount && otherIngredientCount >= otherIngredientMin) {
+                setCraftingSlotToStack(player, changedValidRecipe, isCrateRecipe, firstValidItemStack, inSlot, 2,
                         otherIngredientMin, payload.prevOtherIngredientHigh(), payload.prevInputItemHasCraftingTag(),
                         payload.prevInputItemCount(), payload.shiftDown());
+            }
+            else if(invalidComponentItemAmount || noMoreItemsOfTag) {
+                CraftingMenu craftingMenu = (CraftingMenu) player.containerMenu;
+                CompoundTag tag;
+                int moveCount;
+
+                // If all valid stacks are gone from inventory check again (as it should be returned then put back into the grid)
+                if(firstValidItemStack.isEmpty()) {
+                    firstValidItemStack = PlayerInventoryUtils.getStackWithIDListAndTag(itemsNeeded, dataTag, inventory);
+                }
+
+                // Add crafting item tag
+                tag = ItemStackUtils.findStackCustomDataTag(firstValidItemStack);
+                tag.putBoolean("crafting_item", true);
+                ItemStack moveStack = firstValidItemStack.copy();
+                moveStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+
+                // Exception crafting slot handling
+                if(invalidComponentItemAmount) {
+                    if(payload.prevInputItemHasCraftingTag() && validItemCount <= 0) {
+                        moveCount = payload.prevInputItemCount();
+                    }
+                    else if(payload.prevInputItemCount() <= 0) {
+                        moveCount = firstValidItemStack.getCount();
+                    }
+                    else {
+                        moveCount = payload.prevInputItemCount() + firstValidItemStack.getCount();
+                    }
+
+                    moveStack.setCount(moveCount);
+                    firstValidItemStack.shrink(firstValidItemStack.getCount());
+                    craftingMenu.getSlot(inSlot).set(moveStack);
+
+                    // Make sure refund bounds are correct
+                    if(maxAvailableOtherIngredient < firstValidItemStack.getItem().getDefaultMaxStackSize()) {
+                        CraftingGridUtils.removeAndRefund(otherIngredient.getDescriptionId(), craftingMenu, player.getInventory(),
+                                (maxAvailableOtherIngredient - moveCount) * otherIngredientMin);
+                    }
+                    else {
+                        CraftingGridUtils.removeAndRefund(otherIngredient.getDescriptionId(), craftingMenu, player.getInventory(),
+                                (firstValidItemStack.getItem().getDefaultMaxStackSize() - moveCount) * otherIngredientMin);
+                    }
+                }
+                else {
+                    CraftingGridUtils.removeAndRefund(otherIngredient.getDescriptionId(), craftingMenu, player.getInventory(), otherIngredientMin);
+                    craftingMenu.getSlot(inSlot).set(moveStack);
+                    firstValidItemStack.shrink(firstValidItemStack.getCount());
+                }
+
+                craftingMenu.broadcastChanges();
             }
         }
         else {
             // If not a recipe requiring crates, make sure crate stack is returned to player
             if(crateItem != null) {
-                returnCraftingItem(crateItem, payload.prevInputItemCount(), dataTag, player);
+                CraftingGridUtils.returnCraftingItem(crateItem, payload.prevInputItemCount(), dataTag, player.getInventory());
             }
         }
     }
@@ -203,34 +285,23 @@ public class RecipeBookClickHandler {
         return tempMap;
     }
 
-    private static void returnCraftingItem(Item crateItem, int count, CompoundTag dataTag, ServerPlayer player) {
-        ItemStack returnedStack = new ItemStack(crateItem);
-        returnedStack.setCount(count);
-        if(dataTag != null) {
-            returnedStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-            if(dataTag.contains("fireproof") && dataTag.getBoolean("fireproof")) {
-                returnedStack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
-            }
-        }
-        player.getInventory().add(returnedStack);
-    }
-
     private static void setCraftingSlotToStack(ServerPlayer player, boolean changedRecipe, boolean pastCrateRecipe, ItemStack inventoryStack,
                                                int inSlot, int otherIngredientSlot, int minOtherIngredientCount, int prevOtherIngredientHigh,
                                                boolean hasCraftingTag, int currentNumberInput, boolean shiftDown) {
         CraftingMenu menu = (CraftingMenu) player.containerMenu;
-        ItemStack movedStack = inventoryStack.copy(), otherIngredientStack = menu.getSlot(otherIngredientSlot).getItem();
+        ItemStack moveStack = inventoryStack.copy(), otherIngredientStack = menu.getSlot(otherIngredientSlot).getItem();
         CompoundTag dataTag;
+        CustomData data;
         int otherIngredientCount = otherIngredientStack.getCount(),
                 otherIngredientLow = CraftingGridUtils.getLowestSlotCountOf(otherIngredientStack.getItem(), player),
-                numOtherIngredientInInventory = PlayerInventoryUtils.getItemAmount(otherIngredientStack.getItem(), player.getInventory()),
-                numOtherIngredientInGrid = CraftingGridUtils.getItemAmount(otherIngredientStack.getItem(), player),
+                numOtherIngredientInInventory = PlayerInventoryUtils.getItemCount(otherIngredientStack.getItem(), player.getInventory()),
+                numOtherIngredientInGrid = CraftingGridUtils.getItemCount(otherIngredientStack.getItem(), (CraftingMenu) player.containerMenu),
                 maxAvailableOtherIngredient = (numOtherIngredientInInventory + numOtherIngredientInGrid) / minOtherIngredientCount,
                 craftingDifference, currentNumberInputItem = currentNumberInput;
 
-        dataTag = ItemStackUtils.findStackCustomDataTag(movedStack);
+        dataTag = ItemStackUtils.findStackCustomDataTag(moveStack);
         dataTag.putBoolean("crafting_item", true);
-        movedStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+        moveStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
 
         /* Crafting grid logic to determine input inventoryStack count change and inventory crate count
             remember in this case "current" is previous, as crate has not been moved yet */
@@ -252,145 +323,149 @@ public class RecipeBookClickHandler {
                 if(shiftDown) {
                     int inventoryStackCount = inventoryStack.getCount(), countToRemove = otherIngredientCount - inventoryStackCount;
                     if(inventoryStackCount < otherIngredientCount) {
+                        data = inventoryStack.get(DataComponents.CUSTOM_DATA);
                         inventoryStack.shrink(inventoryStackCount);
 
-                        countToRemove = PlayerInventoryUtils.removeStacksOfID(countToRemove, movedStack.getItem().getDescriptionId(),
-                                player.getInventory());
+                        countToRemove = PlayerInventoryUtils.removeStacksOfIDAndData(countToRemove, moveStack.getItem().getDescriptionId(),
+                                data, player.getInventory());
 
                         if(countToRemove == 0) {
-                            movedStack.setCount(otherIngredientCount);
+                            moveStack.setCount(otherIngredientCount);
                         }
                         else {
-                            movedStack.setCount(currentNumberInputItem);
+                            moveStack.setCount(currentNumberInputItem);
                         }
                     }
                     else {
                         inventoryStack.shrink(otherIngredientCount);
-                        movedStack.setCount(otherIngredientCount);
+                        moveStack.setCount(otherIngredientCount);
                     }
                 }
                 else {
                     inventoryStack.shrink(1);
-                    movedStack.setCount(1);
+                    moveStack.setCount(1);
                 }
 
-                menu.getSlot(inSlot).set(movedStack);
+                menu.getSlot(inSlot).set(moveStack);
             }
             else if(currentNumberInputItem < otherIngredientLow && currentNumberInputItem < maxAvailableOtherIngredient) {
                 // Crafting tag means player has not clicked there at all and this is server generated (yes even half stacks don't count)
                 if(hasCraftingTag) {
                     if(shiftDown) {
                         int inventoryStackCount = inventoryStack.getCount(), countToRemove = craftingDifference - inventoryStackCount;
-
                         if(inventoryStackCount + currentNumberInputItem < otherIngredientCount) {
+                            data = inventoryStack.get(DataComponents.CUSTOM_DATA);
                             inventoryStack.shrink(inventoryStackCount);
 
-                            countToRemove = PlayerInventoryUtils.removeStacksOfID(countToRemove, movedStack.getItem().getDescriptionId(),
-                                    player.getInventory());
+                            countToRemove = PlayerInventoryUtils.removeStacksOfIDAndData(countToRemove, moveStack.getItem().getDescriptionId(),
+                                    data, player.getInventory());
 
                             if(countToRemove == 0) {
-                                movedStack.setCount(otherIngredientCount);
+                                moveStack.setCount(otherIngredientCount);
                             }
                             else {
-                                movedStack.setCount(currentNumberInputItem);
+                                moveStack.setCount(currentNumberInputItem);
                             }
                         }
                         else {
                             inventoryStack.shrink(craftingDifference);
-                            movedStack.setCount(otherIngredientCount);
+                            moveStack.setCount(otherIngredientCount);
                         }
                     }
                     else {
                         inventoryStack.shrink(1);
-                        movedStack.setCount(otherIngredientLow);
+                        moveStack.setCount(otherIngredientLow);
                     }
 
-                    menu.getSlot(inSlot).set(movedStack);
+                    menu.getSlot(inSlot).set(moveStack);
                 }
                 else {
                     if(shiftDown) {
                         int inventoryStackCount = inventoryStack.getCount(), countToRemove = craftingDifference - inventoryStackCount;
                         if(inventoryStackCount < otherIngredientCount) {
+                            data = inventoryStack.get(DataComponents.CUSTOM_DATA);
                             inventoryStack.shrink(inventoryStackCount);
 
-                            countToRemove = PlayerInventoryUtils.removeStacksOfID(countToRemove, movedStack.getItem().getDescriptionId(),
-                                    player.getInventory());
+                            countToRemove = PlayerInventoryUtils.removeStacksOfIDAndData(countToRemove, moveStack.getItem().getDescriptionId(),
+                                     data, player.getInventory());
 
                             if(countToRemove == 0) {
-                                movedStack.setCount(otherIngredientCount);
+                                moveStack.setCount(otherIngredientCount);
                             }
                             else {
-                                movedStack.setCount(currentNumberInputItem);
+                                moveStack.setCount(currentNumberInputItem);
                             }
                         }
                         else {
                             inventoryStack.shrink(craftingDifference);
-                            movedStack.setCount(otherIngredientCount);
+                            moveStack.setCount(otherIngredientCount);
                         }
                     }
                     else {
                         inventoryStack.shrink(craftingDifference);
-                        movedStack.setCount(otherIngredientCount);
+                        moveStack.setCount(otherIngredientCount);
                     }
                 }
 
-                menu.getSlot(inSlot).set(movedStack);
+                menu.getSlot(inSlot).set(moveStack);
             }
             else if(currentNumberInputItem > otherIngredientLow && currentNumberInputItem < maxAvailableOtherIngredient) {
                 if(shiftDown) {
                     int inventoryStackCount = inventoryStack.getCount(), countToRemove = otherIngredientCount - inventoryStackCount + currentNumberInputItem;
                     if(inventoryStackCount + currentNumberInputItem < otherIngredientCount) {
+                        data = inventoryStack.get(DataComponents.CUSTOM_DATA);
                         inventoryStack.shrink(inventoryStackCount);
 
-                        countToRemove = PlayerInventoryUtils.removeStacksOfID(countToRemove, movedStack.getItem().getDescriptionId(),
-                                player.getInventory());
+                        countToRemove = PlayerInventoryUtils.removeStacksOfIDAndData(countToRemove, moveStack.getItem().getDescriptionId(),
+                                data, player.getInventory());
 
                         if(countToRemove == 0) {
-                            movedStack.setCount(otherIngredientCount);
+                            moveStack.setCount(otherIngredientCount);
                         }
                         else {
-                            movedStack.setCount(currentNumberInputItem);
+                            moveStack.setCount(currentNumberInputItem);
                         }
                     }
                     else {
                         inventoryStack.shrink(craftingDifference);
-                        movedStack.setCount(otherIngredientCount);
+                        moveStack.setCount(otherIngredientCount);
                     }
                 }
                 else {
                     inventoryStack.shrink(otherIngredientLow - currentNumberInputItem);
-                    movedStack.setCount(otherIngredientLow);
+                    moveStack.setCount(otherIngredientLow);
                 }
 
-                menu.getSlot(inSlot).set(movedStack);
+                menu.getSlot(inSlot).set(moveStack);
             }
             else if(currentNumberInputItem == otherIngredientLow && currentNumberInputItem < maxAvailableOtherIngredient) {
                 if(shiftDown) {
                     int inventoryStackCount = inventoryStack.getCount(), countToRemove = otherIngredientCount - inventoryStackCount + currentNumberInputItem;
                     if(inventoryStackCount + currentNumberInputItem < otherIngredientCount) {
+                        data = inventoryStack.get(DataComponents.CUSTOM_DATA);
                         inventoryStack.shrink(inventoryStackCount);
 
-                        countToRemove = PlayerInventoryUtils.removeStacksOfID(countToRemove, movedStack.getItem().getDescriptionId(),
-                                player.getInventory());
+                        countToRemove = PlayerInventoryUtils.removeStacksOfIDAndData(countToRemove, moveStack.getItem().getDescriptionId(),
+                                data, player.getInventory());
 
                         if(countToRemove == 0) {
-                            movedStack.setCount(otherIngredientCount);
+                            moveStack.setCount(otherIngredientCount);
                         }
                         else {
-                            movedStack.setCount(currentNumberInputItem);
+                            moveStack.setCount(currentNumberInputItem);
                         }
                     }
                     else {
                         inventoryStack.shrink(craftingDifference);
-                        movedStack.setCount(otherIngredientCount);
+                        moveStack.setCount(otherIngredientCount);
                     }
                 }
                 else {
-                    movedStack.setCount(currentNumberInputItem);
-                    menu.getSlot(inSlot).set(movedStack);
+                    moveStack.setCount(currentNumberInputItem);
+                    menu.getSlot(inSlot).set(moveStack);
                 }
 
-                menu.getSlot(inSlot).set(movedStack);
+                menu.getSlot(inSlot).set(moveStack);
             }
         }
 
