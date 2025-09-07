@@ -28,6 +28,7 @@ public class ModRegistration {
         ResourceLocation resistanceResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "resistant");
         ResourceLocation lampResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "lamp");
         ResourceLocation fireResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "fire");
+
         if(resistanceResLoc != null && lampResLoc != null && fireResLoc != null) {
             for(int i = 0; i < ModItems.getCrateItems().length; i++){
                 ItemProperties.register(ModItems.getCrateItems(i), resistanceResLoc, (stack, world, entity, seed) -> {

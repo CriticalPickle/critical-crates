@@ -61,6 +61,7 @@ public class ModItems {
         return temp[index];
     }
 
+    // Get the item associated with this crate id
     public static Item findCrateItemByID(String ID) {
         String crateID;
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
