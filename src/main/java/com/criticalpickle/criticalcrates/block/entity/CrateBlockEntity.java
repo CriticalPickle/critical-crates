@@ -24,6 +24,8 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
+import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
+
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler inventory = new ItemStackHandler(27) {
         @Override
@@ -83,6 +85,26 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
         if(this.level != null) {
             Containers.dropContents(this.level, this.worldPosition, containerInv);
+        }
+    }
+
+    public ItemStackHandler getInventory() {
+        return inventory;
+    }
+
+    public void copyInventory(ItemStackHandler oldInventory) {
+        if(oldInventory != null) {
+            for(int i = 0; i < this.inventory.getSlots(); i++) {
+                this.inventory.setStackInSlot(i, oldInventory.getStackInSlot(i));
+            }
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if(this.getLevel() != null && !this.getLevel().isClientSide() && this.getBlockState().getValue(SWITCH)) {
+            this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(SWITCH, false));
         }
     }
 

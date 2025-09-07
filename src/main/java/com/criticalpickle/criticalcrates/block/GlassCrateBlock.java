@@ -1,6 +1,7 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.block.entity.GlassCrateBlockEntity;
+import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -16,6 +17,11 @@ public class GlassCrateBlock extends CrateBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        if(blockState.getValue(SWITCH)) {
+            GlassCrateBlockEntity crateBlockEntity = new GlassCrateBlockEntity(blockPos, blockState);
+            crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());
+            return crateBlockEntity;
+        }
         return new GlassCrateBlockEntity(blockPos, blockState);
     }
 

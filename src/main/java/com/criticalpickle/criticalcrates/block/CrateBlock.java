@@ -1,11 +1,11 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
-import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
+import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import com.criticalpickle.criticalcrates.util.DataComponentUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -53,6 +53,7 @@ import java.util.List;
 public class CrateBlock extends BaseEntityBlock {
     public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+    public static final BooleanProperty SWITCH = BooleanProperty.create("switch");
     public static final BooleanProperty EXPLOSION_RESIST = BooleanProperty.create("explosion_resistant");
     public static final BooleanProperty LAMP_UPGRADE = BooleanProperty.create("lamp_upgrade");
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -66,14 +67,14 @@ public class CrateBlock extends BaseEntityBlock {
 
     public CrateBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(EXPLOSION_RESIST, false)
-                .setValue(LAMP_UPGRADE, false).setValue(LIT, false).setValue(POWERED, false)
-                .setValue(FIREPROOF, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SWITCH, false)
+                .setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false).setValue(LIT, false)
+                .setValue(POWERED, false).setValue(FIREPROOF, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AXIS, EXPLOSION_RESIST, LAMP_UPGRADE, LIT, POWERED, FIREPROOF);
+        builder.add(AXIS, SWITCH, EXPLOSION_RESIST, LAMP_UPGRADE, LIT, POWERED, FIREPROOF);
     }
 
     @Override
@@ -96,8 +97,8 @@ public class CrateBlock extends BaseEntityBlock {
             }
         }
 
-        return this.defaultBlockState().setValue(AXIS, axis).setValue(EXPLOSION_RESIST, resistant)
-                .setValue(LAMP_UPGRADE, lamp).setValue(FIREPROOF, fire);
+        return this.defaultBlockState().setValue(AXIS, axis).setValue(SWITCH, false)
+                .setValue(EXPLOSION_RESIST, resistant).setValue(LAMP_UPGRADE, lamp).setValue(FIREPROOF, fire);
     }
 
     @Override
@@ -208,8 +209,13 @@ public class CrateBlock extends BaseEntityBlock {
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
             if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
-                blockEntity.drop();
-                level.updateNeighbourForOutputSignal(pos, this);
+                if(state.getValue(SWITCH)) {
+                    CacheSwitchInventory.cache(blockEntity.getInventory());
+                }
+                else {
+                    blockEntity.drop();
+                    level.updateNeighbourForOutputSignal(pos, this);
+                }
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
@@ -315,7 +321,8 @@ public class CrateBlock extends BaseEntityBlock {
 
                 if(crateBlock != null) {
                     stack.shrink(1);
-                    level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS))
+                    level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
+                    level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
                             .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
                             .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
 
