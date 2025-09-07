@@ -9,5 +9,10 @@ public class Config {
             .comment(" Whether to allow removal the addons to crates.\n Default is 'addonsRemovable = true'.")
             .define("addonsRemovable", true);
 
+    public static final ModConfigSpec.BooleanValue GLASS_CHANGE_GLASS_CRATE = BUILDER
+            .comment("\n Whether to allow glass crates to be changed with glass like wooden ones." +
+                    "\n Default is 'glassChangeGlassCrate = false'.")
+            .define("glassChangeGlassCrate", false);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

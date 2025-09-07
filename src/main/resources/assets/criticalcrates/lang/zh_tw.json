@@ -45,5 +45,7 @@
   "criticalcrates.configuration.section.criticalcrates.common.toml": "Critical Crates 設定",
   "criticalcrates.configuration.section.criticalcrates.common.toml.title": "Critical Crates 設定",
   "criticalcrates.configuration.addonsRemovable": "可從木箱移除附加裝置",
-  "criticalcrates.configuration.addonsRemovable.tooltip": "是否允許從木箱中移除附加裝置。"
+  "criticalcrates.configuration.addonsRemovable.tooltip": "是否允許從木箱中移除附加裝置。",
+  "criticalcrates.configuration.glassChangeGlassCrate": "用玻璃更換玻璃箱",
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "是否允許像木箱一樣，透過玻璃來更換玻璃箱。"
 }

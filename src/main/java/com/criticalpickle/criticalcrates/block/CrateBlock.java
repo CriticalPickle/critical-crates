@@ -1,7 +1,9 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
+import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.util.DataComponentUtils;
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -44,6 +47,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CrateBlock extends BaseEntityBlock {
     public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
@@ -259,34 +264,65 @@ public class CrateBlock extends BaseEntityBlock {
                         .setValue(LIT, false).setValue(FIREPROOF, false));
 
                 spawnRemovedUpgrades(state, level, pos);
-
-                dataTag.putBoolean("explosion_resistant", false);
-                dataTag.putBoolean("lamp_upgrade", false);
-                dataTag.putBoolean("fireproof", false);
+                setDataTagUpgrades(dataTag, false, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, true));
-                dataTag.putBoolean("explosion_resistant", true);
-                dataTag.putBoolean("lamp_upgrade", false);
-                dataTag.putBoolean("fireproof", false);
+                setDataTagUpgrades(dataTag, true, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.LAMP_SIMULATOR_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(LAMP_UPGRADE, true));
-                dataTag.putBoolean("explosion_resistant", false);
-                dataTag.putBoolean("lamp_upgrade", true);
-                dataTag.putBoolean("fireproof", false);
+                setDataTagUpgrades(dataTag, false, true, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.FIREPROOFING_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(FIREPROOF, true));
-                dataTag.putBoolean("explosion_resistant", false);
-                dataTag.putBoolean("lamp_upgrade", false);
-                dataTag.putBoolean("fireproof", true);
+                setDataTagUpgrades(dataTag, false, false, true, blockEntity);
+            }
+            else if(validGlass(state, itemInStack)) {
+                String itemID = itemInStack.getDescriptionId();
+                Item crateItem = ModItems.findCrateItemByID("block.criticalcrates." +
+                        itemID.substring(itemID.indexOf("minecraft.") + 10) + "_crate");
+                Block crateBlock = null;
+                boolean resistant, lamp, fire;
 
-                if(blockEntity != null) {
-                    DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+                if(crateItem instanceof CrateBlockItem crateBlockItem) {
+                    crateBlock = crateBlockItem.getBlock();
+                }
+
+                if(hasUpgrades(state)) {
+                    if(state.getValue(EXPLOSION_RESIST)) {
+                        resistant = true;
+                        lamp = fire = false;
+                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                    }
+                    else if(state.getValue(LAMP_UPGRADE)) {
+                        lamp = true;
+                        resistant = fire = false;
+                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                    }
+                    else if(state.getValue(FIREPROOF)) {
+                        fire = true;
+                        resistant = lamp = false;
+                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                    }
+                }
+                else {
+                    setDataTagUpgrades(dataTag, false, false, false, null);
+                }
+
+                if(crateBlock != null) {
+                    stack.shrink(1);
+                    level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS))
+                            .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
+                            .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
+
+                    blockEntity = level.getBlockEntity(pos);
+                    if(dataTag.getBoolean("fireproof") && blockEntity != null) {
+                        DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+                    }
                 }
             }
             else {
@@ -304,6 +340,33 @@ public class CrateBlock extends BaseEntityBlock {
         }
 
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
+    private static void setDataTagUpgrades(CompoundTag dataTag, boolean resistant, boolean lamp, boolean fire, BlockEntity blockEntity) {
+        if(resistant) {
+            dataTag.putBoolean("explosion_resistant", true);
+            dataTag.putBoolean("lamp_upgrade", false);
+            dataTag.putBoolean("fireproof", false);
+        }
+        else if(lamp) {
+            dataTag.putBoolean("explosion_resistant", false);
+            dataTag.putBoolean("lamp_upgrade", true);
+            dataTag.putBoolean("fireproof", false);
+        }
+        else if(fire) {
+            dataTag.putBoolean("explosion_resistant", false);
+            dataTag.putBoolean("lamp_upgrade", false);
+            dataTag.putBoolean("fireproof", true);
+
+            if(blockEntity != null) {
+                DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+            }
+        }
+        else {
+            dataTag.putBoolean("explosion_resistant", false);
+            dataTag.putBoolean("lamp_upgrade", false);
+            dataTag.putBoolean("fireproof", false);
+        }
     }
 
     // Spawn removed crate upgrades dependent on state property values
@@ -325,6 +388,52 @@ public class CrateBlock extends BaseEntityBlock {
     // Crate has upgrades: Y/N
     private static boolean hasUpgrades(BlockState state) {
         return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF);
+    }
+
+    // Return if the glass clicked on the block is valid
+    private boolean validGlass(BlockState state, Item item) {
+        List<Item> glass = List.of(
+                Items.GLASS,
+                Items.WHITE_STAINED_GLASS,
+                Items.LIGHT_GRAY_STAINED_GLASS,
+                Items.GRAY_STAINED_GLASS,
+                Items.BLACK_STAINED_GLASS,
+                Items.BROWN_STAINED_GLASS,
+                Items.RED_STAINED_GLASS,
+                Items.ORANGE_STAINED_GLASS,
+                Items.YELLOW_STAINED_GLASS,
+                Items.LIME_STAINED_GLASS,
+                Items.GREEN_STAINED_GLASS,
+                Items.CYAN_STAINED_GLASS,
+                Items.LIGHT_BLUE_STAINED_GLASS,
+                Items.BLUE_STAINED_GLASS,
+                Items.PURPLE_STAINED_GLASS,
+                Items.MAGENTA_STAINED_GLASS,
+                Items.PINK_STAINED_GLASS
+        );
+
+        if(glass.contains(item)) {
+            if(state.getBlock() instanceof GlassCrateBlock) {
+                if(!Config.GLASS_CHANGE_GLASS_CRATE.getAsBoolean()) {
+                    return false;
+                }
+
+                String crateID = state.getBlock().getDescriptionId(),
+                        crateColor = crateID.substring(crateID.indexOf("s.") + 2, crateID.indexOf("_crate")),
+                        itemID = item.getDescriptionId(),
+                        itemColor = itemID.substring(itemID.indexOf("minecraft.") + 10);
+
+                if(crateColor.contains("stained") && !itemColor.equals(crateColor)) {
+                    return true;
+                }
+
+                return crateColor.equals("glass") && itemID.contains("stained");
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     // Play appropriate crate upgrade sounds

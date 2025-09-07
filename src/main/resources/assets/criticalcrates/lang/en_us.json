@@ -45,5 +45,7 @@
   "criticalcrates.configuration.section.criticalcrates.common.toml": "CriticalCrates Configs",
   "criticalcrates.configuration.section.criticalcrates.common.toml.title": "CriticalCrates Configs",
   "criticalcrates.configuration.addonsRemovable": "Addons Removable from Crates",
-  "criticalcrates.configuration.addonsRemovable.tooltip": "Whether to allow removal of addons from crates."
+  "criticalcrates.configuration.addonsRemovable.tooltip": "Whether to allow removal of addons from crates.",
+  "criticalcrates.configuration.glassChangeGlassCrate": "Glass Changes Glass Crates",
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Whether to allow glass crates to be changed with glass like wooden ones."
 }
