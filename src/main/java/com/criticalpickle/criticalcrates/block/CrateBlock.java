@@ -287,49 +287,22 @@ public class CrateBlock extends BaseEntityBlock {
                 level.setBlockAndUpdate(pos, state.setValue(FIREPROOF, true));
                 setDataTagUpgrades(dataTag, false, false, true, blockEntity);
             }
-            else if(validGlass(state, itemInStack)) {
-                String itemID = itemInStack.getDescriptionId();
-                Item crateItem = ModItems.findCrateItemByID("block.criticalcrates." +
-                        itemID.substring(itemID.indexOf("minecraft.") + 10) + "_crate");
-                Block crateBlock = null;
-                boolean resistant, lamp, fire;
-
-                if(crateItem instanceof CrateBlockItem crateBlockItem) {
-                    crateBlock = crateBlockItem.getBlock();
-                }
-
-                if(hasUpgrades(state)) {
-                    if(state.getValue(EXPLOSION_RESIST)) {
-                        resistant = true;
-                        lamp = fire = false;
-                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
-                    }
-                    else if(state.getValue(LAMP_UPGRADE)) {
-                        lamp = true;
-                        resistant = fire = false;
-                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
-                    }
-                    else if(state.getValue(FIREPROOF)) {
-                        fire = true;
-                        resistant = lamp = false;
-                        setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
-                    }
-                }
-                else {
-                    setDataTagUpgrades(dataTag, false, false, false, null);
-                }
+            else if(validDye(state, itemInStack)) {
+                String dyeColor = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10, itemInStack.getDescriptionId().indexOf("_dye"));
+                Block crateBlock = getCrateBlock("block.criticalcrates." + dyeColor + "_stained_glass_crate");
 
                 if(crateBlock != null) {
                     stack.shrink(1);
-                    level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
-                    level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
-                            .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
-                            .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                }
+            }
+            else if(validGlass(state, itemInStack)) {
+                String paneName = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10);
+                Block crateBlock = getCrateBlock("block.criticalcrates." + paneName + "_crate");
 
-                    blockEntity = level.getBlockEntity(pos);
-                    if(dataTag.getBoolean("fireproof") && blockEntity != null) {
-                        DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
-                    }
+                if(crateBlock != null) {
+                    stack.shrink(1);
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
             }
             else {
@@ -341,7 +314,7 @@ public class CrateBlock extends BaseEntityBlock {
                 DataComponentUtils.addBlockEntityDataTag(blockEntity, dataTag);
             }
 
-            playUpgradeSounds(level, pos, stack, player);
+            playUpgradeSounds(level, pos, stack, player, validDye(state, itemInStack));
 
             return ItemInteractionResult.SUCCESS;
         }
@@ -397,6 +370,90 @@ public class CrateBlock extends BaseEntityBlock {
         return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF);
     }
 
+    private static Block getCrateBlock(String crateName) {
+        Item crateItem = ModItems.findCrateItemByID(crateName);
+        Block crateBlock = null;
+
+        if(crateItem instanceof CrateBlockItem crateBlockItem) {
+            crateBlock = crateBlockItem.getBlock();
+        }
+
+        return crateBlock;
+    }
+
+    private static BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
+        boolean resistant, lamp, fire;
+
+        if(hasUpgrades(state)) {
+            if(state.getValue(EXPLOSION_RESIST)) {
+                resistant = true;
+                lamp = fire = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+            }
+            else if(state.getValue(LAMP_UPGRADE)) {
+                lamp = true;
+                resistant = fire = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+            }
+            else if(state.getValue(FIREPROOF)) {
+                fire = true;
+                resistant = lamp = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+            }
+        }
+        else {
+            setDataTagUpgrades(dataTag, false, false, false, null);
+        }
+
+        level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
+        level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
+                .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
+                .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
+
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if(dataTag.getBoolean("fireproof") && blockEntity != null) {
+            DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+        }
+
+        return blockEntity;
+    }
+
+    private boolean validDye(BlockState state, Item item) {
+        if(state.getBlock() instanceof GlassCrateBlock) {
+            List<Item> dye = List.of(
+                    Items.WHITE_DYE,
+                    Items.LIGHT_GRAY_DYE,
+                    Items.GRAY_DYE,
+                    Items.BLACK_DYE,
+                    Items.BROWN_DYE,
+                    Items.RED_DYE,
+                    Items.ORANGE_DYE,
+                    Items.YELLOW_DYE,
+                    Items.LIME_DYE,
+                    Items.GREEN_DYE,
+                    Items.CYAN_DYE,
+                    Items.LIGHT_BLUE_DYE,
+                    Items.BLUE_DYE,
+                    Items.PURPLE_DYE,
+                    Items.MAGENTA_DYE,
+                    Items.PINK_DYE
+            );
+
+            if(dye.contains(item)) {
+                String crateType = state.getBlock().getDescriptionId().substring(state.getBlock().getDescriptionId().indexOf("s.") + 2, state.getBlock().getDescriptionId().indexOf("_crate")),
+                        itemColor = item.getDescriptionId().substring(item.getDescriptionId().indexOf("minecraft.") + 10, item.getDescriptionId().indexOf("_dye"));
+
+                if(crateType.contains("_stained") && !itemColor.equals(crateType.substring(0, crateType.indexOf("_stained")))) {
+                    return true;
+                }
+
+                return crateType.equals("glass");
+            }
+        }
+
+        return false;
+    }
+
     // Return if the glass clicked on the block is valid
     private boolean validGlass(BlockState state, Item item) {
         List<Item> glass = List.of(
@@ -444,8 +501,11 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     // Play appropriate crate upgrade sounds
-    private static void playUpgradeSounds(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if(stack.getItem() != ModItems.PLIERS_ITEM.get()) {
+    private static void playUpgradeSounds(Level level, BlockPos pos, ItemStack stack, Player player, boolean dyed) {
+        if(dyed) {
+            level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1f, 1f);
+        }
+        else if(stack.getItem() != ModItems.PLIERS_ITEM.get()) {
             level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.5f, 1f);
         }
         else {
