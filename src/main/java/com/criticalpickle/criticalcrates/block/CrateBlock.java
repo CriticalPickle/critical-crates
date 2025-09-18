@@ -322,6 +322,7 @@ public class CrateBlock extends BaseEntityBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
+    // Set upgrades for all crate data
     private static void setDataTagUpgrades(CompoundTag dataTag, boolean resistant, boolean lamp, boolean fire, BlockEntity blockEntity) {
         if(resistant) {
             dataTag.putBoolean("explosion_resistant", true);
@@ -370,6 +371,7 @@ public class CrateBlock extends BaseEntityBlock {
         return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF);
     }
 
+    // Get crate block given a string
     private static Block getCrateBlock(String crateName) {
         Item crateItem = ModItems.findCrateItemByID(crateName);
         Block crateBlock = null;
@@ -381,6 +383,7 @@ public class CrateBlock extends BaseEntityBlock {
         return crateBlock;
     }
 
+    // Switch state of crate to state of "crateBlock"
     private static BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
         boolean resistant, lamp, fire;
 
@@ -418,6 +421,7 @@ public class CrateBlock extends BaseEntityBlock {
         return blockEntity;
     }
 
+    // Check if crate is currently able to be dyed with a specific dye item
     private boolean validDye(BlockState state, Item item) {
         if(state.getBlock() instanceof GlassCrateBlock) {
             List<Item> dye = List.of(
@@ -454,7 +458,7 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    // Return if the glass clicked on the block is valid
+    // Check if crate is currently able to be changed with a stained glass item
     private boolean validGlass(BlockState state, Item item) {
         List<Item> glass = List.of(
                 Items.GLASS,
