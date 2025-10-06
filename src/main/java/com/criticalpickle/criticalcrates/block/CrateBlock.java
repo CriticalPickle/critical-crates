@@ -423,7 +423,7 @@ public class CrateBlock extends BaseEntityBlock {
 
     // Check if crate is currently able to be dyed with a specific dye item
     private boolean validDye(BlockState state, Item item) {
-        if(state.getBlock() instanceof GlassCrateBlock) {
+        if(Config.GLASS_CRATES_DYEABLE.getAsBoolean() && state.getBlock() instanceof GlassCrateBlock) {
             List<Item> dye = List.of(
                     Items.WHITE_DYE,
                     Items.LIGHT_GRAY_DYE,
