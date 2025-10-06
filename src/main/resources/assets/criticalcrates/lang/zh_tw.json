@@ -49,5 +49,5 @@
   "criticalcrates.configuration.universalDyeing": "玻璃箱可染色",
   "criticalcrates.configuration.universalDyeing.tooltip": "是否允許玻璃箱進行通用染色。",
   "criticalcrates.configuration.glassChangeGlassCrate": "用玻璃更換玻璃箱",
-  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "是否允許玻璃箱進行通用染色。"
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "是否允許像木箱一樣，透過玻璃來更換玻璃箱。"
 }
