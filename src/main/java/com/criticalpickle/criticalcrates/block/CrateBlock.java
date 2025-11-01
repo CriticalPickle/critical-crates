@@ -272,6 +272,14 @@ public class CrateBlock extends BaseEntityBlock {
                 spawnRemovedUpgrades(state, level, pos);
                 setDataTagUpgrades(dataTag, false, false, false, null);
             }
+            else if(hasSoap(itemInStack, state)) {
+                Block crateBlock = getCrateBlock("block.criticalcrates.glass_crate");
+
+                if(crateBlock != null) {
+                    stack.shrink(1);
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                }
+            }
             else if(!hasUpgrades(state) && itemInStack == ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, true));
@@ -364,6 +372,12 @@ public class CrateBlock extends BaseEntityBlock {
             level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
                     new ItemStack(ModItems.FIREPROOFING_ITEM.get())));
         }
+    }
+
+    // Check if item is soap and block is able to be cleaned
+    private static boolean hasSoap(Item stackItem, BlockState blockState) {
+        String itemName = stackItem.getName(new ItemStack(stackItem)).getString(), blockName = blockState.getBlock().getName().getString();
+        return itemName.equals("Soap") && blockName.contains("Stained");
     }
 
     // Crate has upgrades: Y/N
