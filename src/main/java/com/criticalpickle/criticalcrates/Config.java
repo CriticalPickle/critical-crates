@@ -10,12 +10,11 @@ public class Config {
             .define("addonsRemovable", true);
 
     public static final ModConfigSpec.BooleanValue GLASS_CRATES_DYEABLE = BUILDER
-            .comment(" Whether to allow universal dyeing of glass crates.\n Default is 'universalDyeing = true'.")
+            .comment(" ---\n Whether to allow universal dyeing of glass crates.\n Default is 'universalDyeing = true'.")
             .define("universalDyeing", true);
 
     public static final ModConfigSpec.BooleanValue GLASS_CHANGE_GLASS_CRATE = BUILDER
-            .comment(" Whether to allow glass crates to be changed with glass like wooden ones." +
-                    "\n Default is 'glassChangeGlassCrate = false'.")
+            .comment(" ---\n Whether to allow glass crates to be changed with glass like wooden ones.\n Default is 'glassChangeGlassCrate = false'.")
             .define("glassChangeGlassCrate", false);
 
     static final ModConfigSpec SPEC = BUILDER.build();
