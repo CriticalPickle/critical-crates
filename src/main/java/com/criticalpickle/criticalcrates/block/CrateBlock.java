@@ -263,8 +263,9 @@ public class CrateBlock extends BaseEntityBlock {
             Item itemInStack = stack.getItem();
             CompoundTag dataTag = new CompoundTag();
             BlockEntity blockEntity = level.getBlockEntity(pos);
+            SoundEvent sound = SoundEvents.ANVIL_USE;
 
-            // Check for upgrade change conditions
+            // Check for item change conditions
             if(Config.ADDONS_REMOVABLE.getAsBoolean() && hasUpgrades(state) && itemInStack == ModItems.PLIERS_ITEM.get()) {
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false)
                         .setValue(LIT, false).setValue(FIREPROOF, false));
@@ -279,6 +280,7 @@ public class CrateBlock extends BaseEntityBlock {
                     stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
+                sound = SoundEvents.DYE_USE;
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get()) {
                 stack.shrink(1);
@@ -303,6 +305,7 @@ public class CrateBlock extends BaseEntityBlock {
                     stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
+                sound = SoundEvents.GLOW_INK_SAC_USE;
             }
             else if(validGlass(state, itemInStack)) {
                 String paneName = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10);
@@ -322,7 +325,7 @@ public class CrateBlock extends BaseEntityBlock {
                 DataComponentUtils.addBlockEntityDataTag(blockEntity, dataTag);
             }
 
-            playUpgradeSounds(level, pos, stack, player, validDye(state, itemInStack));
+            handleItemResult(level, pos, stack, player, sound);
 
             return ItemInteractionResult.SUCCESS;
         }
@@ -377,7 +380,7 @@ public class CrateBlock extends BaseEntityBlock {
     // Check if item is soap and block is able to be cleaned
     private static boolean hasSoap(Item stackItem, BlockState blockState) {
         String itemName = stackItem.getName(new ItemStack(stackItem)).getString(), blockName = blockState.getBlock().getName().getString();
-        return itemName.equals("Soap") && blockName.contains("Stained");
+        return blockName.contains("Stained") && itemName.equals("Soap");
     }
 
     // Crate has upgrades: Y/N
@@ -518,22 +521,22 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    // Play appropriate crate upgrade sounds
-    private static void playUpgradeSounds(Level level, BlockPos pos, ItemStack stack, Player player, boolean dyed) {
-        if(dyed) {
-            level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1f, 1f);
-        }
-        else if(stack.getItem() != ModItems.PLIERS_ITEM.get()) {
-            level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.5f, 1f);
-        }
-        else {
+    // Play appropriate crate upgrade sounds and damage pliers, if applicable
+    private static void handleItemResult(Level level, BlockPos pos, ItemStack stack, Player player, SoundEvent sound) {
+        if(stack.getItem() == ModItems.PLIERS_ITEM.get()) {
             if(!player.isCreative()) {
                 stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
             }
 
-            if(!(stack.getDamageValue() >= stack.getMaxDamage())){
+            if(!(stack.getDamageValue() >= stack.getMaxDamage())) {
                 level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1f, 1f);
             }
+        }
+        else if(sound == SoundEvents.ANVIL_USE) {
+            level.playSound(null, pos, sound, SoundSource.BLOCKS, 0.5f, 1f);
+        }
+        else {
+            level.playSound(null, pos, sound, SoundSource.BLOCKS, 1f, 1f);
         }
     }
 }
