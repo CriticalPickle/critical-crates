@@ -16,6 +16,7 @@ public class ModItems {
     public static final DeferredItem<Item> OBSIDIAN_REINFORCEMENT_ITEM = ITEMS.registerSimpleItem("obsidian_reinforcement");
     public static final DeferredItem<Item> LAMP_SIMULATOR_ITEM = ITEMS.registerSimpleItem("lamp_simulator");
     public static final DeferredItem<Item> FIREPROOFING_ITEM = ITEMS.registerSimpleItem("fireproofing");
+    public static final DeferredItem<Item> SOAP = ITEMS.registerSimpleItem("soap");
 
     // Get the items associated with crates
     public static Item[] getCrateItems() {
@@ -52,12 +53,12 @@ public class ModItems {
 
     // Get the items associated with crates
     public static Item[] getCrateUpgrades() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem)).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap"))).toArray(Item[]::new);
     }
 
     // Get an item associated with a crate dependent on the time of registration
     public static Item getCrateUpgrades(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem)).toArray(Item[]::new);
+        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem)  && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap"))).toArray(Item[]::new);
         return temp[index];
     }
 

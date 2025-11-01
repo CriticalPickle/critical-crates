@@ -9,6 +9,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.neoforged.neoforge.common.conditions.NotCondition;
+import net.neoforged.neoforge.common.crafting.ConditionalRecipeOutput;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -49,6 +52,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SOAP.get(), 8)
+                .requires(Items.WATER_BUCKET)
+                .requires(Items.PORKCHOP)
+                .requires(Items.SCAFFOLDING)
+                .requires(Items.HONEYCOMB)
+                .unlockedBy("has_honeycomb", has(Items.HONEYCOMB))
+                .save(recipeOutput.withConditions(new NotCondition(new ModLoadedCondition("supplementaries"))));
     }
 
     // Generate the simple wooden crate recipes

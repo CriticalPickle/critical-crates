@@ -63,5 +63,6 @@ public class ModTabs {
                 output.accept(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
                 output.accept(ModItems.LAMP_SIMULATOR_ITEM.get());
                 output.accept(ModItems.FIREPROOFING_ITEM.get());
+                output.accept(ModItems.SOAP.get());
             }).build());
 }

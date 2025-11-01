@@ -20,10 +20,10 @@ public class ModItemModelProvider extends ItemModelProvider {
             blockItemWithOverrides(ModItems.getCrateItems(i));
         }
         basicItem(ModItems.PLIERS_ITEM.get());
-
         basicItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
         basicItem(ModItems.LAMP_SIMULATOR_ITEM.get());
         basicItem(ModItems.FIREPROOFING_ITEM.get());
+        basicItem(ModItems.SOAP.get());
     }
 
     private void blockItemWithOverrides(Item item) {

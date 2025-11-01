@@ -40,6 +40,7 @@
   "tooltip.crate.obsidian_reinforcement_upgraded": "抗爆",
   "tooltip.crate.lamp_simulator_upgraded": "發光",
   "tooltip.crate.fireproofing_upgraded": "防火",
+  "item.criticalcrates.soap": "肥皂",
 
   "criticalcrates.configuration.title": "Critical Crates 設定",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "Critical Crates 設定",

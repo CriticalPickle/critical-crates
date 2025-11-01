@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-06T17:52:55.381671	Recipes
+// 1.21.1	2025-11-01T12:12:31.5824276	Recipes
 29b9a5eb9db3f3254f0d762ad25b6bc12d722483 data/criticalcrates/advancement/recipes/misc/acacia_crate.json
 519fb1576d20a7be799c7238bca2d67baddaffd7 data/criticalcrates/advancement/recipes/misc/bamboo_crate.json
 4638ff23cd6bd4788a9e13b9437ce9ec5d50280c data/criticalcrates/advancement/recipes/misc/birch_crate.json
@@ -11,6 +11,7 @@ f9086e63d367d7058c10db597c6e09bb37dd10c7 data/criticalcrates/advancement/recipes
 07b2b53d96287e6d02587b7159591fe42c962671 data/criticalcrates/advancement/recipes/misc/mangrove_crate.json
 30963cf0e0e65fd84d3e1baca92316b4dd92e9d7 data/criticalcrates/advancement/recipes/misc/oak_crate.json
 68c09d79eecb0a2b3298ddac0081978cd8464424 data/criticalcrates/advancement/recipes/misc/obsidian_reinforcement.json
+b0cc7d35d8494c1e65cdd17d4ea0c89c5506c898 data/criticalcrates/advancement/recipes/misc/soap.json
 6006f5d7a7582e7d8edf6553279d4973c69d3573 data/criticalcrates/advancement/recipes/misc/spruce_crate.json
 eb189cbeb2d8117d53cb16b92cf1b30f6efe468c data/criticalcrates/advancement/recipes/misc/warped_crate.json
 b27b9933667901a0c58795a03bc04c8b725e7319 data/criticalcrates/recipe/acacia_crate.json
@@ -25,5 +26,6 @@ a3c8cfd4223abe3668f6ad8dd84e4c3d66da4414 data/criticalcrates/recipe/dark_oak_cra
 bee34263e1ea44e00476bf0a61ad89aecac64858 data/criticalcrates/recipe/mangrove_crate.json
 2c52271f57e77c3f0c6646ccd1d9452449fa424a data/criticalcrates/recipe/oak_crate.json
 9f6e19942b9cca2740b42fa219cf1ecfb7387372 data/criticalcrates/recipe/obsidian_reinforcement.json
+e8738dcc807e6e20b6636243b4886dae5bb714bc data/criticalcrates/recipe/soap.json
 c1dfab9ba5b86da2e021b70e0a5d49dce59f5029 data/criticalcrates/recipe/spruce_crate.json
 a6454f83ebe0d4add47d17c56a5ef56576bce81e data/criticalcrates/recipe/warped_crate.json

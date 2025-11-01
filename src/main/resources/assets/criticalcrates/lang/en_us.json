@@ -40,6 +40,7 @@
   "tooltip.crate.obsidian_reinforcement_upgraded": "Blast Resistant",
   "tooltip.crate.lamp_simulator_upgraded": "Light Emissive",
   "tooltip.crate.fireproofing_upgraded": "Fireproof",
+  "item.criticalcrates.soap": "Soap",
 
   "criticalcrates.configuration.title": "CriticalCrates Configs",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "CriticalCrates Configs",
