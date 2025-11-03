@@ -50,12 +50,12 @@ public class CriticalCrates {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        LOGGER.info("Thanks for downloading CriticalCrates! Setting up...");
+        LOGGER.info("Thanks for downloading Critical Crates! Setting up...");
     }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("CriticalCrates is now being loaded on server!");
+        LOGGER.info("Critical Crates is now being loaded on the server!");
         HolderLookup.Provider holderLookUpProvider = event.getServer().registryAccess();
         HolderUtils.setHolderLookup(holderLookUpProvider);
     }
