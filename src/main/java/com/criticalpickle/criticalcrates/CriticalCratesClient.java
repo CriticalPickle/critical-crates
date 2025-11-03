@@ -20,7 +20,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @EventBusSubscriber(modid = CriticalCrates.MODID, value = Dist.CLIENT)
 public class CriticalCratesClient {
     public CriticalCratesClient(ModContainer container) {
-        // Create a config screen for this mod's configs built in to NeoForge "mods" tab.
+        // Create a config screen for this mod's configs built into NeoForge "mods" tab.
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 

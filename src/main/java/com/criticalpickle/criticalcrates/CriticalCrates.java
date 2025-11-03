@@ -42,7 +42,7 @@ public class CriticalCrates {
 
         NeoForge.EVENT_BUS.register(this);
 
-        // Register the items to existing creative tabs
+        // Register items to existing creative tabs
         modEventBus.addListener(ModRegistration::addCreative);
 
         // Register NeoForge's ModConfigSpec so that FML can create and load the config file
