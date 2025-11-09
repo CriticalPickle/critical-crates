@@ -42,13 +42,15 @@
   "tooltip.crate.fireproofing_upgraded": "Fireproof",
   "item.criticalcrates.soap": "Soap",
 
-  "criticalcrates.configuration.title": "CriticalCrates Configs",
-  "criticalcrates.configuration.section.criticalcrates.common.toml": "CriticalCrates Configs",
-  "criticalcrates.configuration.section.criticalcrates.common.toml.title": "CriticalCrates Configs",
+  "criticalcrates.configuration.title": "Critical Crates Configs",
+  "criticalcrates.configuration.section.criticalcrates.common.toml": "Critical Crates Configs",
+  "criticalcrates.configuration.section.criticalcrates.common.toml.title": "Critical Crates Configs",
   "criticalcrates.configuration.addonsRemovable": "Addons Removable from Crates",
   "criticalcrates.configuration.addonsRemovable.tooltip": "Whether to allow removal of addons from crates.",
   "criticalcrates.configuration.universalDyeing": "Glass Crates Dyeable",
   "criticalcrates.configuration.universalDyeing.tooltip": "Whether to allow universal dyeing of glass crates.",
+  "criticalcrates.configuration.colorRemovable": "Color Removable from Crates",
+  "criticalcrates.configuration.colorRemovable.tooltip": "Whether to allow the removal of color from stained crates.",
   "criticalcrates.configuration.glassChangeGlassCrate": "Glass Changes Glass Crates",
   "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Whether to allow glass crates to be changed with glass like wooden ones."
 }

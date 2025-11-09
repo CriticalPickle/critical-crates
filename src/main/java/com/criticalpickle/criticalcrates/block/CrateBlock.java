@@ -273,7 +273,7 @@ public class CrateBlock extends BaseEntityBlock {
                 spawnRemovedUpgrades(state, level, pos);
                 setDataTagUpgrades(dataTag, false, false, false, null);
             }
-            else if(hasSoap(itemInStack, state)) {
+            else if(Config.STAINED_COLOR_REMOVABLE.getAsBoolean() && hasSoap(itemInStack, state)) {
                 Block crateBlock = getCrateBlock("block.criticalcrates.glass_crate");
 
                 if(crateBlock != null) {
