@@ -4,6 +4,8 @@ import com.criticalpickle.criticalcrates.Config;
 import com.criticalpickle.criticalcrates.util.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -13,9 +15,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class PliersItem extends Item {
     public PliersItem(Properties properties) {
@@ -28,34 +33,19 @@ public class PliersItem extends Item {
     }
 
     @Override
-    public boolean isRepairable(ItemStack stack) {
+    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
         return true;
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
-        return repairCandidate.is(Items.IRON_INGOT) || super.isValidRepairItem(stack, repairCandidate);
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public boolean hasCraftingRemainingItem(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getCraftingRemainingItem(ItemStack stack) {
+    public @NotNull ItemStack getCraftingRemainder(ItemStack stack) {
         ItemStack copiedStack = stack.copy();
         CustomData data = stack.get(DataComponents.CUSTOM_DATA);
         ItemEnchantments enchants = EnchantmentHelper.getEnchantmentsForCrafting(copiedStack);
         int unbreakingLvl = enchants.getLevel(EnchantmentUtils.getEnchantmentHolder(Enchantments.UNBREAKING));
         boolean causeDamage = true;
 
-        if(data != null && data.copyTag().getBoolean("broken")) {
+        if(data != null && data.copyTag().getBoolean("broken").get()) {
             return ItemStack.EMPTY;
         }
 
@@ -82,14 +72,13 @@ public class PliersItem extends Item {
         return copiedStack;
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         if(Config.ADDONS_REMOVABLE.getAsBoolean()) {
-            if(Screen.hasShiftDown()) {
-                tooltipComponents.add(Component.translatable("tooltip.pliers.shift"));
+            if(flag.hasShiftDown()) {
+                tooltipAdder.accept(Component.translatable("tooltip.pliers.shift"));
             } else {
-                tooltipComponents.add(Component.translatable("tooltip.pliers").withStyle(ChatFormatting.GRAY));
+                tooltipAdder.accept(Component.translatable("tooltip.pliers").withStyle(ChatFormatting.GRAY));
             }
         }
     }

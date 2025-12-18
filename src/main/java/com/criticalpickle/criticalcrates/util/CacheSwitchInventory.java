@@ -1,17 +1,18 @@
 package com.criticalpickle.criticalcrates.util;
 
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
 
 public final class CacheSwitchInventory {
-    private static ItemStackHandler cachedInventory = null;
+    private static NonNullList<ItemStack> cachedItems = NonNullList.withSize(27, ItemStack.EMPTY);;
 
-    public static void cache(ItemStackHandler inventory) {
-        cachedInventory = inventory;
+    public static void cache(NonNullList<ItemStack> inventory) {
+        cachedItems = inventory;
     }
 
-    public static ItemStackHandler getCache() {
-        ItemStackHandler inventory = cachedInventory;
-        cachedInventory = null;
+    public static NonNullList<ItemStack> getCache() {
+        NonNullList<ItemStack> inventory = cachedItems;
+        cachedItems = NonNullList.withSize(27, ItemStack.EMPTY);
         return inventory;
     }
 }

@@ -6,12 +6,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
-    private static final ResourceLocation GUI_PNG =
-            ResourceLocation.fromNamespaceAndPath(CriticalCrates.MODID, "textures/gui/crate/crate_gui.png");
+    private static final Identifier GUI_PNG =
+            Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "textures/gui/crate/crate_gui.png");
 
     public CrateScreen(CrateMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

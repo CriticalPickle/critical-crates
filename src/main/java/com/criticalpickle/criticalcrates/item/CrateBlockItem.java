@@ -9,10 +9,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class CrateBlockItem extends BlockItem {
     public CrateBlockItem(Block block, Properties properties) {
@@ -20,8 +20,8 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, Level level, Player player) {
-        super.onCraftedBy(stack, level, player);
+    public void onCraftedBy(ItemStack stack, Player player) {
+        super.onCraftedBy(stack, player);
         checkTags(stack);
     }
 
@@ -52,35 +52,35 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         CustomData data = stack.get(DataComponents.CUSTOM_DATA);
         boolean resistant = false, lamp = false, fire = false;
 
         // Get value (if any)
         if(!stack.isEmpty() && data != null) {
             if(data.contains("explosion_resistant")) {
-                resistant = data.copyTag().getBoolean("explosion_resistant");
+                resistant = data.copyTag().getBoolean("explosion_resistant").get();
             }
 
             if(data.contains("lamp_upgrade")) {
-                lamp = data.copyTag().getBoolean("lamp_upgrade");
+                lamp = data.copyTag().getBoolean("lamp_upgrade").get();
             }
 
             if(data.contains("fireproof")) {
-                fire = data.copyTag().getBoolean("fireproof");
+                fire = data.copyTag().getBoolean("fireproof").get();
             }
         }
 
         // Set tooltip for appropriate property
         if(resistant) {
-            tooltipComponents.add(Component.translatable("tooltip.crate.obsidian_reinforcement_upgraded").withStyle(ChatFormatting.RED));
+            tooltipAdder.accept(Component.translatable("tooltip.crate.obsidian_reinforcement_upgraded").withStyle(ChatFormatting.RED));
         }
         else if(lamp) {
-            tooltipComponents.add(Component.translatable("tooltip.crate.lamp_simulator_upgraded").withStyle(ChatFormatting.YELLOW));
+            tooltipAdder.accept(Component.translatable("tooltip.crate.lamp_simulator_upgraded").withStyle(ChatFormatting.YELLOW));
         }
         else if(fire) {
-            tooltipComponents.add(Component.translatable("tooltip.crate.fireproofing_upgraded").withStyle(ChatFormatting.GOLD));
+            tooltipAdder.accept(Component.translatable("tooltip.crate.fireproofing_upgraded").withStyle(ChatFormatting.GOLD));
         }
     }
 }

@@ -27,7 +27,6 @@ public class CriticalCratesClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         CriticalCrates.LOGGER.info("Critical Crates is now being loaded on the client!");
-        ModRegistration.registerItemProperties();
     }
 
     @SubscribeEvent

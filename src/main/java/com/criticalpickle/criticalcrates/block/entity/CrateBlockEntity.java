@@ -3,13 +3,14 @@ package com.criticalpickle.criticalcrates.block.entity;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.screen.CrateMenu;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -20,54 +21,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jetbrains.annotations.Nullable;
 
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
 
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
-    public final ItemStackHandler inventory = new ItemStackHandler(27) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-            if(level != null && !level.isClientSide()) {
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-            }
-        }
-    };
-
-    private record SideHandler(ItemStackHandler handler, boolean isInsert, boolean isExtract) implements IItemHandler {
-        @Override
-        public int getSlots() {
-            return handler.getSlots();
-        }
-
-        @Override
-        public ItemStack getStackInSlot(int i) {
-            return handler.getStackInSlot(i);
-        }
-
-        @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            return isInsert ? handler.insertItem(slot, stack, simulate) : stack;
-        }
-
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return isExtract ? handler.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
-        }
-
-        @Override
-        public int getSlotLimit(int i) {
-            return handler.getSlotLimit(i);
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
-            return isInsert && handler.isItemValid(slot, stack);
-        }
-    }
+    private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 
     public CrateBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRATE_BE.get(), pos, blockState);
@@ -78,9 +42,9 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void drop() {
-        SimpleContainer containerInv = new SimpleContainer(inventory.getSlots());
-        for(int i = 0; i < inventory.getSlots(); i++) {
-            containerInv.setItem(i, inventory.getStackInSlot(i));
+        SimpleContainer containerInv = new SimpleContainer(items.size());
+        for(int i = 0; i < items.size(); i++) {
+            containerInv.setItem(i, items.get(i));
         }
 
         if(this.level != null) {
@@ -88,14 +52,14 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    public ItemStackHandler getInventory() {
-        return inventory;
+    public NonNullList<ItemStack> getItems() {
+        return this.items;
     }
 
-    public void copyInventory(ItemStackHandler oldInventory) {
+    public void copyInventory(NonNullList<ItemStack> oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.inventory.getSlots(); i++) {
-                this.inventory.setStackInSlot(i, oldInventory.getStackInSlot(i));
+            for(int i = 0; i < this.items.size(); i++) {
+                this.items.set(i, oldInventory.get(i));
             }
         }
     }
@@ -108,23 +72,33 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    public IItemHandler getInventorySide(Direction side) {
-        if(side == Direction.DOWN) {
-            return new SideHandler(inventory, false, true);
-        }
-        return new SideHandler(inventory, true, false);
+    public ResourceHandler<ItemResource> getItemHandler() {
+        return new ItemStacksResourceHandler(items);
+    }
+
+//    @Override
+//    public ResourceHandler<ItemResource> getSideHandler(Direction side) {
+//        ResourceHandler<ItemResource> handler = getItemHandler();
+//        if (side == Direction.DOWN) {
+//            return handler.filterInsert(res -> false)  // extract-only
+//                    .filterExtract(res -> true);
+//        } else {
+//            return handler.filterInsert(res -> true)  // insert-only
+//                    .filterExtract(res -> false);
+//        }
+//    }
+
+    @Override
+    protected void saveAdditional(ValueOutput input) {
+        super.saveAdditional(input);
+        ContainerHelper.saveAllItems(input, this.items);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("inventory", inventory.serializeNBT(registries));
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.items = NonNullList.withSize(27, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(input, this.items);
     }
 
     @Override

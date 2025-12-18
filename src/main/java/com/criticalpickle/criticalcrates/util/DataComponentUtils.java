@@ -4,8 +4,10 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DamageResistant;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class DataComponentUtils {
@@ -23,11 +25,11 @@ public class DataComponentUtils {
         blockEntity.setComponents(builder.build());
     }
 
-    public static void addBlockEntityDataComponents(BlockEntity blockEntity, CompoundTag dataTag, DataComponentType<Unit> dataComponent) {
+    public static void addBlockEntityDataComponents(BlockEntity blockEntity, CompoundTag dataTag, boolean fireResist) {
         DataComponentMap.Builder builder = DataComponentMap.builder();
 
         builder.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-        builder.set(dataComponent, Unit.INSTANCE);
+        builder.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
         blockEntity.setComponents(builder.build());
     }
 }

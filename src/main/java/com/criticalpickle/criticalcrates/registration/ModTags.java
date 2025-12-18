@@ -1,7 +1,7 @@
 package com.criticalpickle.criticalcrates.registration;
 
 import com.criticalpickle.criticalcrates.CriticalCrates;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -15,7 +15,7 @@ public class ModTags {
         public static final TagKey<Block> GLASS_CRATES = createTag("glass_crates");
 
         private static TagKey<Block> createTag(String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(CriticalCrates.MODID, name));
+            return BlockTags.create(Identifier.fromNamespaceAndPath(CriticalCrates.MODID, name));
         }
     }
 
@@ -26,7 +26,7 @@ public class ModTags {
         public static final TagKey<Item> CRATE_UPGRADES = createTag("crate_upgrades");
 
         private static TagKey<Item> createTag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CriticalCrates.MODID, name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath(CriticalCrates.MODID, name));
         }
     }
 }

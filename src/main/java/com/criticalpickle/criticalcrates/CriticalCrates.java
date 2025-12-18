@@ -36,7 +36,7 @@ public class CriticalCrates {
     public CriticalCrates(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::onRegisterCapabilities);
+//        modEventBus.addListener(this::onRegisterCapabilities);
 
         ModRegistration.init(modEventBus);
 
@@ -61,10 +61,10 @@ public class CriticalCrates {
     }
 
     // Crate external item handler registration
-    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
-    }
+//    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+//        event.registerBlockEntity(Capabilities, ModBlockEntities.CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
+//        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
+//    }
 
     // Add sound event to pliers item breaking in crafting table
     @SubscribeEvent
@@ -76,8 +76,8 @@ public class CriticalCrates {
             stack = event.getInventory().getItem(i);
             data = stack.get(DataComponents.CUSTOM_DATA);
 
-            if(!stack.isEmpty() && stack.getItem() == ModItems.PLIERS_ITEM.get() && data != null && data.copyTag().getBoolean("broken")) {
-                event.getEntity().level().playSound(null, event.getEntity().blockPosition(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 1f, 1f);
+            if(!stack.isEmpty() && stack.getItem() == ModItems.PLIERS_ITEM.get() && data != null && data.copyTag().getBoolean("broken").get()) {
+                event.getEntity().level().playSound(null, event.getEntity().blockPosition(), SoundEvents.ITEM_BREAK.value(), SoundSource.BLOCKS, 1f, 1f);
                 break;
             }
         }

@@ -17,10 +17,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Unit;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DamageResistant;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -43,6 +43,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -85,15 +86,15 @@ public class CrateBlock extends BaseEntityBlock {
 
         if(data != null) {
             if(data.contains("explosion_resistant")) {
-                resistant = data.copyTag().getBoolean("explosion_resistant");
+                resistant = data.copyTag().getBoolean("explosion_resistant").get();
             }
 
             if(data.contains("lamp_upgrade")) {
-                lamp = data.copyTag().getBoolean("lamp_upgrade");
+                lamp = data.copyTag().getBoolean("lamp_upgrade").get();
             }
 
             if(data.contains("fireproof")) {
-                fire = data.copyTag().getBoolean("fireproof");
+                fire = data.copyTag().getBoolean("fireproof").get();
             }
         }
 
@@ -140,7 +141,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction p_435855_) {
         return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
     }
 
@@ -187,7 +188,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, Orientation orientation, boolean movedByPiston) {
         if (state.getValue(LAMP_UPGRADE) && level instanceof ServerLevel serverlevel) {
             this.checkAndFlip(state, serverlevel, pos);
         }
@@ -205,24 +206,19 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock())) {
-            if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
-                if(state.getValue(SWITCH)) {
-                    CacheSwitchInventory.cache(blockEntity.getInventory());
-                }
-                else {
-                    blockEntity.drop();
-                    level.updateNeighbourForOutputSignal(pos, this);
-                }
+    protected static void onRemove(BlockState state, Level level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
+            if(state.getValue(SWITCH)) {
+                CacheSwitchInventory.cache(blockEntity.getItems());
+            }
+            else {
+                blockEntity.drop();
             }
         }
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(this);
         CompoundTag dataTag = new CompoundTag();
 
@@ -231,8 +227,8 @@ public class CrateBlock extends BaseEntityBlock {
         dataTag.putBoolean("fireproof", state.getValue(FIREPROOF));
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
 
-        if(dataTag.getBoolean("fireproof")) {
-            stack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
+        if(dataTag.getBoolean("fireproof").get()) {
+            stack.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
         }
 
         return stack;
@@ -258,7 +254,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(!level.isClientSide()) {
             Item itemInStack = stack.getItem();
             CompoundTag dataTag = new CompoundTag();
@@ -321,13 +317,13 @@ public class CrateBlock extends BaseEntityBlock {
                 return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
             }
 
-            if(blockEntity != null && !dataTag.getBoolean("fireproof")) {
+            if(blockEntity != null && !dataTag.getBoolean("fireproof").get()) {
                 DataComponentUtils.addBlockEntityDataTag(blockEntity, dataTag);
             }
 
             handleItemResult(level, pos, stack, player, sound);
 
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
@@ -351,7 +347,7 @@ public class CrateBlock extends BaseEntityBlock {
             dataTag.putBoolean("fireproof", true);
 
             if(blockEntity != null) {
-                DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+                DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, true);
             }
         }
         else {
@@ -425,14 +421,15 @@ public class CrateBlock extends BaseEntityBlock {
             setDataTagUpgrades(dataTag, false, false, false, null);
         }
 
+        onRemove(state, level, pos);
         level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
         level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
                 .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
                 .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(dataTag.getBoolean("fireproof") && blockEntity != null) {
-            DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, DataComponents.FIRE_RESISTANT);
+        if(dataTag.getBoolean("fireproof").get() && blockEntity != null) {
+            DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, true);
         }
 
         return blockEntity;

@@ -5,6 +5,7 @@ import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.item.PliersItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -12,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CriticalCrates.MODID);
 
-    public static final DeferredItem<PliersItem> PLIERS_ITEM = ITEMS.register("pliers", () -> new PliersItem(new Item.Properties().durability(250)));
+    public static final DeferredItem<PliersItem> PLIERS_ITEM = ITEMS.register("pliers", () -> new PliersItem(new Item.Properties().durability(250).repairable(Items.IRON_INGOT)));
     public static final DeferredItem<Item> OBSIDIAN_REINFORCEMENT_ITEM = ITEMS.registerSimpleItem("obsidian_reinforcement");
     public static final DeferredItem<Item> LAMP_SIMULATOR_ITEM = ITEMS.registerSimpleItem("lamp_simulator");
     public static final DeferredItem<Item> FIREPROOFING_ITEM = ITEMS.registerSimpleItem("fireproofing");
