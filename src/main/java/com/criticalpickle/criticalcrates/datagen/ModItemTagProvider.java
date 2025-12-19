@@ -2,47 +2,49 @@ package com.criticalpickle.criticalcrates.datagen;
 
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModItems;
-import com.criticalpickle.criticalcrates.registration.ModTags;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends ItemTagsProvider {
-    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, blockTags, CriticalCrates.MODID, existingFileHelper);
+public class ModItemTagProvider extends TagsProvider<Item> {
+
+
+    protected ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, Registries.ITEM, registries, CriticalCrates.MODID);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
-        tag(ItemTags.DURABILITY_ENCHANTABLE)
-                .add(ModItems.PLIERS_ITEM.get());
+    protected void addTags(HolderLookup.@NotNull Provider registries) {
+        this.getOrCreateRawBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+                .addElement(Identifier.fromNamespaceAndPath("criticalcrates", ModItems.PLIERS_ITEM.get().getName().getString()));
 
-        tag(ItemTags.VANISHING_ENCHANTABLE)
-                .add(ModItems.PLIERS_ITEM.get());
+        this.getOrCreateRawBuilder(ItemTags.VANISHING_ENCHANTABLE)
+                .addElement(Identifier.fromNamespaceAndPath("criticalcrates", ModItems.PLIERS_ITEM.get().getName().getString()));
 
-        tag(Tags.Items.TOOLS)
-                .add(ModItems.PLIERS_ITEM.get());
+        this.getOrCreateRawBuilder(Tags.Items.TOOLS)
+                .addElement(Identifier.fromNamespaceAndPath("criticalcrates", ModItems.PLIERS_ITEM.get().getName().getString()));
 
-        tag(Tags.Items.ENCHANTABLES)
-                .add(ModItems.PLIERS_ITEM.get());
+        this.getOrCreateRawBuilder(Tags.Items.ENCHANTABLES)
+                .addElement(Identifier.fromNamespaceAndPath("criticalcrates", ModItems.PLIERS_ITEM.get().getName().getString()));
 
-        tag(ModTags.Items.WOODEN_CRATES)
-                .add(ModItems.getWoodCrateItems());
-
-        tag(ModTags.Items.GLASS_CRATES)
-                .add(ModItems.getGlassCrateItems());
-
-        tag(ModTags.Items.CRATES)
-                .add(ModItems.getCrateItems());
-
-        tag(ModTags.Items.CRATE_UPGRADES)
-                .add(ModItems.getCrateUpgrades());
+//        this.getOrCreateRawBuilder(ModTags.Items.WOODEN_CRATES)
+//                .addElement(ModItems.getWoodCrateItems());
+//
+//        this.getOrCreateRawBuilder(ModTags.Items.GLASS_CRATES)
+//                .addElement(ModItems.getGlassCrateItems());
+//
+//        this.getOrCreateRawBuilder(ModTags.Items.CRATES)
+//                .addElement(ModItems.getCrateItems());
+//
+//        this.getOrCreateRawBuilder(ModTags.Items.CRATE_UPGRADES)
+//                .addElement(ModItems.getCrateUpgrades());
     }
 }
