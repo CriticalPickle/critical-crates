@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 @EventBusSubscriber(modid = CriticalCrates.MODID)
 public class DataGenerators {
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent.Server event) {
+    public static void gatherData(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();

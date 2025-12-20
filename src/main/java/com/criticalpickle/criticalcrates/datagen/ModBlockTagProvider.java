@@ -18,16 +18,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(BlockTags.MINEABLE_WITH_AXE)
+        this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.getWoodCrates());
 
-        tag(ModTags.Blocks.WOODEN_CRATES)
+        this.tag(ModTags.Blocks.WOODEN_CRATES)
                 .add(ModBlocks.getWoodCrates());
 
-        tag(ModTags.Blocks.GLASS_CRATES)
+        this.tag(ModTags.Blocks.GLASS_CRATES)
                 .add(ModBlocks.getGlassCrates());
 
-        tag(ModTags.Blocks.CRATES)
+        this.tag(ModTags.Blocks.CRATES)
                 .add(ModBlocks.getCrates());
     }
 }

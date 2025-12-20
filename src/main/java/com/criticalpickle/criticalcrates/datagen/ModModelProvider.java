@@ -6,7 +6,9 @@ import com.criticalpickle.criticalcrates.registration.ModItems;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 
@@ -25,15 +27,15 @@ public class ModModelProvider extends ModelProvider {
 //            blockItemWithOverrides(ModItems.getCrateItems(i));
 //        }
 
-        itemModels.generateFlatItem(ModItems.PLIERS_ITEM.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModItems.PLIERS_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.LAMP_SIMULATOR_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.FIREPROOFING_ITEM.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModItems.SOAP.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModItems.SOAP.get(), ModelTemplates.FLAT_ITEM);
     }
 
     private void axisWithOtherPropertiesCrateBlock(Block block, BlockModelGenerators blockModels) {
-        blockModels.createRotatableColumn(block);
+        blockModels.createRotatedPillarWithHorizontalVariant(block, TexturedModel.COLUMN_ALT, TexturedModel.COLUMN_HORIZONTAL_ALT);
 //        PropertyDispatch dispatch = PropertyDispatch.modify(CrateBlock.AXIS).select()
 //        VariantBlockStateBuilder builder = getVariantBuilder(block);
 //        String blockName = block.getDescriptionId().substring(block.getDescriptionId().indexOf("s.") + 2);
