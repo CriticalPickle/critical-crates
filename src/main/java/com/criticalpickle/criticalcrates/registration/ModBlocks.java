@@ -4,6 +4,9 @@ import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.CrateBlock;
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,17 +23,17 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CriticalCrates.MODID);
 
-    public static final DeferredBlock<Block> OAK_CRATE = registerCrateBlockWithItem("oak_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> SPRUCE_CRATE = registerCrateBlockWithItem("spruce_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> BIRCH_CRATE = registerCrateBlockWithItem("birch_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> JUNGLE_CRATE = registerCrateBlockWithItem("jungle_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> ACACIA_CRATE = registerCrateBlockWithItem("acacia_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> DARK_OAK_CRATE = registerCrateBlockWithItem("dark_oak_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> MANGROVE_CRATE = registerCrateBlockWithItem("mangrove_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> CHERRY_CRATE = registerCrateBlockWithItem("cherry_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> BAMBOO_CRATE = registerCrateBlockWithItem("bamboo_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)));
-    public static final DeferredBlock<Block> CRIMSON_CRATE = registerCrateBlockWithItem("crimson_crate", () -> new CrateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> WARPED_CRATE = registerCrateBlockWithItem("warped_crate", () -> new CrateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<Block> OAK_CRATE = registerCrateBlockWithItem("oak_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "oak_crate")))));
+    public static final DeferredBlock<Block> SPRUCE_CRATE = registerCrateBlockWithItem("spruce_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "spruce_crate")))));
+    public static final DeferredBlock<Block> BIRCH_CRATE = registerCrateBlockWithItem("birch_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "birch_crate")))));
+    public static final DeferredBlock<Block> JUNGLE_CRATE = registerCrateBlockWithItem("jungle_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "jungle_crate")))));
+    public static final DeferredBlock<Block> ACACIA_CRATE = registerCrateBlockWithItem("acacia_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "acacia_crate")))));
+    public static final DeferredBlock<Block> DARK_OAK_CRATE = registerCrateBlockWithItem("dark_oak_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "dark_oak_crate")))));
+    public static final DeferredBlock<Block> MANGROVE_CRATE = registerCrateBlockWithItem("mangrove_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "mangrove_crate")))));
+    public static final DeferredBlock<Block> CHERRY_CRATE = registerCrateBlockWithItem("cherry_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "cherry_crate")))));
+    public static final DeferredBlock<Block> BAMBOO_CRATE = registerCrateBlockWithItem("bamboo_crate", () -> new CrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "bamboo_crate")))));
+    public static final DeferredBlock<Block> CRIMSON_CRATE = registerCrateBlockWithItem("crimson_crate", () -> new CrateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "crimson_crate")))));
+    public static final DeferredBlock<Block> WARPED_CRATE = registerCrateBlockWithItem("warped_crate", () -> new CrateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "warped_crate")))));
 
     public static final DeferredBlock<Block> GLASS_CRATE = registerCrateBlockWithItem("glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<Block> WHITE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("white_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_STAINED_GLASS)));

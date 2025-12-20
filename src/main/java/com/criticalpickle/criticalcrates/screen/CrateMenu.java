@@ -99,7 +99,7 @@ public class CrateMenu extends AbstractContainerMenu {
     private void addCrateInventory() {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new SlotItemHandler(this.blockEntity.inventory, l + i * 9, 8 + l * 18, 16 + i * 18));
+//                this.addSlot(new SlotItemHandler(this.blockEntity.inventory, l + i * 9, 8 + l * 18, 16 + i * 18));
             }
         }
     }
@@ -108,7 +108,7 @@ public class CrateMenu extends AbstractContainerMenu {
     public void removed(Player player) {
         super.removed(player);
 
-        if (!player.level().isClientSide) {
+        if (!player.level().isClientSide()) {
             if(blockEntity instanceof GlassCrateBlockEntity) {
                 player.level().playSound(null, blockEntity.getBlockPos(), SoundEvents.COPPER_BREAK, SoundSource.BLOCKS, 0.5f, 1.0f);
             }
