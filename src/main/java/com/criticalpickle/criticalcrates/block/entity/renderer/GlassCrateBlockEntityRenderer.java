@@ -5,11 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -40,7 +38,7 @@ public class GlassCrateBlockEntityRenderer implements BlockEntityRenderer<GlassC
     public void submit(GlassCrateBlockEntityRenderState glassCrateBlockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         ItemStackRenderState itemRendererState = new ItemStackRenderState();
         GlassCrateBlockEntity blockEntity = glassCrateBlockEntityRenderState.blockEntity;
-        ItemStack stack = blockEntity.getItems().getFirst();
+        ItemStack stack = blockEntity.getInventory().getFirst();
         int lightTexture = LightTexture.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()), blockEntity.getLevel().getBrightness(LightLayer.SKY, blockEntity.getBlockPos()));
 
         poseStack.pushPose();

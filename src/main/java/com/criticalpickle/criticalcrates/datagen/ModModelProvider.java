@@ -6,11 +6,9 @@ import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.util.IDUtils;
-import com.mojang.math.Quadrant;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
@@ -22,10 +20,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class ModModelProvider extends ModelProvider {
     public ModModelProvider(PackOutput output) {
@@ -94,29 +90,6 @@ public class ModModelProvider extends ModelProvider {
                                 .select(false, BlockModelGenerators.NOP)
                         )
         );
-    }
-
-    private static String computePathName(Block block, Direction.Axis axis, boolean resistance, boolean lamp, boolean lit, boolean fire) {
-        String path = null, blockName = IDUtils.getItemID(block.asItem());
-
-        if(resistance) {
-            path = blockName + "_resistant";
-        }
-        else if(lamp) {
-            path = lit ? blockName + "_lamp_on" : blockName + "_lamp";
-        }
-        else if(fire) {
-            path = blockName + "_fireproof";
-        }
-        else {
-            path = blockName;
-        }
-
-        if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
-            path += "_horizontal";
-        }
-
-        return path;
     }
 
     private static Map<String, ModelTemplate> generateTemplates(Block block, String blockName, String blockType) {

@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
 
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
-    private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+    private NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 
     public CrateBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRATE_BE.get(), pos, blockState);
@@ -42,9 +42,9 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void drop() {
-        SimpleContainer containerInv = new SimpleContainer(items.size());
-        for(int i = 0; i < items.size(); i++) {
-            containerInv.setItem(i, items.get(i));
+        SimpleContainer containerInv = new SimpleContainer(inventory.size());
+        for(int i = 0; i < inventory.size(); i++) {
+            containerInv.setItem(i, inventory.get(i));
         }
 
         if(this.level != null) {
@@ -52,14 +52,14 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    public NonNullList<ItemStack> getItems() {
-        return this.items;
+    public NonNullList<ItemStack> getInventory() {
+        return this.inventory;
     }
 
     public void copyInventory(NonNullList<ItemStack> oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.items.size(); i++) {
-                this.items.set(i, oldInventory.get(i));
+            for(int i = 0; i < this.inventory.size(); i++) {
+                this.inventory.set(i, oldInventory.get(i));
             }
         }
     }
@@ -73,7 +73,7 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public ResourceHandler<ItemResource> getItemHandler() {
-        return new ItemStacksResourceHandler(items);
+        return new ItemStacksResourceHandler(inventory);
     }
 
 //    @Override
@@ -91,14 +91,14 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     protected void saveAdditional(ValueOutput input) {
         super.saveAdditional(input);
-        ContainerHelper.saveAllItems(input, this.items);
+        ContainerHelper.saveAllItems(input, this.inventory);
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        this.items = NonNullList.withSize(27, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, this.items);
+        this.inventory = NonNullList.withSize(27, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(input, this.inventory);
     }
 
     @Override

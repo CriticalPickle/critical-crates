@@ -45,7 +45,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -209,7 +208,7 @@ public class CrateBlock extends BaseEntityBlock {
     protected static void onRemove(BlockState state, Level level, BlockPos pos) {
         if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
             if(state.getValue(SWITCH)) {
-                CacheSwitchInventory.cache(blockEntity.getItems());
+                CacheSwitchInventory.cache(blockEntity.getInventory());
             }
             else {
                 blockEntity.drop();
