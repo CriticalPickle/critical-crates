@@ -20,14 +20,6 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//        RenderSystem.setShaderTexture(0, GUI_PNG);
-//
-//        int x = (width - imageWidth) / 2;
-//        int y = (height - imageHeight) / 2;
-
         guiGraphics.blit(
             RenderPipelines.GUI_TEXTURED,
             GUI_PNG,

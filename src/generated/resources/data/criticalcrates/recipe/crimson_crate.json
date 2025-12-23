@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_crates",
   "key": {
-    "#": {
-      "item": "minecraft:crimson_planks"
-    },
-    "-": {
-      "item": "minecraft:crimson_slab"
-    }
+    "#": "minecraft:crimson_planks",
+    "-": "minecraft:crimson_slab"
   },
   "pattern": [
     "---",

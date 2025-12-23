@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
 
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(27) {
+    public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(27) {
         @Override
         protected void onContentsChanged(int index, ItemStack previousContents) {
             setChanged();
@@ -53,6 +53,14 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         if(this.level != null) {
             Containers.dropContents(this.level, this.worldPosition, containerInv);
         }
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        if(!state.getValue(SWITCH)) {
+            drop();
+        }
+        super.preRemoveSideEffects(pos, state);
     }
 
     public ItemStacksResourceHandler getInventory() {
@@ -96,11 +104,9 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
+        inventory.deserialize(input);
 
-        if(input.child("Items").isPresent()) {
-            inventory.deserialize(input);
-        }
-        else if(input.child("inventory").isPresent()) {
+        if(input.child("inventory").isPresent()) {
             NonNullList<ItemStack> stacks = NonNullList.withSize(27, ItemStack.EMPTY);
             ContainerHelper.loadAllItems(input.child("inventory").get(), stacks);
             ItemStacksResourceHandler temp = new ItemStacksResourceHandler(stacks);

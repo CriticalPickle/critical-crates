@@ -205,13 +205,10 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    protected static void onRemove(BlockState state, Level level, BlockPos pos) {
+    public static void onRemove(BlockState state, Level level, BlockPos pos) {
         if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
             if(state.getValue(SWITCH)) {
                 CacheSwitchInventory.cache(blockEntity.getInventory());
-            }
-            else {
-                blockEntity.drop();
             }
         }
     }

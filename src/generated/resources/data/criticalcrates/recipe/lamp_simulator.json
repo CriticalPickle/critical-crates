@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:redstone_lamp"
-    },
-    {
-      "item": "criticalcrates:pliers"
-    }
+    "minecraft:redstone_lamp",
+    "criticalcrates:pliers"
   ],
   "result": {
     "count": 8,

@@ -1,82 +1,82 @@
 {
   "variants": {
     "axis=x,explosion_resistant=false,fireproof=false,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_horizontal",
+      "model": "criticalcrates:block/glass_crate",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=false,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_horizontal",
+      "model": "criticalcrates:block/glass_crate",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=false,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_lamp_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=false,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_lamp_on_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp_on",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=true,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_fireproof_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=true,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_fireproof_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_lamp_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_lamp_on_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=false,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_resistant",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=false,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_resistant",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp_on",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
     "axis=x,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90,
       "y": 90
     },
@@ -99,10 +99,10 @@
       "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_lamp"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_lamp_on"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=true,fireproof=false,lamp_upgrade=false,lit=false": {
       "model": "criticalcrates:block/glass_crate_resistant"
@@ -111,85 +111,85 @@
       "model": "criticalcrates:block/glass_crate_resistant"
     },
     "axis=y,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_lamp"
     },
     "axis=y,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_lamp_on"
     },
     "axis=y,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=y,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant"
+      "model": "criticalcrates:block/glass_crate_fireproof"
     },
     "axis=z,explosion_resistant=false,fireproof=false,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_horizontal",
+      "model": "criticalcrates:block/glass_crate",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=false,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_horizontal",
+      "model": "criticalcrates:block/glass_crate",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=false,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_lamp_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=false,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_lamp_on_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp_on",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=true,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_fireproof_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=true,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_fireproof_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_lamp_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=false,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_lamp_on_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=false,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_resistant",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=false,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_resistant",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=false,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_lamp_on",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=true,lamp_upgrade=false,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=false": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     },
     "axis=z,explosion_resistant=true,fireproof=true,lamp_upgrade=true,lit=true": {
-      "model": "criticalcrates:block/glass_crate_resistant_horizontal",
+      "model": "criticalcrates:block/glass_crate_fireproof",
       "x": 90
     }
   }

@@ -38,7 +38,7 @@ public class GlassCrateBlockEntityRenderer implements BlockEntityRenderer<GlassC
     public void submit(GlassCrateBlockEntityRenderState glassCrateBlockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         ItemStackRenderState itemRendererState = new ItemStackRenderState();
         GlassCrateBlockEntity blockEntity = glassCrateBlockEntityRenderState.blockEntity;
-        ItemStack stack = blockEntity.getInventory().getFirst();
+        ItemStack stack = blockEntity.getInventory().copyToList().getFirst();
         int lightTexture = LightTexture.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()), blockEntity.getLevel().getBrightness(LightLayer.SKY, blockEntity.getBlockPos()));
 
         poseStack.pushPose();

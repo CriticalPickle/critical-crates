@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_crates",
   "key": {
-    "#": {
-      "item": "minecraft:oak_planks"
-    },
-    "-": {
-      "item": "minecraft:oak_slab"
-    }
+    "#": "minecraft:oak_planks",
+    "-": "minecraft:oak_slab"
   },
   "pattern": [
     "---",

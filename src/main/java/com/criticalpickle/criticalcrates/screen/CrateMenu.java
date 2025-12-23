@@ -14,7 +14,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class CrateMenu extends AbstractContainerMenu {
     public final CrateBlockEntity blockEntity;
@@ -29,8 +29,7 @@ public class CrateMenu extends AbstractContainerMenu {
         this.blockEntity = ((CrateBlockEntity) blockEntity);
         this.level = inventory.player.level();
 
-        addPlayerInventory(inventory);
-        addPlayerHotbar(inventory);
+        this.addStandardInventorySlots(inventory, 8, 84);
         addCrateInventory();
     }
 
@@ -82,24 +81,10 @@ public class CrateMenu extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, blockEntity.getBlockState().getBlock());
     }
 
-    private void addPlayerInventory(Inventory inventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
-            }
-        }
-    }
-
-    private void addPlayerHotbar(Inventory inventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
-        }
-    }
-
     private void addCrateInventory() {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-//                this.addSlot(new SlotItemHandler(this.blockEntity.inventory, l + i * 9, 8 + l * 18, 16 + i * 18));
+                this.addSlot(new ResourceHandlerSlot(this.blockEntity.inventory, this.blockEntity.inventory::set, l + i * 9, 8 + l * 18, 16 + i * 18));
             }
         }
     }

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:obsidian"
-    },
-    {
-      "item": "criticalcrates:pliers"
-    }
+    "minecraft:obsidian",
+    "criticalcrates:pliers"
   ],
   "result": {
     "count": 8,

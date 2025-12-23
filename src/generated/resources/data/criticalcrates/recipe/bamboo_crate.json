@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_crates",
   "key": {
-    "#": {
-      "item": "minecraft:bamboo_planks"
-    },
-    "-": {
-      "item": "minecraft:bamboo_slab"
-    }
+    "#": "minecraft:bamboo_planks",
+    "-": "minecraft:bamboo_slab"
   },
   "pattern": [
     "---",
