@@ -29,7 +29,9 @@ public class DataComponentUtils {
         DataComponentMap.Builder builder = DataComponentMap.builder();
 
         builder.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-        builder.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
+        if(fireResist) {
+            builder.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
+        }
         blockEntity.setComponents(builder.build());
     }
 }

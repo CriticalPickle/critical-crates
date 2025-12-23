@@ -1,6 +1,7 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
@@ -258,7 +259,7 @@ public class CrateBlock extends BaseEntityBlock {
                 setDataTagUpgrades(dataTag, false, false, false, null);
             }
             else if(Config.STAINED_COLOR_REMOVABLE.getAsBoolean() && hasSoap(itemInStack, state)) {
-                Block crateBlock = getCrateBlock("block.criticalcrates.glass_crate");
+                Block crateBlock = getCrateBlock("item.criticalcrates.glass_crate");
 
                 if(crateBlock != null) {
                     stack.shrink(1);
@@ -283,7 +284,7 @@ public class CrateBlock extends BaseEntityBlock {
             }
             else if(validDye(state, itemInStack)) {
                 String dyeColor = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10, itemInStack.getDescriptionId().indexOf("_dye"));
-                Block crateBlock = getCrateBlock("block.criticalcrates." + dyeColor + "_stained_glass_crate");
+                Block crateBlock = getCrateBlock("item.criticalcrates." + dyeColor + "_stained_glass_crate");
 
                 if(crateBlock != null) {
                     stack.shrink(1);
@@ -293,7 +294,7 @@ public class CrateBlock extends BaseEntityBlock {
             }
             else if(validGlass(state, itemInStack)) {
                 String paneName = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10);
-                Block crateBlock = getCrateBlock("block.criticalcrates." + paneName + "_crate");
+                Block crateBlock = getCrateBlock("item.criticalcrates." + paneName + "_crate");
 
                 if(crateBlock != null) {
                     stack.shrink(1);
@@ -305,7 +306,7 @@ public class CrateBlock extends BaseEntityBlock {
                 return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
             }
 
-            if(blockEntity != null && !dataTag.getBoolean("fireproof").get()) {
+            if(blockEntity != null && dataTag.getBoolean("fireproof").isPresent() && !dataTag.getBoolean("fireproof").get()) {
                 DataComponentUtils.addBlockEntityDataTag(blockEntity, dataTag);
             }
 
@@ -364,7 +365,8 @@ public class CrateBlock extends BaseEntityBlock {
     // Check if item is soap and block is able to be cleaned
     private static boolean hasSoap(Item stackItem, BlockState blockState) {
         String itemName = stackItem.getName(new ItemStack(stackItem)).getString(), blockName = blockState.getBlock().getName().getString();
-        return blockName.contains("Stained") && itemName.equals("Soap");
+        CriticalCrates.LOGGER.info(itemName + " : " + blockName);
+        return blockName.contains("stained") && itemName.equals("Soap");
     }
 
     // Crate has upgrades: Y/N
