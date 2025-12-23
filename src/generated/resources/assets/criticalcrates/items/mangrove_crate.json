@@ -28,6 +28,6 @@
       "type": "minecraft:model",
       "model": "criticalcrates:block/mangrove_crate"
     },
-    "property": "criticalcrates:crate_data_key"
+    "property": "criticalcrates:crate_data_value"
   }
 }

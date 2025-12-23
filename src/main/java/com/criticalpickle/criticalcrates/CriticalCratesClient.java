@@ -44,7 +44,7 @@ public class CriticalCratesClient {
     @SubscribeEvent
     public static void registerSelectProperties(RegisterSelectItemModelPropertyEvent event) {
         event.register(
-                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "crate_data_key"),
+                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "crate_data_value"),
                 ItemModelPropertyUtils.CrateDataValue.TYPE
         );
     }

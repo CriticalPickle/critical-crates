@@ -28,6 +28,6 @@
       "type": "minecraft:model",
       "model": "criticalcrates:block/pink_stained_glass_crate"
     },
-    "property": "criticalcrates:crate_data_key"
+    "property": "criticalcrates:crate_data_value"
   }
 }
