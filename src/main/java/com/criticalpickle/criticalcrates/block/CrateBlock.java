@@ -119,6 +119,11 @@ public class CrateBlock extends BaseEntityBlock {
         return hasFireEffect(state) ? 20 : 0;
     }
 
+    @Override
+    public boolean ignitedByLava(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return hasFireEffect(state);
+    }
+
     // Fire effects block: Y/N
     protected boolean hasFireEffect(BlockState state) {
         return !state.is(ModBlocks.CRIMSON_CRATE.get()) && !state.is(ModBlocks.WARPED_CRATE.get()) && !state.getValue(FIREPROOF);
