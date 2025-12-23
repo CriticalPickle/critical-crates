@@ -89,8 +89,11 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public void drop() {
         SimpleContainer containerInv = new SimpleContainer(inventory.size());
+        ItemStack stack;
         for(int i = 0; i < inventory.size(); i++) {
-            containerInv.setItem(i, inventory.getResource(i).toStack());
+            stack = inventory.getResource(i).toStack();
+            stack.setCount(inventory.getAmountAsInt(i));
+            containerInv.setItem(i, stack);
         }
 
         if(this.level != null) {

@@ -11,7 +11,7 @@
               "function": "minecraft:copy_components",
               "include": [
                 "minecraft:custom_data",
-                "minecraft:fire_resistant"
+                "minecraft:damage_resistant"
               ],
               "source": "block_entity"
             }

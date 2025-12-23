@@ -9,9 +9,7 @@
           "predicate": {
             "components": {
               "minecraft:enchantments": {
-                "levels": {
-                  "minecraft:silk_touch": 1
-                }
+                "minecraft:silk_touch": 1
               }
             }
           }
@@ -25,7 +23,7 @@
               "function": "minecraft:copy_components",
               "include": [
                 "minecraft:custom_data",
-                "minecraft:fire_resistant"
+                "minecraft:damage_resistant"
               ],
               "source": "block_entity"
             }
