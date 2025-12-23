@@ -2,7 +2,9 @@ package com.criticalpickle.criticalcrates.block.entity;
 
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.screen.CrateMenu;
+import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +22,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.Nullable;
 
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
@@ -35,6 +40,44 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
             }
         }
     };
+
+    private record SideHandler(ItemStacksResourceHandler handler, boolean isInsert, boolean isExtract) implements ResourceHandler<ItemResource> {
+        @Override
+        public int size() {
+            return handler.size();
+        }
+
+        @Override
+        public ItemResource getResource(int i) {
+            return handler.getResource(i);
+        }
+
+        @Override
+        public long getAmountAsLong(int i) {
+            return handler.getAmountAsLong(i);
+        }
+
+        @Override
+        public long getCapacityAsLong(int i, ItemResource resource) {
+            return handler.getCapacityAsLong(i, resource);
+        }
+
+        @Override
+        public boolean isValid(int i, ItemResource resource) {
+            return handler.isValid(i, resource);
+        }
+
+        @Override
+        public int insert(int i, ItemResource resource, int amount, TransactionContext transactionContext) {
+            return isInsert ? handler.insert(i, resource, amount, transactionContext) : 0;
+        }
+
+        @Override
+        public int extract(int i, ItemResource resource, int amount, TransactionContext transactionContext) {
+            return isExtract ? handler.extract(i, resource, amount, transactionContext) : 0;
+        }
+    }
+
 
     public CrateBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRATE_BE.get(), pos, blockState);
@@ -57,7 +100,10 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        if(!state.getValue(SWITCH)) {
+        if(state.getValue(SWITCH)) {
+            CacheSwitchInventory.cache(getInventory());
+        }
+        else {
             drop();
         }
         super.preRemoveSideEffects(pos, state);
@@ -83,17 +129,12 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-//    @Override
-//    public ResourceHandler<ItemResource> getSideHandler(Direction side) {
-//        ResourceHandler<ItemResource> handler = getItemHandler();
-//        if (side == Direction.DOWN) {
-//            return handler.filterInsert(res -> false)  // extract-only
-//                    .filterExtract(res -> true);
-//        } else {
-//            return handler.filterInsert(res -> true)  // insert-only
-//                    .filterExtract(res -> false);
-//        }
-//    }
+    public ResourceHandler<ItemResource> getInventorySide(Direction side) {
+        if(side == Direction.DOWN) {
+            return new SideHandler(inventory, false, true);
+        }
+        return new SideHandler(inventory, true, false);
+    }
 
     @Override
     protected void saveAdditional(ValueOutput output) {

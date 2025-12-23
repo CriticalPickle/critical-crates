@@ -1,5 +1,6 @@
 package com.criticalpickle.criticalcrates;
 
+import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.registration.ModRegistration;
@@ -36,7 +37,7 @@ public class CriticalCrates {
     public CriticalCrates(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-//        modEventBus.addListener(this::onRegisterCapabilities);
+        modEventBus.addListener(this::onRegisterCapabilities);
 
         ModRegistration.init(modEventBus);
 
@@ -61,10 +62,10 @@ public class CriticalCrates {
     }
 
     // Crate external item handler registration
-//    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-//        event.registerBlockEntity(Capabilities, ModBlockEntities.CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
-//        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), (blockEntity, side) -> blockEntity.getInventorySide(side));
-//    }
+    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.CRATE_BE.get(), CrateBlockEntity::getInventorySide);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
+    }
 
     // Add sound event to pliers item breaking in crafting table
     @SubscribeEvent

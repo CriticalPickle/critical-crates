@@ -205,14 +205,6 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    public static void onRemove(BlockState state, Level level, BlockPos pos) {
-        if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
-            if(state.getValue(SWITCH)) {
-                CacheSwitchInventory.cache(blockEntity.getInventory());
-            }
-        }
-    }
-
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(this);
@@ -417,7 +409,6 @@ public class CrateBlock extends BaseEntityBlock {
             setDataTagUpgrades(dataTag, false, false, false, null);
         }
 
-        onRemove(state, level, pos);
         level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
         level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
                 .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
