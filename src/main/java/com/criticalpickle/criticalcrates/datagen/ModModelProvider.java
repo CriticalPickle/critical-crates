@@ -6,6 +6,7 @@ import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.util.IDUtils;
+import com.criticalpickle.criticalcrates.util.ItemModelPropertyUtils;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -14,14 +15,15 @@ import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.block.model.Variant;
 import net.minecraft.client.renderer.block.model.VariantMutator;
+import net.minecraft.client.renderer.item.BlockModelWrapper;
+import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ModModelProvider extends ModelProvider {
     public ModModelProvider(PackOutput output) {
@@ -30,13 +32,13 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        for(int i = 0; i < ModItems.getCrateItems().length; i++) {
+            blockItemWithOverrides(ModItems.getCrateItems(i), itemModels);
+        }
+
         for(int i = 0; i < ModBlocks.getCrates().length; i++) {
             axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i), blockModels);
         }
-
-//        for(int i = 0; i < ModItems.getCrateItems().length; i++) {
-//            blockItemWithOverrides(ModItems.getCrateItems(i));
-//        }
 
         itemModels.generateFlatItem(ModItems.PLIERS_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), ModelTemplates.FLAT_ITEM);
@@ -136,30 +138,42 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
-//    private void blockItemWithOverrides(Item item) {
-//        String itemName = item.getDescriptionId().substring(item.getDescriptionId().indexOf("s.") + 2);
-//        ItemModelBuilder builder = withExistingParent(itemName, modLoc("block/" + itemName));
-//        Identifier resistanceResLoc = Identifier.tryBuild(CriticalCrates.MODID, "resistant");
-//        Identifier lampResLoc = Identifier.tryBuild(CriticalCrates.MODID, "lamp");
-//        Identifier fireResLoc = Identifier.tryBuild(CriticalCrates.MODID, "fire");
-//
-//        // Generate other variations
-//        withExistingParent(itemName + "_resistant", modLoc("block/" + itemName + "_resistant"));
-//        withExistingParent(itemName + "_lamp", modLoc("block/" + itemName + "_lamp"));
-//        withExistingParent(itemName + "_fireproof", modLoc("block/" + itemName + "_fireproof"));
-//
-//        // Generate base variation with appropriate references to overrides
-//        builder.override()
-//                .predicate(resistanceResLoc, 1)
-//                .model(getExistingFile(modLoc("block/" + itemName + "_resistant")))
-//                .end()
-//                .override()
-//                .predicate(lampResLoc, 1)
-//                .model(getExistingFile(modLoc("block/" + itemName + "_lamp")))
-//                .end()
-//                .override()
-//                .predicate(fireResLoc, 1)
-//                .model(getExistingFile(modLoc("block/" + itemName + "_fireproof")))
-//                .end();
-//    }
+    private void blockItemWithOverrides(Item item, ItemModelGenerators itemModels) {
+        String itemName = IDUtils.getItemID(item);
+
+        itemModels.itemModelOutput.accept(item, new SelectItemModel.Unbaked(
+                new SelectItemModel.UnbakedSwitch(
+                        new ItemModelPropertyUtils.CrateDataValue(),
+                        List.of(
+                                new SelectItemModel.SwitchCase(
+                                        List.of("resistant"),
+                                        new BlockModelWrapper.Unbaked(
+                                                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_resistant"),
+                                                Collections.emptyList()
+                                        )
+                                ),
+                                new SelectItemModel.SwitchCase(
+                                        List.of("lamp"),
+                                        new BlockModelWrapper.Unbaked(
+                                                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_lamp"),
+                                                Collections.emptyList()
+                                        )
+                                ),
+                                new SelectItemModel.SwitchCase(
+                                        List.of("fireproof"),
+                                        new BlockModelWrapper.Unbaked(
+                                                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_fireproof"),
+                                                Collections.emptyList()
+                                        )
+                                )
+                        )
+                ),
+                Optional.of(
+                        new BlockModelWrapper.Unbaked(
+                                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName),
+                                Collections.emptyList()
+                        )
+                )
+        ));
+    }
 }

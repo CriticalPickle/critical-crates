@@ -3,8 +3,9 @@ package com.criticalpickle.criticalcrates;
 import com.criticalpickle.criticalcrates.block.entity.renderer.GlassCrateBlockEntityRenderer;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.registration.ModMenuTypes;
-import com.criticalpickle.criticalcrates.registration.ModRegistration;
 import com.criticalpickle.criticalcrates.screen.CrateScreen;
+import com.criticalpickle.criticalcrates.util.ItemModelPropertyUtils;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -13,6 +14,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
@@ -37,5 +39,13 @@ public class CriticalCratesClient {
     @SubscribeEvent
     public static void registerBlockEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.GLASS_CRATE_BE.get(), GlassCrateBlockEntityRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerSelectProperties(RegisterSelectItemModelPropertyEvent event) {
+        event.register(
+                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "crate_data_key"),
+                ItemModelPropertyUtils.CrateDataValue.TYPE
+        );
     }
 }
