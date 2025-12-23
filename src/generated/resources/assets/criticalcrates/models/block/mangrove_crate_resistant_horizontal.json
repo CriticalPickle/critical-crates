@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column_horizontal",
-  "textures": {
-    "end": "criticalcrates:block/wood/mangrove_crate_resistant_top",
-    "side": "criticalcrates:block/wood/mangrove_crate_resistant"
-  }
-}
