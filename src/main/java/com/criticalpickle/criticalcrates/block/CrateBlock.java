@@ -6,7 +6,6 @@ import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
-import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import com.criticalpickle.criticalcrates.util.DataComponentUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

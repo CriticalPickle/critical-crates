@@ -47,6 +47,7 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModItems.SOAP.get(), ModelTemplates.FLAT_ITEM);
     }
 
+    // Generate block models and states for crate
     private void axisWithOtherPropertiesCrateBlock(Block block, BlockModelGenerators blockModels) {
         String blockName = IDUtils.getItemID(block.asItem()), blockType = block instanceof GlassCrateBlock ? "glass" : "wood";
         Identifier baseLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName),
@@ -94,6 +95,7 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
+    // Generate the model templates for crates
     private static Map<String, ModelTemplate> generateTemplates(Block block, String blockName, String blockType) {
         Map<String, ModelTemplate> templates = new HashMap<>();
 
@@ -120,6 +122,7 @@ public class ModModelProvider extends ModelProvider {
         return templates;
     }
 
+    // Create a new template based on passed in values
     private static ModelTemplate createTemplate(String blockName, String key, String blockType, boolean crate) {
         if(!crate) {
             throw new IllegalArgumentException("Block of " + blockName + " must be a crate from CriticalCrates!");
@@ -138,6 +141,7 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
+    // Generate crate item models that are dependent on custom data components
     private void blockItemWithOverrides(Item item, ItemModelGenerators itemModels) {
         String itemName = IDUtils.getItemID(item);
 
