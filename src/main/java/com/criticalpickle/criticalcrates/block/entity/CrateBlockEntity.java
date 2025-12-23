@@ -10,10 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.Containers;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,15 +20,21 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jetbrains.annotations.Nullable;
 
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
 
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
-    private NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
+    private final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(27) {
+        @Override
+        protected void onContentsChanged(int index, ItemStack previousContents) {
+            setChanged();
+            if(level != null && !level.isClientSide()) {
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            }
+        }
+    };
 
     public CrateBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRATE_BE.get(), pos, blockState);
@@ -44,7 +47,7 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     public void drop() {
         SimpleContainer containerInv = new SimpleContainer(inventory.size());
         for(int i = 0; i < inventory.size(); i++) {
-            containerInv.setItem(i, inventory.get(i));
+            containerInv.setItem(i, inventory.getResource(i).toStack());
         }
 
         if(this.level != null) {
@@ -52,14 +55,14 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    public NonNullList<ItemStack> getInventory() {
-        return this.inventory;
+    public ItemStacksResourceHandler getInventory() {
+        return inventory;
     }
 
-    public void copyInventory(NonNullList<ItemStack> oldInventory) {
+    public void copyInventory(ItemStacksResourceHandler oldInventory) {
         if(oldInventory != null) {
             for(int i = 0; i < this.inventory.size(); i++) {
-                this.inventory.set(i, oldInventory.get(i));
+                this.inventory.set(i, oldInventory.getResource(i), oldInventory.getAmountAsInt(i));
             }
         }
     }
@@ -70,10 +73,6 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         if(this.getLevel() != null && !this.getLevel().isClientSide() && this.getBlockState().getValue(SWITCH)) {
             this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(SWITCH, false));
         }
-    }
-
-    public ResourceHandler<ItemResource> getItemHandler() {
-        return new ItemStacksResourceHandler(inventory);
     }
 
 //    @Override
@@ -89,16 +88,24 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 //    }
 
     @Override
-    protected void saveAdditional(ValueOutput input) {
-        super.saveAdditional(input);
-        ContainerHelper.saveAllItems(input, this.inventory);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        inventory.serialize(output);
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        this.inventory = NonNullList.withSize(27, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, this.inventory);
+
+        if(input.child("Items").isPresent()) {
+            inventory.deserialize(input);
+        }
+        else if(input.child("inventory").isPresent()) {
+            NonNullList<ItemStack> stacks = NonNullList.withSize(27, ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(input.child("inventory").get(), stacks);
+            ItemStacksResourceHandler temp = new ItemStacksResourceHandler(stacks);
+            copyInventory(temp);
+        }
     }
 
     @Override
