@@ -1,6 +1,7 @@
 {
   "type": "crafting_shaped",
   "category": "equipment",
+  "group": "pliers",
   "pattern": [
     "L L",
     " I ",
