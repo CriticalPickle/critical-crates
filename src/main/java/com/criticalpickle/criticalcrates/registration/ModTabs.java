@@ -27,6 +27,12 @@ public class ModTabs {
                 ItemStack fireCrateStack = null;
                 CompoundTag dataTag = new CompoundTag();
 
+                output.accept(ModItems.PLIERS_ITEM.get());
+                output.accept(ModItems.SOAP.get());
+                output.accept(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
+                output.accept(ModItems.LAMP_SIMULATOR_ITEM.get());
+                output.accept(ModItems.FIREPROOFING_ITEM.get());
+
                 for(int i = 0; i < ModBlocks.getCrates().length; i++){
                     crateStack = new ItemStack(ModBlocks.getCrates(i));
                     resistantCrateStack = new ItemStack(ModBlocks.getCrates(i));
@@ -58,11 +64,5 @@ public class ModTabs {
                     fireCrateStack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
                     output.accept(fireCrateStack);
                 }
-
-                output.accept(ModItems.PLIERS_ITEM.get());
-                output.accept(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
-                output.accept(ModItems.LAMP_SIMULATOR_ITEM.get());
-                output.accept(ModItems.FIREPROOFING_ITEM.get());
-                output.accept(ModItems.SOAP.get());
             }).build());
 }
