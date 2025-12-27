@@ -18,6 +18,12 @@
       "predicate": {
         "criticalcrates:fire": 1.0
       }
+    },
+    {
+      "model": "criticalcrates:block/orange_stained_glass_crate_slimy",
+      "predicate": {
+        "criticalcrates:slimy": 1.0
+      }
     }
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "criticalcrates:block/wood/crimson_crate_slimy_top",
+    "side": "criticalcrates:block/wood/crimson_crate_slimy"
+  }
+}

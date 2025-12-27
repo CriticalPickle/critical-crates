@@ -1,5 +1,6 @@
 package com.criticalpickle.criticalcrates.datagen;
 
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import net.minecraft.core.HolderLookup;
@@ -49,6 +50,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
+                .requires(Items.SLIME_BALL)
+                .requires(Items.IRON_INGOT)
+                .requires(ModItems.PLIERS_ITEM.get())
+                .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                .group("slimy_framing")
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
+                .requires(Items.SLIME_BLOCK)
+                .requires(ModItems.PLIERS_ITEM.get())
+                .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                .group("slimy_framing")
+                .save(recipeOutput, CriticalCrates.MODID + ":slimy_framing_2");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SOAP.get(), 8)
                 .requires(Items.WATER_BUCKET)

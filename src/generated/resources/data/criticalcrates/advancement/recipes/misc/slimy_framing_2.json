@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pliers": {
+      "conditions": {
+        "items": [
+          {
+            "items": "criticalcrates:pliers"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "criticalcrates:slimy_framing_2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pliers"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "criticalcrates:slimy_framing_2"
+    ]
+  }
+}

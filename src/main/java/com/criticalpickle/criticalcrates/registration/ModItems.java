@@ -16,6 +16,7 @@ public class ModItems {
     public static final DeferredItem<Item> OBSIDIAN_REINFORCEMENT_ITEM = ITEMS.registerSimpleItem("obsidian_reinforcement");
     public static final DeferredItem<Item> LAMP_SIMULATOR_ITEM = ITEMS.registerSimpleItem("lamp_simulator");
     public static final DeferredItem<Item> FIREPROOFING_ITEM = ITEMS.registerSimpleItem("fireproofing");
+    public static final DeferredItem<Item> SLIMY_FRAMING_ITEM = ITEMS.registerSimpleItem("slimy_framing");
     public static final DeferredItem<Item> SOAP = ITEMS.registerSimpleItem("soap");
 
     // Get the items associated with crates

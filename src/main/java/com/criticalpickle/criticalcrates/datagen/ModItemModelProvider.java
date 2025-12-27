@@ -23,6 +23,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
         basicItem(ModItems.LAMP_SIMULATOR_ITEM.get());
         basicItem(ModItems.FIREPROOFING_ITEM.get());
+        basicItem(ModItems.SLIMY_FRAMING_ITEM.get());
         basicItem(ModItems.SOAP.get());
     }
 
@@ -32,11 +33,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation resistanceResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "resistant");
         ResourceLocation lampResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "lamp");
         ResourceLocation fireResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "fire");
+        ResourceLocation slimyResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "slimy");
 
         // Generate other variations
         withExistingParent(itemName + "_resistant", modLoc("block/" + itemName + "_resistant"));
         withExistingParent(itemName + "_lamp", modLoc("block/" + itemName + "_lamp"));
         withExistingParent(itemName + "_fireproof", modLoc("block/" + itemName + "_fireproof"));
+        withExistingParent(itemName + "_slimy", modLoc("block/" + itemName + "_slimy"));
 
         // Generate base variation with appropriate references to overrides
         builder.override()
@@ -50,6 +53,10 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override()
                 .predicate(fireResLoc, 1)
                 .model(getExistingFile(modLoc("block/" + itemName + "_fireproof")))
+                .end()
+                .override()
+                .predicate(slimyResLoc, 1)
+                .model(getExistingFile(modLoc("block/" + itemName + "_slimy")))
                 .end();
     }
 }

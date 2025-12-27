@@ -36,66 +36,70 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 for(boolean lamp : new boolean[]{false, true}) {
                     for(boolean lit : new boolean[]{false, true}) {
                         for(boolean fire : new boolean[]{false, true}) {
-                            if(resistance) {
-                                path = blockName + "_resistant";
-                            }
-                            else if(lamp) {
-                                path = lit ? blockName + "_lamp_on" : blockName + "_lamp";
-                            }
-                            else if(fire) {
-                                path = blockName + "_fireproof";
-                            }
-                            else {
-                                path = blockName;
-                            }
-
-                            if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
-                                path += "_horizontal";
-                            }
-
-                            int x = axis == Direction.Axis.Y ? 0 : 90;
-                            int y = axis == Direction.Axis.X ? 90 : 0;
-
-                            if (path.contains("horizontal")) {
-                                String name = path.substring(0, path.indexOf("_horizontal"));
-                                if(block instanceof GlassCrateBlock) {
-                                    model = ConfiguredModel.builder()
-                                            .modelFile(models().cubeColumnHorizontal(path, modLoc("block/glass/" + name), modLoc("block/glass/" + name + "_top")).renderType("translucent"))
-                                            .rotationX(x)
-                                            .rotationY(y)
-                                            .build()[0];
+                            for(boolean slimy : new boolean[]{false, true}) {
+                                if(resistance) {
+                                    path = blockName + "_resistant";
+                                }
+                                else if(lamp) {
+                                    path = lit ? blockName + "_lamp_on" : blockName + "_lamp";
+                                }
+                                else if(fire) {
+                                    path = blockName + "_fireproof";
+                                }
+                                else if(slimy) {
+                                    path = blockName + "_slimy";
                                 }
                                 else {
-                                    model = ConfiguredModel.builder()
-                                            .modelFile(models().cubeColumnHorizontal(path, modLoc("block/wood/" + name), modLoc("block/wood/" + name + "_top")))
-                                            .rotationX(x)
-                                            .rotationY(y)
-                                            .build()[0];
+                                    path = blockName;
                                 }
-                            } else {
-                                if(block instanceof GlassCrateBlock) {
-                                    model = ConfiguredModel.builder()
-                                            .modelFile(models().cubeColumn(path, modLoc("block/glass/" + path), modLoc("block/glass/" + path + "_top")).renderType("translucent"))
-                                            .rotationX(x)
-                                            .rotationY(y)
-                                            .build()[0];
-                                }
-                                else {
-                                    model = ConfiguredModel.builder()
-                                            .modelFile(models().cubeColumn(path, modLoc("block/wood/" + path), modLoc("block/wood/" + path + "_top")))
-                                            .rotationX(x)
-                                            .rotationY(y)
-                                            .build()[0];
-                                }
-                            }
 
-                            builder.partialState()
-                                    .with(CrateBlock.AXIS, axis)
-                                    .with(CrateBlock.EXPLOSION_RESIST, resistance)
-                                    .with(CrateBlock.LAMP_UPGRADE, lamp)
-                                    .with(CrateBlock.LIT, lit)
-                                    .with(CrateBlock.FIREPROOF, fire)
-                                    .addModels(model);
+                                if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
+                                    path += "_horizontal";
+                                }
+
+                                int x = axis == Direction.Axis.Y ? 0 : 90;
+                                int y = axis == Direction.Axis.X ? 90 : 0;
+
+                                if (path.contains("horizontal")) {
+                                    String name = path.substring(0, path.indexOf("_horizontal"));
+                                    if (block instanceof GlassCrateBlock) {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumnHorizontal(path, modLoc("block/glass/" + name), modLoc("block/glass/" + name + "_top")).renderType("translucent"))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    } else {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumnHorizontal(path, modLoc("block/wood/" + name), modLoc("block/wood/" + name + "_top")))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    }
+                                } else {
+                                    if (block instanceof GlassCrateBlock) {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumn(path, modLoc("block/glass/" + path), modLoc("block/glass/" + path + "_top")).renderType("translucent"))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    } else {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumn(path, modLoc("block/wood/" + path), modLoc("block/wood/" + path + "_top")))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    }
+                                }
+
+                                builder.partialState()
+                                        .with(CrateBlock.AXIS, axis)
+                                        .with(CrateBlock.EXPLOSION_RESIST, resistance)
+                                        .with(CrateBlock.LAMP_UPGRADE, lamp)
+                                        .with(CrateBlock.LIT, lit)
+                                        .with(CrateBlock.FIREPROOF, fire)
+                                        .with(CrateBlock.SLIMY, slimy)
+                                        .addModels(model);
+                            }
                         }
                     }
                 }

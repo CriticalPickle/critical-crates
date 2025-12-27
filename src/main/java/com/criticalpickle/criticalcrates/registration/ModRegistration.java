@@ -28,8 +28,9 @@ public class ModRegistration {
         ResourceLocation resistanceResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "resistant");
         ResourceLocation lampResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "lamp");
         ResourceLocation fireResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "fire");
+        ResourceLocation slimyResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "slimy");
 
-        if(resistanceResLoc != null && lampResLoc != null && fireResLoc != null) {
+        if(resistanceResLoc != null && lampResLoc != null && fireResLoc != null && slimyResLoc != null) {
             for(int i = 0; i < ModItems.getCrateItems().length; i++){
                 ItemProperties.register(ModItems.getCrateItems(i), resistanceResLoc, (stack, world, entity, seed) -> {
                     if (stack.get(DataComponents.CUSTOM_DATA) != null && stack.get(DataComponents.CUSTOM_DATA).contains("explosion_resistant")) {
@@ -51,6 +52,14 @@ public class ModRegistration {
                     if (stack.get(DataComponents.CUSTOM_DATA) != null && stack.get(DataComponents.CUSTOM_DATA).contains("fireproof")) {
                         boolean fire = stack.get(DataComponents.CUSTOM_DATA).copyTag().getBoolean("fireproof");
                         return fire ? 1.0F : 0.0F;
+                    }
+                    return 0.0F;
+                });
+
+                ItemProperties.register(ModItems.getCrateItems(i), slimyResLoc, (stack, world, entity, seed) -> {
+                    if (stack.get(DataComponents.CUSTOM_DATA) != null && stack.get(DataComponents.CUSTOM_DATA).contains("slimy")) {
+                        boolean slimy = stack.get(DataComponents.CUSTOM_DATA).copyTag().getBoolean("slimy");
+                        return slimy ? 1.0F : 0.0F;
                     }
                     return 0.0F;
                 });
