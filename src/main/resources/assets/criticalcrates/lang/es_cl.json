@@ -37,9 +37,11 @@
   "item.criticalcrates.obsidian_reinforcement": "Refuerzo de obsidiana",
   "item.criticalcrates.lamp_simulator": "Simulador de lámpara",
   "item.criticalcrates.fireproofing": "Protección contra fuego",
+  "item.criticalcrates.slimy_framing": "Armazón viscoso",
   "tooltip.crate.obsidian_reinforcement_upgraded": "Resiste explosiones",
   "tooltip.crate.lamp_simulator_upgraded": "Emite luz",
   "tooltip.crate.fireproofing_upgraded": "A prueba de fuego",
+  "tooltip.crate.slimy_framing_upgraded": "Fácil de romper y rebotador",
   "item.criticalcrates.soap": "Jabón",
 
   "criticalcrates.configuration.title": "Configuración de Critical Crates",

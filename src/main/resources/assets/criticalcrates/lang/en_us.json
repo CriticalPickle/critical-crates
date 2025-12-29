@@ -37,9 +37,11 @@
   "item.criticalcrates.obsidian_reinforcement": "Obsidian Reinforcement",
   "item.criticalcrates.lamp_simulator": "Lamp Simulator",
   "item.criticalcrates.fireproofing": "Fireproofing",
+  "item.criticalcrates.slimy_framing": "Slimy Framing",
   "tooltip.crate.obsidian_reinforcement_upgraded": "Blast Resistant",
   "tooltip.crate.lamp_simulator_upgraded": "Light Emissive",
   "tooltip.crate.fireproofing_upgraded": "Fireproof",
+  "tooltip.crate.slimy_framing_upgraded": "Easy Breaking and Bouncy",
   "item.criticalcrates.soap": "Soap",
 
   "criticalcrates.configuration.title": "Critical Crates Configs",

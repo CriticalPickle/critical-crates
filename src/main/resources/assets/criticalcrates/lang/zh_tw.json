@@ -37,9 +37,11 @@
   "item.criticalcrates.obsidian_reinforcement": "黑曜石加固",
   "item.criticalcrates.lamp_simulator": "燈光模擬器",
   "item.criticalcrates.fireproofing": "防火處理",
+  "item.criticalcrates.slimy_framing": "黏滑框架",
   "tooltip.crate.obsidian_reinforcement_upgraded": "抗爆",
   "tooltip.crate.lamp_simulator_upgraded": "發光",
   "tooltip.crate.fireproofing_upgraded": "防火",
+  "tooltip.crate.slimy_framing_upgraded": "容易破壞且會彈跳",
   "item.criticalcrates.soap": "肥皂",
 
   "criticalcrates.configuration.title": "Critical Crates 設定",
