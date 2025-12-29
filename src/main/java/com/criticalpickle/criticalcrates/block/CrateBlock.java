@@ -524,7 +524,7 @@ public class CrateBlock extends BaseEntityBlock {
 
     // Check if crate is currently able to be dyed with a specific dye item
     private boolean validDye(BlockState state, Item item) {
-        if(Config.GLASS_CRATES_DYEABLE.getAsBoolean() && state.getBlock() instanceof GlassCrateBlock) {
+        if((Config.STAINED_CRATES_DYEABLE.getAsBoolean() || Config.GLASS_CRATES_DYEABLE.getAsBoolean()) && state.getBlock() instanceof GlassCrateBlock) {
             List<Item> dye = List.of(
                     Items.WHITE_DYE,
                     Items.LIGHT_GRAY_DYE,
@@ -548,11 +548,12 @@ public class CrateBlock extends BaseEntityBlock {
                 String crateType = state.getBlock().getDescriptionId().substring(state.getBlock().getDescriptionId().indexOf("s.") + 2, state.getBlock().getDescriptionId().indexOf("_crate")),
                         itemColor = item.getDescriptionId().substring(item.getDescriptionId().indexOf("minecraft.") + 10, item.getDescriptionId().indexOf("_dye"));
 
-                if(crateType.contains("_stained") && !itemColor.equals(crateType.substring(0, crateType.indexOf("_stained")))) {
+                if(Config.STAINED_CRATES_DYEABLE.getAsBoolean() && crateType.contains("_stained") && !itemColor.equals(crateType.substring(0, crateType.indexOf("_stained")))) {
                     return true;
                 }
-
-                return crateType.equals("glass");
+                else if(Config.GLASS_CRATES_DYEABLE.getAsBoolean()) {
+                    return crateType.equals("glass");
+                }
             }
         }
 

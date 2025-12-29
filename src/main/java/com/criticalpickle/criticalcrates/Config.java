@@ -9,9 +9,13 @@ public class Config {
             .comment(" Whether to allow removal of addons from crates.\n Default is 'addonsRemovable = true'.")
             .define("addonsRemovable", true);
 
+    public static final ModConfigSpec.BooleanValue STAINED_CRATES_DYEABLE = BUILDER
+            .comment(" ---\n Whether to allow dyeing of stained glass crates.\n Default is 'stainedCrateDyeing = true'.")
+            .define("stainedCrateDyeing", true);
+
     public static final ModConfigSpec.BooleanValue GLASS_CRATES_DYEABLE = BUILDER
-            .comment(" ---\n Whether to allow universal dyeing of glass crates.\n Default is 'universalDyeing = true'.")
-            .define("universalDyeing", true);
+            .comment(" ---\n Whether to allow dyeing of not stained glass crates.\n Default is 'glassCrateDyeing = true'.")
+            .define("glassCrateDyeing", true);
 
     public static final ModConfigSpec.BooleanValue STAINED_COLOR_REMOVABLE = BUILDER
             .comment(" ---\n Whether to allow the removal of color from stained crates.\n Default is 'colorRemovable = true'.")
