@@ -42,15 +42,15 @@
   "tooltip.crate.fireproofing_upgraded": "A prueba de fuego",
   "item.criticalcrates.soap": "Jabón",
 
-  "criticalmod.configuration.title": "Configuración de Critical Crates",
-  "criticalmod.configuration.section.criticalcrates.common.toml": "Configuración de Critical Crates",
-  "criticalmod.configuration.section.criticalcrates.common.toml.title": "Configuración de Critical Crates",
-  "criticalmod.configuration.addonsRemovable": "Complementos extraíbles de las cajas",
-  "criticalmod.configuration.addonsRemovable.tooltip": "Permite o no quitar los complementos de las cajas.",
-  "criticalmod.configuration.universalDyeing": "Cajas de cristal teñibles",
-  "criticalmod.configuration.universalDyeing.tooltip": "Permite o no teñir cualquier caja de cristal.",
-  "criticalmod.configuration.colorRemovable": "Color extraíble de las cajas",
-  "criticalmod.configuration.colorRemovable.tooltip": "Permite o no quitar el color de las cajas teñidas.",
-  "criticalmod.configuration.glassChangeGlassCrate": "El cristal cambia las cajas de cristal",
-  "criticalmod.configuration.glassChangeGlassCrate.tooltip": "Permite o no cambiar las cajas de cristal usando cristal, igual que las de madera."
+  "criticalcrates.configuration.title": "Configuración de Critical Crates",
+  "criticalcrates.configuration.section.criticalcrates.common.toml": "Configuración de Critical Crates",
+  "criticalcrates.configuration.section.criticalcrates.common.toml.title": "Configuración de Critical Crates",
+  "criticalcrates.configuration.addonsRemovable": "Complementos extraíbles de las cajas",
+  "criticalcrates.configuration.addonsRemovable.tooltip": "Permite o no quitar los complementos de las cajas.",
+  "criticalcrates.configuration.universalDyeing": "Cajas de cristal teñibles",
+  "criticalcrates.configuration.universalDyeing.tooltip": "Permite o no teñir cualquier caja de cristal.",
+  "criticalcrates.configuration.colorRemovable": "Color extraíble de las cajas",
+  "criticalcrates.configuration.colorRemovable.tooltip": "Permite o no quitar el color de las cajas teñidas.",
+  "criticalcrates.configuration.glassChangeGlassCrate": "El cristal cambia las cajas de cristal",
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Permite o no cambiar las cajas de cristal usando cristal, igual que las de madera."
 }

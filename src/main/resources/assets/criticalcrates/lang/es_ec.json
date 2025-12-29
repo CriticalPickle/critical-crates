@@ -42,15 +42,15 @@
   "tooltip.crate.fireproofing_upgraded": "A prueba de fuego",
   "item.criticalcrates.soap": "Jabón",
 
-  "criticalmod.configuration.title": "Configuración de Critical Crates",
-  "criticalmod.configuration.section.criticalcrates.common.toml": "Configuración de Critical Crates",
-  "criticalmod.configuration.section.criticalcrates.common.toml.title": "Configuración de Critical Crates",
-  "criticalmod.configuration.addonsRemovable": "Complementos removibles de las cajas",
-  "criticalmod.configuration.addonsRemovable.tooltip": "Permite quitar los complementos de las cajas.",
-  "criticalmod.configuration.universalDyeing": "Cajas de vidrio teñibles",
-  "criticalmod.configuration.universalDyeing.tooltip": "Permite teñir cualquier caja de vidrio.",
-  "criticalmod.configuration.colorRemovable": "Color removible de las cajas",
-  "criticalmod.configuration.colorRemovable.tooltip": "Permite quitar el color de las cajas teñidas.",
-  "criticalmod.configuration.glassChangeGlassCrate": "El vidrio cambia las cajas de vidrio",
-  "criticalmod.configuration.glassChangeGlassCrate.tooltip": "Permite cambiar las cajas de vidrio usando vidrio, igual que con las de madera."
+  "criticalcrates.configuration.title": "Configuración de Critical Crates",
+  "criticalcrates.configuration.section.criticalcrates.common.toml": "Configuración de Critical Crates",
+  "criticalcrates.configuration.section.criticalcrates.common.toml.title": "Configuración de Critical Crates",
+  "criticalcrates.configuration.addonsRemovable": "Complementos removibles de las cajas",
+  "criticalcrates.configuration.addonsRemovable.tooltip": "Permite quitar los complementos de las cajas.",
+  "criticalcrates.configuration.universalDyeing": "Cajas de vidrio teñibles",
+  "criticalcrates.configuration.universalDyeing.tooltip": "Permite teñir cualquier caja de vidrio.",
+  "criticalcrates.configuration.colorRemovable": "Color removible de las cajas",
+  "criticalcrates.configuration.colorRemovable.tooltip": "Permite quitar el color de las cajas teñidas.",
+  "criticalcrates.configuration.glassChangeGlassCrate": "El vidrio cambia las cajas de vidrio",
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Permite cambiar las cajas de vidrio usando vidrio, igual que con las de madera."
 }
