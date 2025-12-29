@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "slimy_framing",
+  "ingredients": [
+    "minecraft:slime_block",
+    "criticalcrates:pliers"
+  ],
+  "result": {
+    "count": 8,
+    "id": "criticalcrates:slimy_framing"
+  }
+}
