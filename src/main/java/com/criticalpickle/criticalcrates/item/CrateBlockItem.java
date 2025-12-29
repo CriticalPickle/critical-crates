@@ -33,8 +33,9 @@ public class CrateBlockItem extends BlockItem {
             dataTag.putBoolean("explosion_resistant", false);
             dataTag.putBoolean("lamp_upgrade", false);
             dataTag.putBoolean("fireproof", false);
+            dataTag.putBoolean("slimy", false);
         }
-        else if(!data.contains("explosion_resistant") || !data.contains("lamp_upgrade") || !data.contains("fireproof")) {
+        else if(!data.contains("explosion_resistant") || !data.contains("lamp_upgrade") || !data.contains("fireproof") || !data.contains("slimy")) {
             if(!data.contains("explosion_resistant")) {
                 dataTag.putBoolean("explosion_resistant", false);
             }
@@ -46,6 +47,10 @@ public class CrateBlockItem extends BlockItem {
             if(!data.contains("fireproof")) {
                 dataTag.putBoolean("fireproof", false);
             }
+
+            if(!data.contains("slimy")) {
+                dataTag.putBoolean("slimy", false);
+            }
          }
 
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
@@ -55,7 +60,7 @@ public class CrateBlockItem extends BlockItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         CustomData data = stack.get(DataComponents.CUSTOM_DATA);
-        boolean resistant = false, lamp = false, fire = false;
+        boolean resistant = false, lamp = false, fire = false, slimy = false;
 
         // Get value (if any)
         if(!stack.isEmpty() && data != null) {
@@ -70,6 +75,10 @@ public class CrateBlockItem extends BlockItem {
             if(data.contains("fireproof")) {
                 fire = data.copyTag().getBoolean("fireproof").get();
             }
+
+            if(data.contains("slimy")) {
+                slimy = data.copyTag().getBoolean("slimy").get();
+            }
         }
 
         // Set tooltip for appropriate property
@@ -81,6 +90,9 @@ public class CrateBlockItem extends BlockItem {
         }
         else if(fire) {
             tooltipAdder.accept(Component.translatable("tooltip.crate.fireproofing_upgraded").withStyle(ChatFormatting.GOLD));
+        }
+        else if(slimy) {
+            tooltipAdder.accept(Component.translatable("tooltip.crate.slimy_framing_upgraded").withStyle(ChatFormatting.GREEN));
         }
     }
 }

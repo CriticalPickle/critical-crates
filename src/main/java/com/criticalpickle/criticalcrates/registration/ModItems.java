@@ -20,6 +20,7 @@ public class ModItems {
     public static final DeferredItem<Item> OBSIDIAN_REINFORCEMENT_ITEM = ITEMS.registerSimpleItem("obsidian_reinforcement", () -> new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("criticalcrates", "obsidian_reinforcement"))));
     public static final DeferredItem<Item> LAMP_SIMULATOR_ITEM = ITEMS.registerSimpleItem("lamp_simulator", () -> new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("criticalcrates", "lamp_simulator"))));
     public static final DeferredItem<Item> FIREPROOFING_ITEM = ITEMS.registerSimpleItem("fireproofing", () -> new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("criticalcrates", "fireproofing"))));
+    public static final DeferredItem<Item> SLIMY_FRAMING_ITEM = ITEMS.registerSimpleItem("slimy_framing", () -> new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("criticalcrates", "slimy_framing"))));
     public static final DeferredItem<Item> SOAP = ITEMS.registerSimpleItem("soap", () -> new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("criticalcrates", "soap"))));
 
     // Get the items associated with crates

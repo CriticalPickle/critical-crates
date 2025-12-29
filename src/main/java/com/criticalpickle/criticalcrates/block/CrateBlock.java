@@ -21,6 +21,8 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -45,6 +47,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,6 +62,7 @@ public class CrateBlock extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty FIREPROOF = BooleanProperty.create("fireproof");
+    public static final BooleanProperty SLIMY = BooleanProperty.create("slimy");
 
     @Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
@@ -69,19 +73,19 @@ public class CrateBlock extends BaseEntityBlock {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SWITCH, false)
                 .setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false).setValue(LIT, false)
-                .setValue(POWERED, false).setValue(FIREPROOF, false));
+                .setValue(POWERED, false).setValue(FIREPROOF, false).setValue(SLIMY, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AXIS, SWITCH, EXPLOSION_RESIST, LAMP_UPGRADE, LIT, POWERED, FIREPROOF);
+        builder.add(AXIS, SWITCH, EXPLOSION_RESIST, LAMP_UPGRADE, LIT, POWERED, FIREPROOF, SLIMY);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction.Axis axis = context.getClickedFace().getAxis();
         CustomData data = context.getItemInHand().get(DataComponents.CUSTOM_DATA);
-        boolean resistant = false, lamp = false, fire = false;
+        boolean resistant = false, lamp = false, fire = false, slimy = false;
 
         if(data != null) {
             if(data.contains("explosion_resistant")) {
@@ -95,10 +99,14 @@ public class CrateBlock extends BaseEntityBlock {
             if(data.contains("fireproof")) {
                 fire = data.copyTag().getBoolean("fireproof").get();
             }
+
+            if(data.contains("slimy")) {
+                slimy = data.copyTag().getBoolean("slimy").get();
+            }
         }
 
         return this.defaultBlockState().setValue(AXIS, axis).setValue(SWITCH, false)
-                .setValue(EXPLOSION_RESIST, resistant).setValue(LAMP_UPGRADE, lamp).setValue(FIREPROOF, fire);
+                .setValue(EXPLOSION_RESIST, resistant).setValue(LAMP_UPGRADE, lamp).setValue(FIREPROOF, fire).setValue(SLIMY, slimy);
     }
 
     @Override
@@ -147,6 +155,55 @@ public class CrateBlock extends BaseEntityBlock {
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction p_435855_) {
         return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance) {
+        if(!state.getValue(SLIMY) || entity.isSuppressingBounce()) {
+            super.fallOn(level, state, pos, entity, fallDistance);
+        }
+        else {
+            entity.causeFallDamage(fallDistance, 0.0F, level.damageSources().fall());
+        }
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        if(state.getValue(SLIMY)) {
+            double d0 = Math.abs(entity.getDeltaMovement().y);
+            if (d0 < 0.1 && !entity.isSteppingCarefully()) {
+                double d1 = 0.4 + d0 * 0.2;
+                entity.setDeltaMovement(entity.getDeltaMovement().multiply(d1, 1.0, d1));
+            }
+        }
+        super.stepOn(level, pos, state, entity);
+    }
+
+    @Override
+    public void updateEntityMovementAfterFallOn(BlockGetter level, Entity entity) {
+        if(!level.getBlockState(entity.getOnPos()).getValue(SLIMY) || entity.isSuppressingBounce()) {
+            super.updateEntityMovementAfterFallOn(level, entity);
+        }
+        else {
+            this.bounceUp(entity);
+        }
+    }
+
+    private void bounceUp(Entity entity) {
+        Vec3 vec3 = entity.getDeltaMovement();
+        if (vec3.y < 0.0) {
+            double d0 = entity instanceof LivingEntity ? 1.0 : 0.8;
+            entity.setDeltaMovement(vec3.x, -vec3.y * d0, vec3.z);
+        }
+    }
+
+    @Override
+    protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+        if(state.getValue(SLIMY)) {
+            // Return float greater than 1 for instant slime-like breaking
+            return 1.01F;
+        }
+        return super.getDestroyProgress(state, player, level, pos);
     }
 
     @Override
@@ -218,6 +275,7 @@ public class CrateBlock extends BaseEntityBlock {
         dataTag.putBoolean("explosion_resistant", state.getValue(EXPLOSION_RESIST));
         dataTag.putBoolean("lamp_upgrade", state.getValue(LAMP_UPGRADE));
         dataTag.putBoolean("fireproof", state.getValue(FIREPROOF));
+        dataTag.putBoolean("slimy", state.getValue(SLIMY));
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
 
         if(dataTag.getBoolean("fireproof").get()) {
@@ -257,10 +315,10 @@ public class CrateBlock extends BaseEntityBlock {
             // Check for item change conditions
             if(Config.ADDONS_REMOVABLE.getAsBoolean() && hasUpgrades(state) && itemInStack == ModItems.PLIERS_ITEM.get()) {
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false)
-                        .setValue(LIT, false).setValue(FIREPROOF, false));
+                        .setValue(LIT, false).setValue(FIREPROOF, false).setValue(SLIMY, false));
 
                 spawnRemovedUpgrades(state, level, pos);
-                setDataTagUpgrades(dataTag, false, false, false, null);
+                setDataTagUpgrades(dataTag, false, false, false, false,null);
             }
             else if(Config.STAINED_COLOR_REMOVABLE.getAsBoolean() && hasSoap(itemInStack, state)) {
                 Block crateBlock = getCrateBlock("item.criticalcrates.glass_crate");
@@ -274,17 +332,22 @@ public class CrateBlock extends BaseEntityBlock {
             else if(!hasUpgrades(state) && itemInStack == ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, true));
-                setDataTagUpgrades(dataTag, true, false, false, null);
+                setDataTagUpgrades(dataTag, true, false, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.LAMP_SIMULATOR_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(LAMP_UPGRADE, true));
-                setDataTagUpgrades(dataTag, false, true, false, null);
+                setDataTagUpgrades(dataTag, false, true, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.FIREPROOFING_ITEM.get()) {
                 stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(FIREPROOF, true));
-                setDataTagUpgrades(dataTag, false, false, true, blockEntity);
+                setDataTagUpgrades(dataTag, false, false, true, false, blockEntity);
+            }
+            else if(!hasUpgrades(state) && itemInStack == ModItems.SLIMY_FRAMING_ITEM.get()) {
+                stack.shrink(1);
+                level.setBlockAndUpdate(pos, state.setValue(SLIMY, true));
+                setDataTagUpgrades(dataTag, false, false, false, true, blockEntity);
             }
             else if(validDye(state, itemInStack)) {
                 String dyeColor = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10, itemInStack.getDescriptionId().indexOf("_dye"));
@@ -323,30 +386,41 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     // Set upgrades for all crate data
-    private static void setDataTagUpgrades(CompoundTag dataTag, boolean resistant, boolean lamp, boolean fire, BlockEntity blockEntity) {
+    private static void setDataTagUpgrades(CompoundTag dataTag, boolean resistant, boolean lamp,
+                                           boolean fire, boolean slimy, BlockEntity blockEntity) {
         if(resistant) {
             dataTag.putBoolean("explosion_resistant", true);
             dataTag.putBoolean("lamp_upgrade", false);
             dataTag.putBoolean("fireproof", false);
+            dataTag.putBoolean("slimy", false);
         }
         else if(lamp) {
             dataTag.putBoolean("explosion_resistant", false);
             dataTag.putBoolean("lamp_upgrade", true);
             dataTag.putBoolean("fireproof", false);
+            dataTag.putBoolean("slimy", false);
         }
         else if(fire) {
             dataTag.putBoolean("explosion_resistant", false);
             dataTag.putBoolean("lamp_upgrade", false);
             dataTag.putBoolean("fireproof", true);
+            dataTag.putBoolean("slimy", false);
 
             if(blockEntity != null) {
                 DataComponentUtils.addBlockEntityDataComponents(blockEntity, dataTag, true);
             }
         }
+        else if(slimy) {
+            dataTag.putBoolean("explosion_resistant", false);
+            dataTag.putBoolean("lamp_upgrade", false);
+            dataTag.putBoolean("fireproof", false);
+            dataTag.putBoolean("slimy", true);
+        }
         else {
             dataTag.putBoolean("explosion_resistant", false);
             dataTag.putBoolean("lamp_upgrade", false);
             dataTag.putBoolean("fireproof", false);
+            dataTag.putBoolean("slimy", false);
         }
     }
 
@@ -364,6 +438,10 @@ public class CrateBlock extends BaseEntityBlock {
             level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
                     new ItemStack(ModItems.FIREPROOFING_ITEM.get())));
         }
+        else if(state.getValue(SLIMY)) {
+            level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                    new ItemStack(ModItems.SLIMY_FRAMING_ITEM.get())));
+        }
     }
 
     // Check if item is soap and block is able to be cleaned
@@ -375,7 +453,7 @@ public class CrateBlock extends BaseEntityBlock {
 
     // Crate has upgrades: Y/N
     private static boolean hasUpgrades(BlockState state) {
-        return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF);
+        return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF) || state.getValue(SLIMY);
     }
 
     // Get crate block given a string
@@ -392,33 +470,38 @@ public class CrateBlock extends BaseEntityBlock {
 
     // Switch state of crate to state of "crateBlock"
     private static BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
-        boolean resistant, lamp, fire;
+        boolean resistant, lamp, fire, slimy;
 
         if(hasUpgrades(state)) {
             if(state.getValue(EXPLOSION_RESIST)) {
                 resistant = true;
-                lamp = fire = false;
-                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                lamp = fire = slimy = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, slimy, null);
             }
             else if(state.getValue(LAMP_UPGRADE)) {
                 lamp = true;
-                resistant = fire = false;
-                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                resistant = fire = slimy = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, slimy, null);
             }
             else if(state.getValue(FIREPROOF)) {
                 fire = true;
-                resistant = lamp = false;
-                setDataTagUpgrades(dataTag, resistant, lamp, fire, null);
+                resistant = lamp = slimy = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, slimy, null);
+            }else if(state.getValue(SLIMY)) {
+                slimy = true;
+                resistant = lamp = fire = false;
+                setDataTagUpgrades(dataTag, resistant, lamp, fire, slimy, null);
             }
         }
         else {
-            setDataTagUpgrades(dataTag, false, false, false, null);
+            setDataTagUpgrades(dataTag, false, false, false, false, null);
         }
 
         level.setBlockAndUpdate(pos, state.setValue(SWITCH, true));
         level.setBlockAndUpdate(pos, crateBlock.defaultBlockState().setValue(AXIS, state.getValue(AXIS)).setValue(SWITCH, true)
                 .setValue(EXPLOSION_RESIST, state.getValue(EXPLOSION_RESIST)).setValue(LAMP_UPGRADE, state.getValue(LAMP_UPGRADE))
-                .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF)));
+                .setValue(LIT, state.getValue(LIT)).setValue(POWERED, state.getValue(POWERED)).setValue(FIREPROOF, state.getValue(FIREPROOF))
+                .setValue(SLIMY, state.getValue(SLIMY)));
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(dataTag.getBoolean("fireproof").get() && blockEntity != null) {

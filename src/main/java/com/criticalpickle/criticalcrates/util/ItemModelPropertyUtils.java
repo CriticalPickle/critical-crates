@@ -32,6 +32,9 @@ public class ItemModelPropertyUtils {
                 else if(dataTag.getBooleanOr("fireproof", false)) {
                     return "fireproof";
                 }
+                else if(dataTag.getBooleanOr("slimy", false)) {
+                    return "slimy";
+                }
             }
             return "";
         }

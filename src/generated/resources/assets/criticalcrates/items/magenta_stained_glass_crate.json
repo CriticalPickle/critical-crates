@@ -22,6 +22,13 @@
           "model": "criticalcrates:block/magenta_stained_glass_crate_fireproof"
         },
         "when": "fireproof"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "criticalcrates:block/magenta_stained_glass_crate_slimy"
+        },
+        "when": "slimy"
       }
     ],
     "fallback": {

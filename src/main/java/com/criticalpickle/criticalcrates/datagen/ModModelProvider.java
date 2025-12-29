@@ -44,6 +44,7 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.LAMP_SIMULATOR_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.FIREPROOFING_ITEM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.SLIMY_FRAMING_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SOAP.get(), ModelTemplates.FLAT_ITEM);
     }
 
@@ -54,7 +55,8 @@ public class ModModelProvider extends ModelProvider {
                 resistantLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_resistant"),
                 lampLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_lamp"),
                 lampOnLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_lamp_on"),
-                fireLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_fireproof");
+                fireLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_fireproof"),
+                slimyLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_slimy");
         Variant base = new Variant(baseLoc);
 
         Map<String, ModelTemplate> templates = generateTemplates(block, blockName, blockType);
@@ -92,6 +94,10 @@ public class ModModelProvider extends ModelProvider {
                                 .select(true, VariantMutator.MODEL.withValue(fireLoc))
                                 .select(false, BlockModelGenerators.NOP)
                         )
+                        .with(PropertyDispatch.modify(CrateBlock.SLIMY)
+                                .select(true, VariantMutator.MODEL.withValue(slimyLoc))
+                                .select(false, BlockModelGenerators.NOP)
+                        )
         );
     }
 
@@ -118,6 +124,10 @@ public class ModModelProvider extends ModelProvider {
         key = "_fireproof";
         final ModelTemplate FIREPROOF_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
         templates.put(key, FIREPROOF_TEMPLATE);
+
+        key = "_slimy";
+        final ModelTemplate SLIMY_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
+        templates.put(key, SLIMY_TEMPLATE);
 
         return templates;
     }
@@ -167,6 +177,13 @@ public class ModModelProvider extends ModelProvider {
                                         List.of("fireproof"),
                                         new BlockModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_fireproof"),
+                                                Collections.emptyList()
+                                        )
+                                ),
+                                new SelectItemModel.SwitchCase(
+                                        List.of("slimy"),
+                                        new BlockModelWrapper.Unbaked(
+                                                Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_slimy"),
                                                 Collections.emptyList()
                                         )
                                 )
