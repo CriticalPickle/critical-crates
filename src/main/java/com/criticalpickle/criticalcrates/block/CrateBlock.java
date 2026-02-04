@@ -324,28 +324,28 @@ public class CrateBlock extends BaseEntityBlock {
                 Block crateBlock = getCrateBlock("item.criticalcrates.glass_crate");
 
                 if(crateBlock != null) {
-                    stack.shrink(1);
+                    if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
                 sound = SoundEvents.DYE_USE;
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get()) {
-                stack.shrink(1);
+                if(!player.isCreative()) stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, true));
                 setDataTagUpgrades(dataTag, true, false, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.LAMP_SIMULATOR_ITEM.get()) {
-                stack.shrink(1);
+                if(!player.isCreative()) stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(LAMP_UPGRADE, true));
                 setDataTagUpgrades(dataTag, false, true, false, false, null);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.FIREPROOFING_ITEM.get()) {
-                stack.shrink(1);
+                if(!player.isCreative()) stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(FIREPROOF, true));
                 setDataTagUpgrades(dataTag, false, false, true, false, blockEntity);
             }
             else if(!hasUpgrades(state) && itemInStack == ModItems.SLIMY_FRAMING_ITEM.get()) {
-                stack.shrink(1);
+                if(!player.isCreative()) stack.shrink(1);
                 level.setBlockAndUpdate(pos, state.setValue(SLIMY, true));
                 setDataTagUpgrades(dataTag, false, false, false, true, blockEntity);
             }
@@ -354,7 +354,7 @@ public class CrateBlock extends BaseEntityBlock {
                 Block crateBlock = getCrateBlock("item.criticalcrates." + dyeColor + "_stained_glass_crate");
 
                 if(crateBlock != null) {
-                    stack.shrink(1);
+                    if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
                 sound = SoundEvents.GLOW_INK_SAC_USE;
@@ -364,7 +364,7 @@ public class CrateBlock extends BaseEntityBlock {
                 Block crateBlock = getCrateBlock("item.criticalcrates." + paneName + "_crate");
 
                 if(crateBlock != null) {
-                    stack.shrink(1);
+                    if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
             }
