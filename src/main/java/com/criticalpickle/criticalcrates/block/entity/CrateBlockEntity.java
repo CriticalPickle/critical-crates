@@ -78,9 +78,9 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void drop() {
-        SimpleContainer containerInv = new SimpleContainer(inventory.getSlots());
-        for(int i = 0; i < inventory.getSlots(); i++) {
-            containerInv.setItem(i, inventory.getStackInSlot(i));
+        SimpleContainer containerInv = new SimpleContainer(getInventory().getSlots());
+        for(int i = 0; i < getInventory().getSlots(); i++) {
+            containerInv.setItem(i, getInventory().getStackInSlot(i));
         }
 
         if(this.level != null) {
@@ -94,8 +94,8 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public void copyInventory(ItemStackHandler oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.inventory.getSlots(); i++) {
-                this.inventory.setStackInSlot(i, oldInventory.getStackInSlot(i));
+            for(int i = 0; i < this.getInventory().getSlots(); i++) {
+                this.getInventory().setStackInSlot(i, oldInventory.getStackInSlot(i));
             }
         }
     }
@@ -110,21 +110,21 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public IItemHandler getInventorySide(Direction side) {
         if(side == Direction.DOWN) {
-            return new SideHandler(inventory, false, true);
+            return new SideHandler(getInventory(), false, true);
         }
-        return new SideHandler(inventory, true, false);
+        return new SideHandler(getInventory(), true, false);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.put("inventory", inventory.serializeNBT(registries));
+        tag.put("inventory", getInventory().serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+        getInventory().deserializeNBT(registries, tag.getCompound("inventory"));
     }
 
     @Override
