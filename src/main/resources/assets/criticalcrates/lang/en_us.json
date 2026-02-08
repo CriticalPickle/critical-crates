@@ -1,6 +1,9 @@
 {
   "itemGroup.criticalcrates": "Critical Crates",
-  "container.criticalcrates.crate": "Crate",
+  "container.criticalcrates.crate": "Wooden Crate",
+  "container.criticalcrates.glass_crate": "Glass Crate",
+  "container.criticalcrates.ore_crate": "Ore Crate",
+  "container.criticalcrates.iron_crate": "Iron Crate",
 
   "block.criticalcrates.oak_crate": "Oak Crate",
   "block.criticalcrates.spruce_crate": "Spruce Crate",

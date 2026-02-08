@@ -1,5 +1,6 @@
 package com.criticalpickle.criticalcrates.block.entity;
 
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.screen.CrateMenu;
 import net.minecraft.core.BlockPos;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,6 +38,8 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
             }
         }
     };
+
+    private SimpleContainer leftoverContainerInv = null;
 
     private record SideHandler(ItemStackHandler handler, boolean isInsert, boolean isExtract) implements IItemHandler {
         @Override
@@ -94,8 +98,17 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public void copyInventory(ItemStackHandler oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.getInventory().getSlots(); i++) {
+            int minSize = Math.min(this.getInventory().getSlots(), oldInventory.getSlots()), i;
+            for(i = 0; i < minSize; i++) {
                 this.getInventory().setStackInSlot(i, oldInventory.getStackInSlot(i));
+            }
+
+            // Drop rest of inventory if old inventory was larger
+            if(minSize == this.getInventory().getSlots()) {
+                this.leftoverContainerInv = new SimpleContainer(oldInventory.getSlots());
+                for(int d = 0; d < oldInventory.getSlots() - minSize; d++) {
+                    this.leftoverContainerInv.setItem(d, oldInventory.getStackInSlot(d + i));
+                }
             }
         }
     }
@@ -104,6 +117,10 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     public void onLoad() {
         super.onLoad();
         if(this.getLevel() != null && !this.getLevel().isClientSide() && this.getBlockState().getValue(SWITCH)) {
+            if(this.leftoverContainerInv != null && !this.leftoverContainerInv.isEmpty()) {
+                Containers.dropContents(this.getLevel(), this.worldPosition.above(), this.leftoverContainerInv);
+                this.leftoverContainerInv = null;
+            }
             this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(SWITCH, false));
         }
     }

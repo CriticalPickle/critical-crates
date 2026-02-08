@@ -1,5 +1,7 @@
-// 1.21.1	2025-08-05T20:22:52.3746129	Tags for minecraft:block mod id criticalcrates
-60bc13deefcf3f289b19ba4cce7f68f8c5129b3d data/criticalcrates/tags/block/crates.json
+// 1.21.1	2026-02-08T12:08:58.2293661	Tags for minecraft:block mod id criticalcrates
+a56ff7833fdea1c24ec6d4664a14518ead235577 data/criticalcrates/tags/block/crates.json
 594d2f4d25d38594a8a959c7fcadd1548a95227a data/criticalcrates/tags/block/glass_crates.json
+27304af69ecae8a353ffe43dab37b8dfa344c7ea data/criticalcrates/tags/block/ore_crates.json
+03c885a4e086f5fbe7d21f476b5255881f1d3bcb data/criticalcrates/tags/block/ore_upgraded_crates.json
 f21a5a86df68b62dcac14fd6b7edb436d785c316 data/criticalcrates/tags/block/wooden_crates.json
 f21a5a86df68b62dcac14fd6b7edb436d785c316 data/minecraft/tags/block/mineable/axe.json

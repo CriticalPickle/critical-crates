@@ -1,5 +1,6 @@
 package com.criticalpickle.criticalcrates.item;
 
+import com.criticalpickle.criticalcrates.block.OreCrateBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -93,6 +94,9 @@ public class CrateBlockItem extends BlockItem {
         }
         else if(slimy) {
             tooltipComponents.add(Component.translatable("tooltip.crate.slimy_framing_upgraded").withStyle(ChatFormatting.GREEN));
+        }
+        else if(this.getBlock() instanceof OreCrateBlock) {
+            tooltipComponents.add(Component.translatable("tooltip.crate.iron_upgraded").withStyle(ChatFormatting.WHITE));
         }
     }
 }

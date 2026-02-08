@@ -1,6 +1,7 @@
 package com.criticalpickle.criticalcrates.datagen;
 
 import com.criticalpickle.criticalcrates.CriticalCrates;
+import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -17,13 +18,21 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
-            blockItemWithOverrides(ModItems.getCrateItems(i));
+            if(ModItems.getCrateItems(i).getDescriptionId().contains("iron")
+                    && !ModItems.getCrateItems(i).getDescriptionId().contains("iron_crate")) {
+                simpleBlockItem(ModBlocks.getCrates(i));
+            }
+            else {
+                blockItemWithOverrides(ModItems.getCrateItems(i));
+            }
         }
+
         basicItem(ModItems.PLIERS_ITEM.get());
         basicItem(ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get());
         basicItem(ModItems.LAMP_SIMULATOR_ITEM.get());
         basicItem(ModItems.FIREPROOFING_ITEM.get());
         basicItem(ModItems.SLIMY_FRAMING_ITEM.get());
+        basicItem(ModItems.IRON_SUPPORTS_ITEM.get());
         basicItem(ModItems.SOAP.get());
     }
 

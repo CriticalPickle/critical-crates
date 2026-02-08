@@ -39,6 +39,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.GLASS_CRATES)
                 .add(ModItems.getGlassCrateItems());
 
+        tag(ModTags.Items.ORE_CRATES)
+                .add(ModItems.getOreCrateItems());
+
+        tag(ModTags.Items.ORE_UPGRADED_CRATES)
+                .add(ModItems.getOreUpgradedCrateItems());
+
         tag(ModTags.Items.CRATES)
                 .add(ModItems.getCrateItems());
 

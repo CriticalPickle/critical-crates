@@ -1,10 +1,12 @@
 package com.criticalpickle.criticalcrates;
 
 import com.criticalpickle.criticalcrates.block.entity.renderer.GlassCrateBlockEntityRenderer;
+import com.criticalpickle.criticalcrates.block.entity.renderer.OreUpgradeGlassCrateBlockEntityRenderer;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.registration.ModMenuTypes;
 import com.criticalpickle.criticalcrates.registration.ModRegistration;
 import com.criticalpickle.criticalcrates.screen.CrateScreen;
+import com.criticalpickle.criticalcrates.screen.LargeCrateScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -33,10 +35,12 @@ public class CriticalCratesClient {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.CRATE_MENU.get(), CrateScreen::new);
+        event.register(ModMenuTypes.LARGE_CRATE_MENU.get(), LargeCrateScreen::new);
     }
 
     @SubscribeEvent
     public static void registerBlockEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.GLASS_CRATE_BE.get(), GlassCrateBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.ORE_CRATE_BE.get(), OreUpgradeGlassCrateBlockEntityRenderer::new);
     }
 }

@@ -5,6 +5,7 @@ import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
+import com.criticalpickle.criticalcrates.registration.ModTags;
 import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import com.criticalpickle.criticalcrates.util.DataComponentUtils;
 import com.mojang.serialization.MapCodec;
@@ -12,16 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Unit;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -126,7 +123,7 @@ public class CrateBlock extends BaseEntityBlock {
         return hasFireEffect(state) ? 20 : 0;
     }
 
-    // Fire effects block: Y/N
+    /// Fire effects block: Y/N
     protected boolean hasFireEffect(BlockState state) {
         return !state.is(ModBlocks.CRIMSON_CRATE.get()) && !state.is(ModBlocks.WARPED_CRATE.get()) && !state.getValue(FIREPROOF);
     }
@@ -228,6 +225,11 @@ public class CrateBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        if(blockState.getValue(SWITCH)) {
+            CrateBlockEntity crateBlockEntity = new CrateBlockEntity(blockPos, blockState);
+            crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());
+            return crateBlockEntity;
+        }
         return new CrateBlockEntity(blockPos, blockState);
     }
 
@@ -302,7 +304,7 @@ public class CrateBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         } else {
             if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
-                player.openMenu(new SimpleMenuProvider(blockEntity, Component.translatable("container.criticalcrates.crate")), pos);
+                player.openMenu(new SimpleMenuProvider(blockEntity, blockEntity.getDisplayName()), pos);
                 level.playSound(null, pos, getInventoryOpenSound(), SoundSource.BLOCKS, 0.5f, 1f);
             }
 
@@ -322,17 +324,36 @@ public class CrateBlock extends BaseEntityBlock {
             CompoundTag dataTag = new CompoundTag();
             BlockEntity blockEntity = level.getBlockEntity(pos);
             SoundEvent sound = SoundEvents.ANVIL_USE;
+            String iron = "";
+
+            // Check if block is iron variant and add iron string
+            if(!state.is(ModTags.Blocks.ORE_CRATES) && state.getBlock() instanceof OreCrateBlock) {
+                iron = "iron_";
+            }
 
             // Check for item change conditions
             if(Config.ADDONS_REMOVABLE.getAsBoolean() && hasUpgrades(state) && itemInStack == ModItems.PLIERS_ITEM.get()) {
-                level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false)
-                        .setValue(LIT, false).setValue(FIREPROOF, false).setValue(SLIMY, false));
+                if(!(state.getBlock() instanceof OreCrateBlock) || state.is(ModTags.Blocks.ORE_CRATES)) {
+                    level.setBlockAndUpdate(pos, state.setValue(EXPLOSION_RESIST, false).setValue(LAMP_UPGRADE, false)
+                            .setValue(LIT, false).setValue(FIREPROOF, false).setValue(SLIMY, false));
 
-                spawnRemovedUpgrades(state, level, pos);
-                setDataTagUpgrades(dataTag, false, false, false, false, null);
+                    spawnRemovedUpgrades(state, level, pos);
+                    setDataTagUpgrades(dataTag, false, false, false, false, null);
+                }
+                else {
+                    String baseBlockID = state.getBlock().getDescriptionId(), baseID = baseBlockID.substring(baseBlockID.indexOf("iron_") + 5);
+                    Block crateBlock = getCrateBlock("block.criticalcrates." + baseID);
+
+                    if(crateBlock != null) {
+                        blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                    }
+
+                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                            new ItemStack(ModItems.IRON_SUPPORTS_ITEM.get())));
+                }
             }
             else if(Config.STAINED_COLOR_REMOVABLE.getAsBoolean() && hasSoap(itemInStack, state)) {
-                Block crateBlock = getCrateBlock("block.criticalcrates.glass_crate");
+                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + "glass_crate");
 
                 if(crateBlock != null) {
                     if(!player.isCreative()) stack.shrink(1);
@@ -360,9 +381,18 @@ public class CrateBlock extends BaseEntityBlock {
                 level.setBlockAndUpdate(pos, state.setValue(SLIMY, true));
                 setDataTagUpgrades(dataTag, false, false, false, true, blockEntity);
             }
+            else if(!hasUpgrades(state) && !state.is(ModTags.Blocks.ORE_CRATES) && itemInStack == ModItems.IRON_SUPPORTS_ITEM.get()) {
+                String baseBlockID = state.getBlock().getDescriptionId(), baseID = baseBlockID.substring(baseBlockID.indexOf("s.") + 2);
+                Block crateBlock = getCrateBlock("block.criticalcrates.iron_" + baseID);
+
+                if(crateBlock != null) {
+                    if(!player.isCreative()) stack.shrink(1);
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                }
+            }
             else if(validDye(state, itemInStack)) {
                 String dyeColor = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10, itemInStack.getDescriptionId().indexOf("_dye"));
-                Block crateBlock = getCrateBlock("block.criticalcrates." + dyeColor + "_stained_glass_crate");
+                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + dyeColor + "_stained_glass_crate");
 
                 if(crateBlock != null) {
                     if(!player.isCreative()) stack.shrink(1);
@@ -370,14 +400,41 @@ public class CrateBlock extends BaseEntityBlock {
                 }
                 sound = SoundEvents.GLOW_INK_SAC_USE;
             }
-            else if(validGlass(state, itemInStack)) {
+            else if((state.is(ModTags.Blocks.ORE_CRATES) || !(state.getBlock() instanceof OreCrateBlock block && block.getDescriptionId().contains("glass")))
+                    && validGlass(state, itemInStack)) {
                 String paneName = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10);
-                Block crateBlock = getCrateBlock("block.criticalcrates." + paneName + "_crate");
+                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + paneName + "_crate");
+
+                if(state.is(ModTags.Blocks.ORE_CRATES)) {
+                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                            new ItemStack(Items.IRON_BLOCK)));
+                }
 
                 if(crateBlock != null) {
                     if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
+                sound = SoundEvents.GLASS_PLACE;
+            }
+            else if(!state.is(ModTags.Blocks.ORE_CRATES) && itemInStack == Items.IRON_BLOCK) {
+                Block crateBlock = getCrateBlock("block.criticalcrates.iron_crate");
+
+                if(state.getBlock() instanceof GlassCrateBlock) {
+                    returnGlassBase(state, level, pos);
+                }
+                else if(state.getBlock() instanceof OreCrateBlock block) {
+                    if(block.getDescriptionId().contains("glass")) {
+                        returnGlassBase(state, level, pos);
+                    }
+                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                            new ItemStack(ModItems.IRON_SUPPORTS_ITEM.get())));
+                }
+
+                if(crateBlock != null) {
+                    if(!player.isCreative()) stack.shrink(1);
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                }
+                sound = SoundEvents.ANVIL_LAND;
             }
             else {
                 // Exit out if no change in upgrade
@@ -396,7 +453,7 @@ public class CrateBlock extends BaseEntityBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
-    // Set upgrades for all crate data
+    /// Set upgrades for all crate data
     private static void setDataTagUpgrades(CompoundTag dataTag, boolean resistant, boolean lamp,
                                            boolean fire, boolean slimy, BlockEntity blockEntity) {
         if(resistant) {
@@ -435,7 +492,7 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    // Spawn removed crate upgrades dependent on state property values
+    /// Spawn removed crate upgrades dependent on state property values
     private static void spawnRemovedUpgrades(BlockState state, Level level, BlockPos pos) {
         if(state.getValue(EXPLOSION_RESIST)) {
             level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
@@ -455,18 +512,18 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    // Check if item is soap and block is able to be cleaned
+    /// Check if item is soap and block is able to be cleaned
     private static boolean hasSoap(Item stackItem, BlockState blockState) {
         String itemName = stackItem.getName(new ItemStack(stackItem)).getString(), blockName = blockState.getBlock().getName().getString();
         return blockName.contains("Stained") && itemName.equals("Soap");
     }
 
-    // Crate has upgrades: Y/N
-    private static boolean hasUpgrades(BlockState state) {
+    /// Crate has upgrades: Y/N
+    protected boolean hasUpgrades(BlockState state) {
         return state.getValue(EXPLOSION_RESIST) || state.getValue(LAMP_UPGRADE) || state.getValue(FIREPROOF) || state.getValue(SLIMY);
     }
 
-    // Get crate block given a string
+    /// Get crate block given a string
     private static Block getCrateBlock(String crateName) {
         Item crateItem = ModItems.findCrateItemByID(crateName);
         Block crateBlock = null;
@@ -478,8 +535,8 @@ public class CrateBlock extends BaseEntityBlock {
         return crateBlock;
     }
 
-    // Switch state of crate to state of "crateBlock"
-    private static BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
+    /// Switch state of crate to state of "crateBlock"
+    private BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
         boolean resistant, lamp, fire, slimy;
 
         if(hasUpgrades(state)) {
@@ -522,7 +579,7 @@ public class CrateBlock extends BaseEntityBlock {
         return blockEntity;
     }
 
-    // Check if crate is currently able to be dyed with a specific dye item
+    /// Check if crate is currently able to be dyed with a specific dye item
     private boolean validDye(BlockState state, Item item) {
         if((Config.STAINED_CRATES_DYEABLE.getAsBoolean() || Config.GLASS_CRATES_DYEABLE.getAsBoolean()) && state.getBlock() instanceof GlassCrateBlock) {
             List<Item> dye = List.of(
@@ -560,7 +617,7 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    // Check if crate is currently able to be changed with a stained glass item
+    /// Check if crate is currently able to be changed with a stained glass item
     private boolean validGlass(BlockState state, Item item) {
         List<Item> glass = List.of(
                 Items.GLASS,
@@ -606,7 +663,48 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    // Play appropriate crate upgrade sounds and damage pliers, if applicable
+    /// Respawn glass block for current block state
+    private void returnGlassBase(BlockState state, Level level, BlockPos pos) {
+        List<Item> glass = List.of(
+                Items.GLASS,
+                Items.WHITE_STAINED_GLASS,
+                Items.LIGHT_GRAY_STAINED_GLASS,
+                Items.GRAY_STAINED_GLASS,
+                Items.BLACK_STAINED_GLASS,
+                Items.BROWN_STAINED_GLASS,
+                Items.RED_STAINED_GLASS,
+                Items.ORANGE_STAINED_GLASS,
+                Items.YELLOW_STAINED_GLASS,
+                Items.LIME_STAINED_GLASS,
+                Items.GREEN_STAINED_GLASS,
+                Items.CYAN_STAINED_GLASS,
+                Items.LIGHT_BLUE_STAINED_GLASS,
+                Items.BLUE_STAINED_GLASS,
+                Items.PURPLE_STAINED_GLASS,
+                Items.MAGENTA_STAINED_GLASS,
+                Items.PINK_STAINED_GLASS
+        );
+
+        String baseBlockID = state.getBlock().getDescriptionId(),
+                baseID = baseBlockID.substring(baseBlockID.indexOf("s.") + 2),
+                baseGlass = baseID.substring(0, baseID.indexOf("_crate")), glassID, baseGlassID;
+
+        if(baseGlass.contains("iron_")) {
+            baseGlass = baseGlass.substring(baseGlass.indexOf("iron_") + 5);
+        }
+
+        for(int i = 0; i < glass.size(); i++) {
+            glassID = glass.get(i).getDescriptionId();
+            baseGlassID = glassID.substring(glassID.indexOf("minecraft.") + 10);
+
+            if(baseGlassID.equals(baseGlass)) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                        new ItemStack(glass.get(i))));
+            }
+        }
+    }
+
+    /// Play appropriate crate upgrade sounds and damage pliers, if applicable
     private static void handleItemResult(Level level, BlockPos pos, ItemStack stack, Player player, SoundEvent sound) {
         if(stack.getItem() == ModItems.PLIERS_ITEM.get()) {
             if(!player.isCreative()) {

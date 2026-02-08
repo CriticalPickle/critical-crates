@@ -3,6 +3,7 @@ package com.criticalpickle.criticalcrates.datagen;
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.CrateBlock;
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
+import com.criticalpickle.criticalcrates.block.OreCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -20,7 +21,62 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         for(int i = 0; i < ModBlocks.getCrates().length; i++) {
-            axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i));
+            if(!ModBlocks.getCrates(i).equals(ModBlocks.IRON_CRATE.get()) && ModBlocks.getCrates(i) instanceof OreCrateBlock) {
+                String blockName = ModBlocks.getCrates(i).getDescriptionId().substring(ModBlocks.getCrates(i).getDescriptionId().indexOf("s.") + 2),
+                path = "block/ore_upgraded/" + blockName;
+                ConfiguredModel model;
+                VariantBlockStateBuilder builder = getVariantBuilder(ModBlocks.getCrates(i));
+
+                for(Direction.Axis axis : Direction.Axis.values()) {
+                    if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
+                        path += "_horizontal";
+                    }
+
+                    int x = axis == Direction.Axis.Y ? 0 : 90;
+                    int y = axis == Direction.Axis.X ? 90 : 0;
+
+                    if (path.contains("horizontal")) {
+                        String name = path.substring(0, path.indexOf("_horizontal"));
+                        if(blockName.contains("glass")) {
+                            model = ConfiguredModel.builder()
+                                    .modelFile(models().cubeColumnHorizontal("block/" + blockName, modLoc(name), modLoc(name + "_top")).renderType("translucent"))
+                                    .rotationX(x)
+                                    .rotationY(y)
+                                    .build()[0];
+                        }
+                        else {
+                            model = ConfiguredModel.builder()
+                                    .modelFile(models().cubeColumnHorizontal("block/" + blockName, modLoc(name), modLoc(name + "_top")))
+                                    .rotationX(x)
+                                    .rotationY(y)
+                                    .build()[0];
+                        }
+                    }
+                    else {
+                        if(blockName.contains("glass")) {
+                            model = ConfiguredModel.builder()
+                                    .modelFile(models().cubeColumn("block/" + blockName, modLoc(path), modLoc( path + "_top")).renderType("translucent"))
+                                    .rotationX(x)
+                                    .rotationY(y)
+                                    .build()[0];
+                        }
+                        else {
+                            model = ConfiguredModel.builder()
+                                    .modelFile(models().cubeColumn("block/" + blockName, modLoc(path), modLoc( path + "_top")))
+                                    .rotationX(x)
+                                    .rotationY(y)
+                                    .build()[0];
+                        }
+                    }
+
+                    builder.partialState()
+                            .with(CrateBlock.AXIS, axis)
+                            .addModels(model);
+                }
+            }
+            else {
+                axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i));
+            }
         }
     }
 
@@ -68,7 +124,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                                                 .rotationX(x)
                                                 .rotationY(y)
                                                 .build()[0];
-                                    } else {
+                                    }
+                                    else if (block instanceof OreCrateBlock) {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumnHorizontal(path, modLoc("block/ore/" + name), modLoc("block/ore/" + name + "_top")))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    }
+                                    else {
                                         model = ConfiguredModel.builder()
                                                 .modelFile(models().cubeColumnHorizontal(path, modLoc("block/wood/" + name), modLoc("block/wood/" + name + "_top")))
                                                 .rotationX(x)
@@ -82,7 +146,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                                                 .rotationX(x)
                                                 .rotationY(y)
                                                 .build()[0];
-                                    } else {
+                                    }
+                                    else if(block instanceof OreCrateBlock) {
+                                        model = ConfiguredModel.builder()
+                                                .modelFile(models().cubeColumn(path, modLoc("block/ore/" + path), modLoc("block/ore/" + path + "_top")))
+                                                .rotationX(x)
+                                                .rotationY(y)
+                                                .build()[0];
+                                    }
+                                    else {
                                         model = ConfiguredModel.builder()
                                                 .modelFile(models().cubeColumn(path, modLoc("block/wood/" + path), modLoc("block/wood/" + path + "_top")))
                                                 .rotationX(x)

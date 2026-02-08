@@ -8,7 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 public class ModRegistration {
-    // Helper function to initialize basic registries
+    /// Helper function to initialize basic registries
     public static void init(IEventBus modEventBus) {
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
@@ -23,7 +23,7 @@ public class ModRegistration {
         // }
     }
 
-    // Register components for items as json predicates
+    /// Register components for items as json predicates
     public static void registerItemProperties() {
         ResourceLocation resistanceResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "resistant");
         ResourceLocation lampResLoc = ResourceLocation.tryBuild(CriticalCrates.MODID, "lamp");

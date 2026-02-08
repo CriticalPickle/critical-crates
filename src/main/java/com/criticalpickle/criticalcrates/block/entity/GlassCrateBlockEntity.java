@@ -4,6 +4,7 @@ import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class GlassCrateBlockEntity extends CrateBlockEntity {
     private float rotation;
@@ -21,7 +22,7 @@ public class GlassCrateBlockEntity extends CrateBlockEntity {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("container.criticalcrates.glass_crate");
     }
 }

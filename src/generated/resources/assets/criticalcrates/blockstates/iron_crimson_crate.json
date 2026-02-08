@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "criticalcrates:block/iron_crimson_crate",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "criticalcrates:block/iron_crimson_crate"
+    },
+    "axis=z": {
+      "model": "criticalcrates:block/iron_crimson_crate",
+      "x": 90
+    }
+  }
+}

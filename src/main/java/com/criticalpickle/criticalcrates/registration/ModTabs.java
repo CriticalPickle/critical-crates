@@ -1,6 +1,7 @@
 package com.criticalpickle.criticalcrates.registration;
 
 import com.criticalpickle.criticalcrates.CriticalCrates;
+import com.criticalpickle.criticalcrates.block.OreCrateBlock;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -34,49 +35,55 @@ public class ModTabs {
                 output.accept(ModItems.LAMP_SIMULATOR_ITEM.get());
                 output.accept(ModItems.FIREPROOFING_ITEM.get());
                 output.accept(ModItems.SLIMY_FRAMING_ITEM.get());
+                output.accept(ModItems.IRON_SUPPORTS_ITEM.get());
 
                 for(int i = 0; i < ModBlocks.getCrates().length; i++){
-                    crateStack = new ItemStack(ModBlocks.getCrates(i));
-                    resistantCrateStack = new ItemStack(ModBlocks.getCrates(i));
-                    lampCrateStack = new ItemStack(ModBlocks.getCrates(i));
-                    fireCrateStack = new ItemStack(ModBlocks.getCrates(i));
-                    slimyCrateStack = new ItemStack(ModBlocks.getCrates(i));
+                    if(ModBlocks.getCrates(i).equals(ModBlocks.IRON_CRATE.get()) || !(ModBlocks.getCrates(i) instanceof OreCrateBlock)) {
+                        crateStack = new ItemStack(ModBlocks.getCrates(i));
+                        resistantCrateStack = new ItemStack(ModBlocks.getCrates(i));
+                        lampCrateStack = new ItemStack(ModBlocks.getCrates(i));
+                        fireCrateStack = new ItemStack(ModBlocks.getCrates(i));
+                        slimyCrateStack = new ItemStack(ModBlocks.getCrates(i));
 
-                    dataTag.putBoolean("explosion_resistant", false);
-                    dataTag.putBoolean("lamp_upgrade", false);
-                    dataTag.putBoolean("fireproof", false);
-                    dataTag.putBoolean("slimy", false);
-                    crateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                    output.accept(crateStack);
+                        dataTag.putBoolean("explosion_resistant", false);
+                        dataTag.putBoolean("lamp_upgrade", false);
+                        dataTag.putBoolean("fireproof", false);
+                        dataTag.putBoolean("slimy", false);
+                        crateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                        output.accept(crateStack);
 
-                    dataTag.putBoolean("explosion_resistant", true);
-                    dataTag.putBoolean("lamp_upgrade", false);
-                    dataTag.putBoolean("fireproof", false);
-                    dataTag.putBoolean("slimy", false);
-                    resistantCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                    output.accept(resistantCrateStack);
+                        dataTag.putBoolean("explosion_resistant", true);
+                        dataTag.putBoolean("lamp_upgrade", false);
+                        dataTag.putBoolean("fireproof", false);
+                        dataTag.putBoolean("slimy", false);
+                        resistantCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                        output.accept(resistantCrateStack);
 
-                    dataTag.putBoolean("explosion_resistant", false);
-                    dataTag.putBoolean("lamp_upgrade", true);
-                    dataTag.putBoolean("fireproof", false);
-                    dataTag.putBoolean("slimy", false);
-                    lampCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                    output.accept(lampCrateStack);
+                        dataTag.putBoolean("explosion_resistant", false);
+                        dataTag.putBoolean("lamp_upgrade", true);
+                        dataTag.putBoolean("fireproof", false);
+                        dataTag.putBoolean("slimy", false);
+                        lampCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                        output.accept(lampCrateStack);
 
-                    dataTag.putBoolean("explosion_resistant", false);
-                    dataTag.putBoolean("lamp_upgrade", false);
-                    dataTag.putBoolean("fireproof", true);
-                    dataTag.putBoolean("slimy", false);
-                    fireCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                    fireCrateStack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
-                    output.accept(fireCrateStack);
+                        dataTag.putBoolean("explosion_resistant", false);
+                        dataTag.putBoolean("lamp_upgrade", false);
+                        dataTag.putBoolean("fireproof", true);
+                        dataTag.putBoolean("slimy", false);
+                        fireCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                        fireCrateStack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
+                        output.accept(fireCrateStack);
 
-                    dataTag.putBoolean("explosion_resistant", false);
-                    dataTag.putBoolean("lamp_upgrade", false);
-                    dataTag.putBoolean("fireproof", false);
-                    dataTag.putBoolean("slimy", true);
-                    slimyCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                    output.accept(slimyCrateStack);
+                        dataTag.putBoolean("explosion_resistant", false);
+                        dataTag.putBoolean("lamp_upgrade", false);
+                        dataTag.putBoolean("fireproof", false);
+                        dataTag.putBoolean("slimy", true);
+                        slimyCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                        output.accept(slimyCrateStack);
+                    }
+                    else {
+                        output.accept(ModBlocks.getCrates(i));
+                    }
                 }
             }).build());
 }
