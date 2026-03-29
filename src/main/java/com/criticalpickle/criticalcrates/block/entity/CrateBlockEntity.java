@@ -78,7 +78,6 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-
     public CrateBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRATE_BE.get(), pos, blockState);
     }
@@ -88,11 +87,11 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void drop() {
-        SimpleContainer containerInv = new SimpleContainer(inventory.size());
+        SimpleContainer containerInv = new SimpleContainer(getInventory().size());
         ItemStack stack;
-        for(int i = 0; i < inventory.size(); i++) {
-            stack = inventory.getResource(i).toStack();
-            stack.setCount(inventory.getAmountAsInt(i));
+        for(int i = 0; i < getInventory().size(); i++) {
+            stack = getInventory().getResource(i).toStack();
+            stack.setCount(getInventory().getAmountAsInt(i));
             containerInv.setItem(i, stack);
         }
 
@@ -118,8 +117,8 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public void copyInventory(ItemStacksResourceHandler oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.inventory.size(); i++) {
-                this.inventory.set(i, oldInventory.getResource(i), oldInventory.getAmountAsInt(i));
+            for(int i = 0; i < this.getInventory().size(); i++) {
+                this.getInventory().set(i, oldInventory.getResource(i), oldInventory.getAmountAsInt(i));
             }
         }
     }
@@ -134,21 +133,21 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public ResourceHandler<ItemResource> getInventorySide(Direction side) {
         if(side == Direction.DOWN) {
-            return new SideHandler(inventory, false, true);
+            return new SideHandler(getInventory(), false, true);
         }
-        return new SideHandler(inventory, true, false);
+        return new SideHandler(getInventory(), true, false);
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        inventory.serialize(output);
+        getInventory().serialize(output);
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        inventory.deserialize(input);
+        getInventory().deserialize(input);
 
         if(input.child("inventory").isPresent()) {
             NonNullList<ItemStack> stacks = NonNullList.withSize(27, ItemStack.EMPTY);
