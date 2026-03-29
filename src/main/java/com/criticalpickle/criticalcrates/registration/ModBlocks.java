@@ -103,7 +103,9 @@ public class ModBlocks {
     public static Block[] getWoodCrates() {
         return BLOCKS.getEntries().stream().map(DeferredHolder::get)
                 .filter(block ->
-                        (block instanceof CrateBlock && !(block instanceof GlassCrateBlock || block instanceof OreCrateBlock))
+                        block instanceof CrateBlock && !(block instanceof GlassCrateBlock)
+                                && (!(block instanceof OreCrateBlock oreCrate) || (!oreCrate.getDescriptionId().contains("glass")
+                                    && !oreCrate.getDescriptionId().contains("iron_crate")))
                 ).toArray(Block[]::new);
     }
 
@@ -113,16 +115,33 @@ public class ModBlocks {
         return temp[index];
     }
 
+    /// Get all wooden crate block entity blocks
+    public static Block[] getWoodBECrates() {
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block ->
+                        block instanceof CrateBlock && !(block instanceof GlassCrateBlock || block instanceof OreCrateBlock)
+                ).toArray(Block[]::new);
+    }
+
     /// Get all glass crate blocks
     public static Block[] getGlassCrates() {
         return BLOCKS.getEntries().stream().map(DeferredHolder::get)
-                .filter(block -> block instanceof GlassCrateBlock).toArray(Block[]::new);
+                .filter(block ->
+                        block instanceof GlassCrateBlock || (block instanceof OreCrateBlock oreCrate
+                                && oreCrate.getDescriptionId().contains("glass"))
+                ).toArray(Block[]::new);
     }
 
     /// Get a glass crate block at an index dependent on the time of registration
     public static Block getGlassCrates(int index) {
         Block[] temp = getGlassCrates();
         return temp[index];
+    }
+
+    /// Get all glass crate block entity blocks
+    public static Block[] getGlassBECrates() {
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block -> block instanceof GlassCrateBlock).toArray(Block[]::new);
     }
 
     /// Get all ore crate blocks

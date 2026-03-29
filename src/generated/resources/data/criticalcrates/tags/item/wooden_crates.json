@@ -1,15 +1,26 @@
 {
   "values": [
     "criticalcrates:oak_crate",
+    "criticalcrates:iron_oak_crate",
     "criticalcrates:spruce_crate",
+    "criticalcrates:iron_spruce_crate",
     "criticalcrates:birch_crate",
+    "criticalcrates:iron_birch_crate",
     "criticalcrates:jungle_crate",
+    "criticalcrates:iron_jungle_crate",
     "criticalcrates:acacia_crate",
+    "criticalcrates:iron_acacia_crate",
     "criticalcrates:dark_oak_crate",
+    "criticalcrates:iron_dark_oak_crate",
     "criticalcrates:mangrove_crate",
+    "criticalcrates:iron_mangrove_crate",
     "criticalcrates:cherry_crate",
+    "criticalcrates:iron_cherry_crate",
     "criticalcrates:bamboo_crate",
+    "criticalcrates:iron_bamboo_crate",
     "criticalcrates:crimson_crate",
-    "criticalcrates:warped_crate"
+    "criticalcrates:iron_crimson_crate",
+    "criticalcrates:warped_crate",
+    "criticalcrates:iron_warped_crate"
   ]
 }

@@ -14,10 +14,10 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, CriticalCrates.MODID);
 
     public static final Supplier<BlockEntityType<CrateBlockEntity>> CRATE_BE = BLOCK_ENTITIES.register("crate_be",
-            () -> BlockEntityType.Builder.of(CrateBlockEntity::new, ModBlocks.getWoodCrates()).build(null));
+            () -> BlockEntityType.Builder.of(CrateBlockEntity::new, ModBlocks.getWoodBECrates()).build(null));
 
     public static final Supplier<BlockEntityType<GlassCrateBlockEntity>> GLASS_CRATE_BE = BLOCK_ENTITIES.register("glass_crate_be",
-            () -> BlockEntityType.Builder.of(GlassCrateBlockEntity::new, ModBlocks.getGlassCrates()).build(null));
+            () -> BlockEntityType.Builder.of(GlassCrateBlockEntity::new, ModBlocks.getGlassBECrates()).build(null));
 
     public static final Supplier<BlockEntityType<OreCrateBlockEntity>> ORE_CRATE_BE = BLOCK_ENTITIES.register("ore_crate_be",
             () -> BlockEntityType.Builder.of(OreCrateBlockEntity::new, ModBlocks.getOreBECrates()).build(null));
