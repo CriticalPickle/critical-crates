@@ -89,61 +89,73 @@ public class ModBlocks {
 
     /// Get all crate blocks
     public static Block[] getCrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof CrateBlock).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block -> block instanceof CrateBlock).toArray(Block[]::new);
     }
 
     /// Get a crate block at an index dependent on the time of registration
     public static Block getCrates(int index) {
-        Block[] temp = BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof CrateBlock).toArray(Block[]::new);
+        Block[] temp = getCrates();
         return temp[index];
     }
 
     /// Get all wooden crate blocks
     public static Block[] getWoodCrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> (block instanceof CrateBlock && !(block instanceof GlassCrateBlock || block instanceof OreCrateBlock))).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block ->
+                        (block instanceof CrateBlock && !(block instanceof GlassCrateBlock || block instanceof OreCrateBlock))
+                ).toArray(Block[]::new);
     }
 
     /// Get a wooden crate block at an index dependent on the time of registration
     public static Block getWoodCrates(int index) {
-        Block[] temp = BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> (block instanceof CrateBlock && !(block instanceof GlassCrateBlock || block instanceof OreCrateBlock))).toArray(Block[]::new);
+        Block[] temp = getWoodCrates();
         return temp[index];
     }
 
     /// Get all glass crate blocks
     public static Block[] getGlassCrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof GlassCrateBlock).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block -> block instanceof GlassCrateBlock).toArray(Block[]::new);
     }
 
     /// Get a glass crate block at an index dependent on the time of registration
     public static Block getGlassCrates(int index) {
-        Block[] temp = BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof GlassCrateBlock).toArray(Block[]::new);
+        Block[] temp = getGlassCrates();
         return temp[index];
     }
 
     /// Get all ore crate blocks
     public static Block[] getOreCrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof OreCrateBlock && block.equals(ModBlocks.IRON_CRATE.get())).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block ->
+                        block instanceof OreCrateBlock && block.equals(ModBlocks.IRON_CRATE.get())
+                ).toArray(Block[]::new);
     }
 
     /// Get an ore crate block at an index dependent on the time of registration
     public static Block getOreCrates(int index) {
-        Block[] temp = BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof OreCrateBlock && block.equals(ModBlocks.IRON_CRATE.get())).toArray(Block[]::new);
+        Block[] temp = getOreCrates();
         return temp[index];
     }
 
     /// Get all ore upgraded crate blocks
     public static Block[] getOreUpgradedCrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof OreCrateBlock && !block.equals(ModBlocks.IRON_CRATE.get())).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block ->
+                        block instanceof OreCrateBlock && !block.equals(ModBlocks.IRON_CRATE.get())
+                ).toArray(Block[]::new);
     }
 
     /// Get an ore upgraded crate block at an index dependent on the time of registration
     public static Block getOreUpgradedCrates(int index) {
-        Block[] temp = BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof OreCrateBlock && !block.equals(ModBlocks.IRON_CRATE.get())).toArray(Block[]::new);
+        Block[] temp = getOreUpgradedCrates();
         return temp[index];
     }
 
-    /// Get all ore crate blocks
+    /// Get all ore block entity crate blocks
     public static Block[] getOreBECrates() {
-        return BLOCKS.getEntries().stream().map(DeferredHolder::get).filter(block -> block instanceof OreCrateBlock).toArray(Block[]::new);
+        return BLOCKS.getEntries().stream().map(DeferredHolder::get)
+                .filter(block -> block instanceof OreCrateBlock).toArray(Block[]::new);
     }
 }

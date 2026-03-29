@@ -56,78 +56,104 @@ public class ModItems {
 
     /// Get the items associated with crates
     public static Item[] getCrateItems() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> item instanceof CrateBlockItem).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item -> item instanceof CrateBlockItem).toArray(Item[]::new);
     }
 
     /// Get an item associated with a crate dependent on the time of registration
     public static Item getCrateItems(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> item instanceof CrateBlockItem).toArray(Item[]::new);
+        Item[] temp = getCrateItems();
         return temp[index];
     }
 
     /// Get items associated with wooden crates
     public static Item[] getWoodCrateItems() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && !(((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock || ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock))).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        (item instanceof CrateBlockItem && !(((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock
+                                || ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock))
+                ).toArray(Item[]::new);
     }
 
     /// Get an item associated with a wooden crate dependent on the time of registration
     public static Item getWoodCrateItems(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && !(((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock || ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock))).toArray(Item[]::new);
+        Item[] temp = getWoodCrateItems();
         return temp[index];
     }
 
     /// Get items associated with glass crates
     public static Item[] getGlassCrateItems() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock)).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock)
+                ).toArray(Item[]::new);
     }
 
     /// Get an item associated with a glass crate dependent on the time of registration
     public static Item getGlassCrateItems(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof GlassCrateBlock)).toArray(Item[]::new);
+        Item[] temp = getGlassCrateItems();
         return temp[index];
     }
 
     /// Get items associated with ore crates
     public static Item[] getOreCrateItems() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block) && block.equals(ModBlocks.IRON_CRATE.get())).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block)
+                                && block.equals(ModBlocks.IRON_CRATE.get())
+                ).toArray(Item[]::new);
     }
 
     /// Get an item associated with an ore crate dependent on the time of registration
     public static Item getOreCrateItems(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block) && block.equals(ModBlocks.IRON_CRATE.get())).toArray(Item[]::new);
+        Item[] temp = getOreCrateItems();
         return temp[index];
     }
 
     /// Get items associated with ore upgraded crates
     public static Item[] getOreUpgradedCrateItems() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block) && !block.equals(ModBlocks.IRON_CRATE.get())).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block)
+                                && !block.equals(ModBlocks.IRON_CRATE.get())
+                ).toArray(Item[]::new);
     }
 
     /// Get an item associated with an ore upgraded crate dependent on the time of registration
     public static Item getOreUpgradedCrateItems(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> (item instanceof CrateBlockItem && ((CrateBlockItem) item).getBlock() instanceof OreCrateBlock block) && !block.equals(ModBlocks.IRON_CRATE.get())).toArray(Item[]::new);
+        Item[] temp = getOreUpgradedCrateItems();
         return temp[index];
     }
 
     /// Get the upgrade items associated with crates
     public static Item[] getCrateUpgrades() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && !(item.getDescriptionId().contains("foundation"))).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        !(item instanceof CrateBlockItem) && !(item instanceof PliersItem)
+                                && !(item.getDescriptionId().contains("soap"))
+                                && !(item.getDescriptionId().contains("foundation"))
+                ).toArray(Item[]::new);
     }
 
     /// Get an upgrade item associated with a crate dependent on the time of registration
     public static Item getCrateUpgrades(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && !(item.getDescriptionId().contains("foundation"))).toArray(Item[]::new);
+        Item[] temp = getCrateUpgrades();
         return temp[index];
     }
 
     /// Get the foundation items associated with crates
     public static Item[] getCrateFoundations() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && item.getDescriptionId().contains("foundation")).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        !(item instanceof CrateBlockItem) && !(item instanceof PliersItem)
+                                && !(item.getDescriptionId().contains("soap"))
+                                && item.getDescriptionId().contains("foundation")
+                ).toArray(Item[]::new);
     }
 
     /// Get a foundation item associated with a crate dependent on the time of registration
     public static Item getCrateFoundations(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && item.getDescriptionId().contains("foundation")).toArray(Item[]::new);
+        Item[] temp = getCrateFoundations();
         return temp[index];
     }
 
