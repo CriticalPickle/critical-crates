@@ -95,7 +95,7 @@ public class CrateBlockItem extends BlockItem {
         else if(slimy) {
             tooltipComponents.add(Component.translatable("tooltip.crate.slimy_framing_upgraded").withStyle(ChatFormatting.GREEN));
         }
-        else if(this.getBlock() instanceof OreCrateBlock) {
+        else if(this.getBlock() instanceof OreCrateBlock && !this.getBlock().getDescriptionId().contains("iron_crate")) {
             tooltipComponents.add(Component.translatable("tooltip.crate.iron_upgraded").withStyle(ChatFormatting.WHITE));
         }
     }
