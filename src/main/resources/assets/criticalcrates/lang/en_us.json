@@ -120,5 +120,7 @@
   "criticalcrates.configuration.colorRemovable": "Color Removable from Crates",
   "criticalcrates.configuration.colorRemovable.tooltip": "Whether to allow the removal of color from stained crates.",
   "criticalcrates.configuration.glassChangeGlassCrate": "Glass Changes Glass Crates",
-  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Whether to allow glass crates to be changed with glass foundation like wooden ones."
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Whether to allow glass crates to be changed with glass foundations.",
+  "criticalcrates.configuration.woodChangeWoodCrate": "Wood Changes Wood Crates",
+  "criticalcrates.configuration.woodChangeWoodCrate.tooltip": "Whether to allow wood crates to be changed with wood foundations."
 }

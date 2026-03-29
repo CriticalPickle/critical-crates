@@ -117,5 +117,7 @@
   "criticalcrates.configuration.colorRemovable": "可從已染色箱移除顏色",
   "criticalcrates.configuration.colorRemovable.tooltip": "是否允許從已染色箱中移除顏色。",
   "criticalcrates.configuration.glassChangeGlassCrate": "用玻璃更換玻璃箱",
-  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "是否允許玻璃箱可像木箱一樣用玻璃基底更換。"
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "是否允許玻璃箱可使用玻璃基礎更換。",
+  "criticalcrates.configuration.woodChangeWoodCrate": "木箱可更換木基底",
+  "criticalcrates.configuration.woodChangeWoodCrate.tooltip": "是否允許木箱可使用木基底更換。"
 }
