@@ -117,5 +117,5 @@
   "criticalcrates.configuration.colorRemovable": "Color removible de las cajas",
   "criticalcrates.configuration.colorRemovable.tooltip": "Permite quitar el color de las cajas teñidas.",
   "criticalcrates.configuration.glassChangeGlassCrate": "El vidrio cambia las cajas de vidrio",
-  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Permite cambiar las cajas de vidrio usando vidrio, igual que con las de madera."
+  "criticalcrates.configuration.glassChangeGlassCrate.tooltip": "Permitir que las cajas de vidrio se puedan cambiar con la base de vidrio, al igual que las de madera."
 }
