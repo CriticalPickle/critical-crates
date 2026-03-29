@@ -614,52 +614,6 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    /// Check if crate is currently able to be changed with a stained glass item
-    private boolean validGlass(BlockState state, Item item) {
-        List<Item> glass = List.of(
-                Items.GLASS,
-                Items.WHITE_STAINED_GLASS,
-                Items.LIGHT_GRAY_STAINED_GLASS,
-                Items.GRAY_STAINED_GLASS,
-                Items.BLACK_STAINED_GLASS,
-                Items.BROWN_STAINED_GLASS,
-                Items.RED_STAINED_GLASS,
-                Items.ORANGE_STAINED_GLASS,
-                Items.YELLOW_STAINED_GLASS,
-                Items.LIME_STAINED_GLASS,
-                Items.GREEN_STAINED_GLASS,
-                Items.CYAN_STAINED_GLASS,
-                Items.LIGHT_BLUE_STAINED_GLASS,
-                Items.BLUE_STAINED_GLASS,
-                Items.PURPLE_STAINED_GLASS,
-                Items.MAGENTA_STAINED_GLASS,
-                Items.PINK_STAINED_GLASS
-        );
-
-        if(glass.contains(item)) {
-            if(state.getBlock() instanceof GlassCrateBlock) {
-                if(!Config.GLASS_CHANGE_GLASS_CRATE.getAsBoolean()) {
-                    return false;
-                }
-
-                String crateID = state.getBlock().getDescriptionId(),
-                        crateColor = crateID.substring(crateID.indexOf("s.") + 2, crateID.indexOf("_crate")),
-                        itemID = item.getDescriptionId(),
-                        itemColor = itemID.substring(itemID.indexOf("minecraft.") + 10);
-
-                if(crateColor.contains("stained") && !itemColor.equals(crateColor)) {
-                    return true;
-                }
-
-                return crateColor.equals("glass") && itemID.contains("stained");
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     /// Check if crate is currently able to be changed with a wooden foundation item
     private boolean canApplyWoodFoundation(BlockState state, Item item) {
         List<Item> validFoundations = List.of(
@@ -682,7 +636,12 @@ public class CrateBlock extends BaseEntityBlock {
                     itemID = item.getDescriptionId(),
                     woodType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
 
-            return !crateType.equals(woodType);
+            if(crateType.contains("iron") && !state.is(ModTags.Blocks.ORE_CRATES)) {
+                crateType = crateType.substring(crateType.indexOf("iron_") + 5);
+            }
+
+            return !crateType.equals(woodType) && (state.is(ModTags.Blocks.GLASS_CRATES) || state.is(ModTags.Blocks.ORE_CRATES)
+                    || Config.WOOD_CHANGE_WOOD_CRATE.getAsBoolean());
         }
 
         return false;
@@ -716,7 +675,12 @@ public class CrateBlock extends BaseEntityBlock {
                     itemID = item.getDescriptionId(),
                     glassType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
 
-            return !crateType.equals(glassType);
+            if(crateType.contains("iron") && !state.is(ModTags.Blocks.ORE_CRATES)) {
+                crateType = crateType.substring(crateType.indexOf("iron_") + 5);
+            }
+
+            return !crateType.equals(glassType) && (state.is(ModTags.Blocks.WOODEN_CRATES) || state.is(ModTags.Blocks.ORE_CRATES)
+                    || Config.GLASS_CHANGE_GLASS_CRATE.getAsBoolean());
         }
 
         return false;
