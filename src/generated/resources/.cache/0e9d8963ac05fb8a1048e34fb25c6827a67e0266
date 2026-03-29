@@ -1,8 +1,11 @@
-// 1.21.11	2025-12-28T23:15:42.5498208	Tags for minecraft:item mod id criticalcrates
-60bc13deefcf3f289b19ba4cce7f68f8c5129b3d data/criticalcrates/tags/item/crates.json
-cb2d85091347ff72f019821ea52c3f3a139834ae data/criticalcrates/tags/item/crate_upgrades.json
-594d2f4d25d38594a8a959c7fcadd1548a95227a data/criticalcrates/tags/item/glass_crates.json
-f21a5a86df68b62dcac14fd6b7edb436d785c316 data/criticalcrates/tags/item/wooden_crates.json
+// 1.21.11	2026-03-29T14:07:21.0104645	Tags for minecraft:item mod id criticalcrates
+a56ff7833fdea1c24ec6d4664a14518ead235577 data/criticalcrates/tags/item/crates.json
+e6044faafc4ef7ddb2fceda438a65164c84a219f data/criticalcrates/tags/item/crate_foundations.json
+17b9bd6cadc869372ffec591a57782910a1d6018 data/criticalcrates/tags/item/crate_upgrades.json
+db49cb59e66d006bfa34376fdeecc2b6c489e3ea data/criticalcrates/tags/item/glass_crates.json
+27304af69ecae8a353ffe43dab37b8dfa344c7ea data/criticalcrates/tags/item/ore_crates.json
+03c885a4e086f5fbe7d21f476b5255881f1d3bcb data/criticalcrates/tags/item/ore_upgraded_crates.json
+2127132f5423cd3bf97eb1e9764aae10fbfc1a0b data/criticalcrates/tags/item/wooden_crates.json
 b069423f82daa49f9b952dd0a21f819627ce60d6 data/c/tags/item/enchantables.json
 b069423f82daa49f9b952dd0a21f819627ce60d6 data/c/tags/item/tools.json
 b069423f82daa49f9b952dd0a21f819627ce60d6 data/minecraft/tags/item/enchantable/durability.json

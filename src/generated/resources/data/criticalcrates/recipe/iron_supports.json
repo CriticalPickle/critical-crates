@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "iron_supports",
+  "ingredients": [
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "criticalcrates:pliers"
+  ],
+  "result": {
+    "count": 8,
+    "id": "criticalcrates:iron_supports"
+  }
+}

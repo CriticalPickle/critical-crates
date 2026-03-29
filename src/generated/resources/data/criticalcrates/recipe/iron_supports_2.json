@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "iron_supports",
+  "ingredients": [
+    "criticalcrates:iron_foundation",
+    "criticalcrates:pliers"
+  ],
+  "result": {
+    "count": 8,
+    "id": "criticalcrates:iron_supports"
+  }
+}

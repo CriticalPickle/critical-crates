@@ -1,0 +1,40 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "criticalcrates:block/iron_crate_resistant"
+        },
+        "when": "resistant"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "criticalcrates:block/iron_crate_lamp"
+        },
+        "when": "lamp"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "criticalcrates:block/iron_crate_fireproof"
+        },
+        "when": "fireproof"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "criticalcrates:block/iron_crate_slimy"
+        },
+        "when": "slimy"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "criticalcrates:block/iron_crate"
+    },
+    "property": "criticalcrates:crate_data_value"
+  }
+}

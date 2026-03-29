@@ -27,6 +27,12 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(ModTags.Blocks.GLASS_CRATES)
                 .add(ModBlocks.getGlassCrates());
 
+        tag(ModTags.Blocks.ORE_CRATES)
+                .add(ModBlocks.getOreCrates());
+
+        tag(ModTags.Blocks.ORE_UPGRADED_CRATES)
+                .add(ModBlocks.getOreUpgradedCrates());
+
         this.tag(ModTags.Blocks.CRATES)
                 .add(ModBlocks.getCrates());
     }

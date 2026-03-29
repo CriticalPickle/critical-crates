@@ -1,5 +1,6 @@
 package com.criticalpickle.criticalcrates.block.entity;
 
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.screen.CrateMenu;
 import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
@@ -40,6 +41,8 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
             }
         }
     };
+
+    private SimpleContainer leftoverContainerInv = null;
 
     private record SideHandler(ItemStacksResourceHandler handler, boolean isInsert, boolean isExtract) implements ResourceHandler<ItemResource> {
         @Override
@@ -117,8 +120,20 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
 
     public void copyInventory(ItemStacksResourceHandler oldInventory) {
         if(oldInventory != null) {
-            for(int i = 0; i < this.getInventory().size(); i++) {
+            int minSize =  Math.min(this.getInventory().size(), oldInventory.size()), i;
+            for(i = 0; i < minSize; i++) {
                 this.getInventory().set(i, oldInventory.getResource(i), oldInventory.getAmountAsInt(i));
+            }
+
+            // Drop rest of inventory if old inventory was larger
+            if(minSize == this.getInventory().size()) {
+                this.leftoverContainerInv = new SimpleContainer(oldInventory.size());
+                ItemStack stack;
+                for(int d = 0; d < oldInventory.size() - minSize; d++) {
+                    stack = oldInventory.getResource(d + i).toStack();
+                    stack.setCount(oldInventory.getAmountAsInt(d + i));
+                    this.leftoverContainerInv.setItem(d, stack);
+                }
             }
         }
     }
@@ -127,6 +142,10 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     public void onLoad() {
         super.onLoad();
         if(this.getLevel() != null && !this.getLevel().isClientSide() && this.getBlockState().getValue(SWITCH)) {
+            if(this.leftoverContainerInv != null && !this.leftoverContainerInv.isEmpty()) {
+                Containers.dropContents(this.getLevel(), this.worldPosition.above(), this.leftoverContainerInv);
+                this.leftoverContainerInv = null;
+            }
             this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(SWITCH, false));
         }
     }

@@ -48,6 +48,16 @@ public class ModItemTagProvider extends TagsProvider<Item> {
             builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getGlassCrateItems(i))));
         }
 
+        builder = this.getOrCreateRawBuilder(ModTags.Items.ORE_CRATES);
+        for(int i = 0; i < ModItems.getOreCrateItems().length; i++) {
+            builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getOreCrateItems(i))));
+        }
+
+        builder = this.getOrCreateRawBuilder(ModTags.Items.ORE_UPGRADED_CRATES);
+        for(int i = 0; i < ModItems.getOreUpgradedCrateItems().length; i++) {
+            builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getOreUpgradedCrateItems(i))));
+        }
+
         builder = this.getOrCreateRawBuilder(ModTags.Items.CRATES);
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
             builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getCrateItems(i))));
@@ -56,6 +66,11 @@ public class ModItemTagProvider extends TagsProvider<Item> {
         builder = this.getOrCreateRawBuilder(ModTags.Items.CRATE_UPGRADES);
         for(int i = 0; i < ModItems.getCrateUpgrades().length; i++) {
             builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getCrateUpgrades(i))));
+        }
+
+        builder = this.getOrCreateRawBuilder(ModTags.Items.CRATE_FOUNDATIONS);
+        for(int i = 0; i < ModItems.getCrateFoundations().length; i++) {
+            builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getCrateFoundations(i))));
         }
     }
 }

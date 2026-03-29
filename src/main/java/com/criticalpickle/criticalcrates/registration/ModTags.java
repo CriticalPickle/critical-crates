@@ -13,6 +13,8 @@ public class ModTags {
         public static final TagKey<Block> CRATES = createTag("crates");
         public static final TagKey<Block> WOODEN_CRATES = createTag("wooden_crates");
         public static final TagKey<Block> GLASS_CRATES = createTag("glass_crates");
+        public static final TagKey<Block> ORE_UPGRADED_CRATES = createTag("ore_upgraded_crates");
+        public static final TagKey<Block> ORE_CRATES = createTag("ore_crates");
 
         private static TagKey<Block> createTag(String name) {
             return BlockTags.create(Identifier.fromNamespaceAndPath(CriticalCrates.MODID, name));
@@ -23,7 +25,10 @@ public class ModTags {
         public static final TagKey<Item> CRATES = createTag("crates");
         public static final TagKey<Item> WOODEN_CRATES = createTag("wooden_crates");
         public static final TagKey<Item> GLASS_CRATES = createTag("glass_crates");
+        public static final TagKey<Item> ORE_CRATES = createTag("ore_crates");
+        public static final TagKey<Item> ORE_UPGRADED_CRATES = createTag("ore_upgraded_crates");
         public static final TagKey<Item> CRATE_UPGRADES = createTag("crate_upgrades");
+        public static final TagKey<Item> CRATE_FOUNDATIONS = createTag("crate_foundations");
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(Identifier.fromNamespaceAndPath(CriticalCrates.MODID, name));

@@ -61,17 +61,18 @@ public class CriticalCrates {
         HolderUtils.setHolderLookup(holderLookUpProvider);
     }
 
-    // Crate external item handler registration
+    /// Crate external item handler registration
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.CRATE_BE.get(), CrateBlockEntity::getInventorySide);
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.ORE_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
     }
 
     // Add sound event to pliers item breaking in crafting table
     @SubscribeEvent
     public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
-        ItemStack stack = null;
-        CustomData data = null;
+        ItemStack stack;
+        CustomData data;
 
         for(int i = 0; i < event.getInventory().getContainerSize(); i++) {
             stack = event.getInventory().getItem(i);

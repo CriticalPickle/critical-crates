@@ -1,0 +1,33 @@
+{
+  "values": [
+    "criticalcrates:oak_foundation",
+    "criticalcrates:spruce_foundation",
+    "criticalcrates:birch_foundation",
+    "criticalcrates:jungle_foundation",
+    "criticalcrates:acacia_foundation",
+    "criticalcrates:dark_oak_foundation",
+    "criticalcrates:mangrove_foundation",
+    "criticalcrates:cherry_foundation",
+    "criticalcrates:bamboo_foundation",
+    "criticalcrates:crimson_foundation",
+    "criticalcrates:warped_foundation",
+    "criticalcrates:glass_foundation",
+    "criticalcrates:white_stained_glass_foundation",
+    "criticalcrates:light_gray_stained_glass_foundation",
+    "criticalcrates:gray_stained_glass_foundation",
+    "criticalcrates:black_stained_glass_foundation",
+    "criticalcrates:brown_stained_glass_foundation",
+    "criticalcrates:red_stained_glass_foundation",
+    "criticalcrates:orange_stained_glass_foundation",
+    "criticalcrates:yellow_stained_glass_foundation",
+    "criticalcrates:lime_stained_glass_foundation",
+    "criticalcrates:green_stained_glass_foundation",
+    "criticalcrates:cyan_stained_glass_foundation",
+    "criticalcrates:light_blue_stained_glass_foundation",
+    "criticalcrates:blue_stained_glass_foundation",
+    "criticalcrates:purple_stained_glass_foundation",
+    "criticalcrates:magenta_stained_glass_foundation",
+    "criticalcrates:pink_stained_glass_foundation",
+    "criticalcrates:iron_foundation"
+  ]
+}

@@ -22,8 +22,12 @@ public class Config {
             .define("colorRemovable", true);
 
     public static final ModConfigSpec.BooleanValue GLASS_CHANGE_GLASS_CRATE = BUILDER
-            .comment(" ---\n Whether to allow glass crates to be changed with glass like wooden ones.\n Default is 'glassChangeGlassCrate = false'.")
+            .comment(" ---\n Whether to allow glass crates to be changed with glass foundations.\n Default is 'glassChangeGlassCrate = false'.")
             .define("glassChangeGlassCrate", false);
+
+    public static final ModConfigSpec.BooleanValue WOOD_CHANGE_WOOD_CRATE = BUILDER
+            .comment(" ---\n Whether to allow wood crates to be changed with wood foundations.\n Default is 'woodChangeWoodCrate = true'.")
+            .define("woodChangeWoodCrate", true);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 }

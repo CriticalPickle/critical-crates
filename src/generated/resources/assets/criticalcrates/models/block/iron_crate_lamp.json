@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "criticalcrates:block/ore/iron_crate_lamp_top",
+    "side": "criticalcrates:block/ore/iron_crate_lamp"
+  }
+}

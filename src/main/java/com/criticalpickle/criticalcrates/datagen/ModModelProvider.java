@@ -3,6 +3,7 @@ package com.criticalpickle.criticalcrates.datagen;
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.CrateBlock;
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
+import com.criticalpickle.criticalcrates.block.OreCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.util.IDUtils;
@@ -33,11 +34,20 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
-            blockItemWithOverrides(ModItems.getCrateItems(i), itemModels);
+            if(!ModItems.getCrateItems(i).getDescriptionId().contains("iron")
+                    || ModItems.getCrateItems(i).getDescriptionId().contains("iron_crate")) {
+                blockItemWithOverrides(ModItems.getCrateItems(i), itemModels);
+            }
+            // Else generated automatically with block
         }
 
         for(int i = 0; i < ModBlocks.getCrates().length; i++) {
-            axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i), blockModels);
+            if(!ModBlocks.getCrates(i).equals(ModBlocks.IRON_CRATE.get()) && ModBlocks.getCrates(i) instanceof OreCrateBlock) {
+                axisCrateBlock(ModBlocks.getCrates(i), blockModels);
+            }
+            else {
+                axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i), blockModels);
+            }
         }
 
         itemModels.generateFlatItem(ModItems.PLIERS_ITEM.get(), ModelTemplates.FLAT_ITEM);
@@ -45,12 +55,45 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModItems.LAMP_SIMULATOR_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.FIREPROOFING_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SLIMY_FRAMING_ITEM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.IRON_SUPPORTS_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SOAP.get(), ModelTemplates.FLAT_ITEM);
+
+        for(int j = 0; j < ModItems.getCrateFoundations().length; j++) {
+            itemModels.generateFlatItem(ModItems.getCrateFoundations(j), ModelTemplates.FLAT_ITEM);
+        }
     }
 
-    // Generate block models and states for crate
+    /// Generate only axis property for crate
+    private void axisCrateBlock(Block block, BlockModelGenerators blockModels) {
+        String blockName = IDUtils.getItemID(block.asItem()), blockType = "ore_upgraded";
+        Identifier baseLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName);
+        Variant base = new Variant(baseLoc);
+
+        final ModelTemplate BASE_TEMPLATE = createTemplate(blockName, "", blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
+        Identifier textureLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName);
+        Identifier textureLocTop = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName + "_top");
+        BASE_TEMPLATE.create(
+                block,
+                new TextureMapping()
+                        .put(TextureSlot.SIDE, textureLoc)
+                        .put(TextureSlot.END, textureLocTop),
+                blockModels.modelOutput
+        );
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(base))
+                        .with(PropertyDispatch.modify(CrateBlock.AXIS)
+                                .select(Direction.Axis.Y, BlockModelGenerators.NOP)
+                                .select(Direction.Axis.Z, BlockModelGenerators.X_ROT_90)
+                                .select(Direction.Axis.X, BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90))
+                        )
+        );
+    }
+
+    /// Generate block models and states for crate
     private void axisWithOtherPropertiesCrateBlock(Block block, BlockModelGenerators blockModels) {
-        String blockName = IDUtils.getItemID(block.asItem()), blockType = block instanceof GlassCrateBlock ? "glass" : "wood";
+        String blockName = IDUtils.getItemID(block.asItem()), blockType
+                = block instanceof GlassCrateBlock ? "glass" : block instanceof OreCrateBlock ? "ore" : "wood";
         Identifier baseLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName),
                 resistantLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_resistant"),
                 lampLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_lamp"),
@@ -101,7 +144,7 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
-    // Generate the model templates for crates
+    /// Generate the model templates for crates
     private static Map<String, ModelTemplate> generateTemplates(Block block, String blockName, String blockType) {
         Map<String, ModelTemplate> templates = new HashMap<>();
 
@@ -132,12 +175,12 @@ public class ModModelProvider extends ModelProvider {
         return templates;
     }
 
-    // Create a new template based on passed in values
+    /// Create a new template based on passed in values
     private static ModelTemplate createTemplate(String blockName, String key, String blockType, boolean crate) {
         if(!crate) {
             throw new IllegalArgumentException("Block of " + blockName + " must be a crate from CriticalCrates!");
         }
-        else if(blockType.equals("glass")) {
+        else if(blockType.equals("glass") || blockName.contains("glass")) {
             return new ModelTemplate(
                     Optional.of(ModelLocationUtils.decorateItemModelLocation(CriticalCrates.MODID + ":" + blockName + key)),
                     Optional.of(key), TextureSlot.END, TextureSlot.SIDE
@@ -151,7 +194,7 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
-    // Generate crate item models that are dependent on custom data components
+    /// Generate crate item models that are dependent on custom data components
     private void blockItemWithOverrides(Item item, ItemModelGenerators itemModels) {
         String itemName = IDUtils.getItemID(item);
 

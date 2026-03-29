@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "glass_foundation",
+  "ingredients": [
+    "minecraft:red_stained_glass",
+    "criticalcrates:pliers"
+  ],
+  "result": {
+    "count": 2,
+    "id": "criticalcrates:red_stained_glass_foundation"
+  }
+}

@@ -2,14 +2,18 @@ package com.criticalpickle.criticalcrates.screen;
 
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.block.entity.GlassCrateBlockEntity;
+import com.criticalpickle.criticalcrates.block.entity.OreCrateBlockEntity;
+import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -18,10 +22,19 @@ import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class CrateMenu extends AbstractContainerMenu {
     public final CrateBlockEntity blockEntity;
-    private final Level level;
+    protected final Level level;
 
     public CrateMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
+    }
+
+    public CrateMenu(MenuType<?> menuType, int containerId, Inventory inventory, BlockEntity blockEntity) {
+        super(menuType, containerId);
+        this.blockEntity = ((CrateBlockEntity) blockEntity);
+        this.level = inventory.player.level();
+
+        this.addStandardInventorySlots(inventory, 8, getPlayerInventoryY());
+        addCrateInventory();
     }
 
     public CrateMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
@@ -29,19 +42,29 @@ public class CrateMenu extends AbstractContainerMenu {
         this.blockEntity = ((CrateBlockEntity) blockEntity);
         this.level = inventory.player.level();
 
-        this.addStandardInventorySlots(inventory, 8, 84);
+        this.addStandardInventorySlots(inventory, 8, getPlayerInventoryY());
         addCrateInventory();
     }
 
+    /// Get the y coordinate for the player's inventory within the menu
+    protected int getPlayerInventoryY() {
+        return 84;
+    }
+
+    /// Get the TE_INVENTORY_SLOT_COUNT variable for quick moving/stacking
+    protected int GET_TE_INVENTORY_SLOT_COUNT() {
+        return 27;
+    }
+
     // CREDIT FOR STACK MOVING: diesieben07 | https://github.com/diesieben07/SevenCommons
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-    private static final int TE_INVENTORY_SLOT_COUNT = 27;
+    protected static final int HOTBAR_SLOT_COUNT = 9;
+    protected static final int PLAYER_INVENTORY_ROW_COUNT = 3;
+    protected static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
+    protected static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
+    protected static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
+    protected static final int VANILLA_FIRST_SLOT_INDEX = 0;
+    protected static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+    protected final int TE_INVENTORY_SLOT_COUNT = GET_TE_INVENTORY_SLOT_COUNT();
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
@@ -81,11 +104,35 @@ public class CrateMenu extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, blockEntity.getBlockState().getBlock());
     }
 
+    /// Get the number of rows for the crate menu
+    protected int getRows() {
+        return this.blockEntity.getInventory().size() / 9;
+    }
+
+    /// Get the y coordinate for the crate menu
+    protected int getCrateY() {
+        return 16;
+    }
+
+    /// Add the inventory of the crate
     private void addCrateInventory() {
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < getRows(); ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new ResourceHandlerSlot(this.blockEntity.inventory, this.blockEntity.inventory::set, l + i * 9, 8 + l * 18, 16 + i * 18));
+                this.addSlot(new ResourceHandlerSlot(this.blockEntity.getInventory(), this.blockEntity.getInventory()::set, l + i * 9, 8 + l * 18, getCrateY() + i * 18));
             }
+        }
+    }
+
+    /// Get the sound to play when closing the menu
+    protected SoundEvent getMenuRemoveSound() {
+        if(blockEntity.getBlockState().getBlock().getDescriptionId().contains("glass")) {
+            return SoundEvents.COPPER_BREAK;
+        }
+        else if(blockEntity instanceof OreCrateBlockEntity && blockEntity.getBlockState().is(ModBlocks.IRON_CRATE.get())) {
+            return SoundEvents.CHERRY_WOOD_TRAPDOOR_CLOSE;
+        }
+        else {
+            return SoundEvents.BARREL_CLOSE;
         }
     }
 
@@ -94,12 +141,7 @@ public class CrateMenu extends AbstractContainerMenu {
         super.removed(player);
 
         if (!player.level().isClientSide()) {
-            if(blockEntity instanceof GlassCrateBlockEntity) {
-                player.level().playSound(null, blockEntity.getBlockPos(), SoundEvents.COPPER_BREAK, SoundSource.BLOCKS, 0.5f, 1.0f);
-            }
-            else {
-                player.level().playSound(null, blockEntity.getBlockPos(), SoundEvents.BARREL_CLOSE, SoundSource.BLOCKS, 0.5f, 1.0f);
-            }
+            player.level().playSound(null, blockEntity.getBlockPos(), getMenuRemoveSound(), SoundSource.BLOCKS, 0.5f, 1.0f);
         }
     }
 }

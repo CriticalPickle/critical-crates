@@ -39,14 +39,17 @@ public class GlassCrateBlockEntityRenderer implements BlockEntityRenderer<GlassC
         ItemStackRenderState itemRendererState = new ItemStackRenderState();
         GlassCrateBlockEntity blockEntity = glassCrateBlockEntityRenderState.blockEntity;
         ItemStack stack = blockEntity.getInventory().copyToList().getFirst();
-        int lightTexture = LightTexture.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()), blockEntity.getLevel().getBrightness(LightLayer.SKY, blockEntity.getBlockPos()));
+        int lightTexture = LightTexture.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()),
+                blockEntity.getLevel().getBrightness(LightLayer.SKY, blockEntity.getBlockPos()));
 
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.5f, 0.5f);
         poseStack.scale(0.75f, 0.75f, 0.75f);
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.getRenderingRotation()));
 
-        Minecraft.getInstance().getItemModelResolver().updateForTopItem(itemRendererState, stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
+        Minecraft.getInstance().getItemModelResolver().updateForTopItem(itemRendererState, stack,
+                ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
+
         itemRendererState.submit(poseStack, submitNodeCollector, lightTexture, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
     }
