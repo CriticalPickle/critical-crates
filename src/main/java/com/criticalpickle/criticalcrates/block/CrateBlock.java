@@ -1,6 +1,7 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
+import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
@@ -387,7 +388,7 @@ public class CrateBlock extends BaseEntityBlock {
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
             }
-            else if(validDye(state, itemInStack)) {
+            else if(canDye(state, itemInStack)) {
                 String dyeColor = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10, itemInStack.getDescriptionId().indexOf("_dye"));
                 Block crateBlock = getCrateBlock("block.criticalcrates." + iron + dyeColor + "_stained_glass_crate");
 
@@ -577,8 +578,9 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     /// Check if crate is currently able to be dyed with a specific dye item
-    private boolean validDye(BlockState state, Item item) {
-        if((Config.STAINED_CRATES_DYEABLE.getAsBoolean() || Config.GLASS_CRATES_DYEABLE.getAsBoolean()) && state.getBlock() instanceof GlassCrateBlock) {
+    private boolean canDye(BlockState state, Item item) {
+        if((Config.STAINED_CRATES_DYEABLE.getAsBoolean() || Config.GLASS_CRATES_DYEABLE.getAsBoolean())
+                && state.is(ModTags.Blocks.GLASS_CRATES)) {
             List<Item> dye = List.of(
                     Items.WHITE_DYE,
                     Items.LIGHT_GRAY_DYE,
@@ -599,15 +601,18 @@ public class CrateBlock extends BaseEntityBlock {
             );
 
             if(dye.contains(item)) {
-                String crateType = state.getBlock().getDescriptionId().substring(state.getBlock().getDescriptionId().indexOf("s.") + 2, state.getBlock().getDescriptionId().indexOf("_crate")),
-                        itemColor = item.getDescriptionId().substring(item.getDescriptionId().indexOf("minecraft.") + 10, item.getDescriptionId().indexOf("_dye"));
+                String crateID = state.getBlock().getDescriptionId(),
+                        crateType = crateID.substring(crateID.indexOf("s.") + 2, crateID.indexOf("_crate")),
+                        itemID = item.getDescriptionId(),
+                        itemColor = itemID.substring(itemID.indexOf("minecraft.") + 10, itemID.indexOf("_dye"));
 
-                if(Config.STAINED_CRATES_DYEABLE.getAsBoolean() && crateType.contains("_stained") && !itemColor.equals(crateType.substring(0, crateType.indexOf("_stained")))) {
-                    return true;
+                if(crateType.contains("iron") && !state.is(ModTags.Blocks.ORE_CRATES)) {
+                    crateType = crateType.substring(crateType.indexOf("iron_") + 5);
                 }
-                else if(Config.GLASS_CRATES_DYEABLE.getAsBoolean()) {
-                    return crateType.equals("glass");
-                }
+
+                return (Config.STAINED_CRATES_DYEABLE.getAsBoolean() && crateType.contains("_stained")
+                        && !itemColor.equals(crateType.substring(0, crateType.indexOf("_stained"))))
+                        || (Config.GLASS_CRATES_DYEABLE.getAsBoolean() && crateType.equals("glass"));
             }
         }
 
