@@ -1,6 +1,9 @@
 {
   "itemGroup.criticalcrates": "Critical Crates",
-  "container.criticalcrates.crate": "箱",
+  "container.criticalcrates.crate": "木箱",
+  "container.criticalcrates.glass_crate": "玻璃箱",
+  "container.criticalcrates.ore_crate": "礦石箱",
+  "container.criticalcrates.iron_crate": "鐵箱",
 
   "item.criticalcrates.oak_crate": "橡木箱",
   "item.criticalcrates.spruce_crate": "杉木箱",

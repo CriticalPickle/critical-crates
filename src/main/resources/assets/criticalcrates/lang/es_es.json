@@ -1,6 +1,9 @@
 {
   "itemGroup.criticalcrates": "Critical Crates",
-  "container.criticalcrates.crate": "Caja",
+  "container.criticalcrates.crate": "Caja de madera",
+  "container.criticalcrates.glass_crate": "Caja de cristal",
+  "container.criticalcrates.ore_crate": "Caja de minerales",
+  "container.criticalcrates.iron_crate": "Caja de hierro",
 
   "item.criticalcrates.oak_crate": "Caja de roble",
   "item.criticalcrates.spruce_crate": "Caja de abeto",
