@@ -34,6 +34,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.SLIMY_FRAMING_ITEM.get());
         basicItem(ModItems.IRON_SUPPORTS_ITEM.get());
         basicItem(ModItems.SOAP.get());
+
+        for(int j = 0; j < ModItems.getCrateFoundations().length; j++) {
+            if(ModItems.getCrateFoundations(j).getDescriptionId().contains("glass")) {
+                basicItem(ModItems.getCrateFoundations(j)).renderType("translucent");
+            }
+            else {
+                basicItem(ModItems.getCrateFoundations(j));
+            }
+        }
     }
 
     private void blockItemWithOverrides(Item item) {

@@ -1,5 +1,6 @@
-// 1.21.1	2026-02-08T15:14:02.9285908	Tags for minecraft:item mod id criticalcrates
+// 1.21.1	2026-03-28T11:26:23.7343955	Tags for minecraft:item mod id criticalcrates
 a56ff7833fdea1c24ec6d4664a14518ead235577 data/criticalcrates/tags/item/crates.json
+e6044faafc4ef7ddb2fceda438a65164c84a219f data/criticalcrates/tags/item/crate_foundations.json
 17b9bd6cadc869372ffec591a57782910a1d6018 data/criticalcrates/tags/item/crate_upgrades.json
 594d2f4d25d38594a8a959c7fcadd1548a95227a data/criticalcrates/tags/item/glass_crates.json
 27304af69ecae8a353ffe43dab37b8dfa344c7ea data/criticalcrates/tags/item/ore_crates.json

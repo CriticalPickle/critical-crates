@@ -85,5 +85,9 @@ public class ModTabs {
                         output.accept(ModBlocks.getCrates(i));
                     }
                 }
+
+                for(int j = 0; j < ModItems.getCrateFoundations().length; j++) {
+                    output.accept(ModItems.getCrateFoundations(j));
+                }
             }).build());
 }

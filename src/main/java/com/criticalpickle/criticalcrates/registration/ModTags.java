@@ -28,6 +28,7 @@ public class ModTags {
         public static final TagKey<Item> ORE_CRATES = createTag("ore_crates");
         public static final TagKey<Item> ORE_UPGRADED_CRATES = createTag("ore_upgraded_crates");
         public static final TagKey<Item> CRATE_UPGRADES = createTag("crate_upgrades");
+        public static final TagKey<Item> CRATE_FOUNDATIONS = createTag("crate_foundations");
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CriticalCrates.MODID, name));

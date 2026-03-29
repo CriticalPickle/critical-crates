@@ -22,6 +22,38 @@ public class ModItems {
     public static final DeferredItem<Item> IRON_SUPPORTS_ITEM = ITEMS.registerSimpleItem("iron_supports");
     public static final DeferredItem<Item> SOAP = ITEMS.registerSimpleItem("soap");
 
+    public static final DeferredItem<Item> OAK_FOUNDATION_ITEM = ITEMS.registerSimpleItem("oak_foundation");
+    public static final DeferredItem<Item> SPRUCE_FOUNDATION_ITEM = ITEMS.registerSimpleItem("spruce_foundation");
+    public static final DeferredItem<Item> BIRCH_FOUNDATION_ITEM = ITEMS.registerSimpleItem("birch_foundation");
+    public static final DeferredItem<Item> JUNGLE_FOUNDATION_ITEM = ITEMS.registerSimpleItem("jungle_foundation");
+    public static final DeferredItem<Item> ACACIA_FOUNDATION_ITEM = ITEMS.registerSimpleItem("acacia_foundation");
+    public static final DeferredItem<Item> DARK_OAK_FOUNDATION_ITEM = ITEMS.registerSimpleItem("dark_oak_foundation");
+    public static final DeferredItem<Item> MANGROVE_FOUNDATION_ITEM = ITEMS.registerSimpleItem("mangrove_foundation");
+    public static final DeferredItem<Item> CHERRY_FOUNDATION_ITEM = ITEMS.registerSimpleItem("cherry_foundation");
+    public static final DeferredItem<Item> BAMBOO_FOUNDATION_ITEM = ITEMS.registerSimpleItem("bamboo_foundation");
+    public static final DeferredItem<Item> CRIMSON_FOUNDATION_ITEM = ITEMS.registerSimpleItem("crimson_foundation");
+    public static final DeferredItem<Item> WARPED_FOUNDATION_ITEM = ITEMS.registerSimpleItem("warped_foundation");
+
+    public static final DeferredItem<Item> GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("glass_foundation");
+    public static final DeferredItem<Item> WHITE_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("white_stained_glass_foundation");
+    public static final DeferredItem<Item> LIGHT_GRAY_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("light_gray_stained_glass_foundation");
+    public static final DeferredItem<Item> GRAY_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("gray_stained_glass_foundation");
+    public static final DeferredItem<Item> BLACK_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("black_stained_glass_foundation");
+    public static final DeferredItem<Item> BROWN_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("brown_stained_glass_foundation");
+    public static final DeferredItem<Item> RED_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("red_stained_glass_foundation");
+    public static final DeferredItem<Item> ORANGE_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("orange_stained_glass_foundation");
+    public static final DeferredItem<Item> YELLOW_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("yellow_stained_glass_foundation");
+    public static final DeferredItem<Item> LIME_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("lime_stained_glass_foundation");
+    public static final DeferredItem<Item> GREEN_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("green_stained_glass_foundation");
+    public static final DeferredItem<Item> CYAN_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("cyan_stained_glass_foundation");
+    public static final DeferredItem<Item> LIGHT_BLUE_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("light_blue_stained_glass_foundation");
+    public static final DeferredItem<Item> BLUE_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("blue_stained_glass_foundation");
+    public static final DeferredItem<Item> PURPLE_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("purple_stained_glass_foundation");
+    public static final DeferredItem<Item> MAGENTA_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("magenta_stained_glass_foundation");
+    public static final DeferredItem<Item> PINK_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("pink_stained_glass_foundation");
+
+    public static final DeferredItem<Item> IRON_FOUNDATION_ITEM = ITEMS.registerSimpleItem("iron_foundation");
+
     /// Get the items associated with crates
     public static Item[] getCrateItems() {
         return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> item instanceof CrateBlockItem).toArray(Item[]::new);
@@ -77,14 +109,25 @@ public class ModItems {
         return temp[index];
     }
 
-    /// Get the items associated with crates
+    /// Get the upgrade items associated with crates
     public static Item[] getCrateUpgrades() {
-        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap"))).toArray(Item[]::new);
+        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && !(item.getDescriptionId().contains("foundation"))).toArray(Item[]::new);
     }
 
-    /// Get an item associated with a crate dependent on the time of registration
+    /// Get an upgrade item associated with a crate dependent on the time of registration
     public static Item getCrateUpgrades(int index) {
-        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem)  && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap"))).toArray(Item[]::new);
+        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && !(item.getDescriptionId().contains("foundation"))).toArray(Item[]::new);
+        return temp[index];
+    }
+
+    /// Get the foundation items associated with crates
+    public static Item[] getCrateFoundations() {
+        return ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && item.getDescriptionId().contains("foundation")).toArray(Item[]::new);
+    }
+
+    /// Get a foundation item associated with a crate dependent on the time of registration
+    public static Item getCrateFoundations(int index) {
+        Item[] temp = ITEMS.getEntries().stream().map(DeferredHolder::get).filter(item -> !(item instanceof CrateBlockItem) && !(item instanceof PliersItem) && !(item.getDescriptionId().contains("soap")) && item.getDescriptionId().contains("foundation")).toArray(Item[]::new);
         return temp[index];
     }
 

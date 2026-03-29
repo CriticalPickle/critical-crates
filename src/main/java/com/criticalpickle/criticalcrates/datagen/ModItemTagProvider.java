@@ -50,5 +50,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.CRATE_UPGRADES)
                 .add(ModItems.getCrateUpgrades());
+
+        tag(ModTags.Items.CRATE_FOUNDATIONS)
+                .add(ModItems.getCrateFoundations());
     }
 }

@@ -32,10 +32,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -252,7 +249,7 @@ public class CrateBlock extends BaseEntityBlock {
         }
     }
 
-    // Functionality from CopperBulbBlock class (flips state dependent on value in "POWERED" and if it is "LIT")
+    /// Functionality from CopperBulbBlock class (flips state dependent on value in "POWERED" and if it is "LIT")
     public void checkAndFlip(BlockState state, ServerLevel level, BlockPos pos) {
         boolean isPowered = level.hasNeighborSignal(pos);
         if (isPowered != state.getValue(POWERED)) {
@@ -400,44 +397,44 @@ public class CrateBlock extends BaseEntityBlock {
                 }
                 sound = SoundEvents.GLOW_INK_SAC_USE;
             }
-            else if((state.is(ModTags.Blocks.ORE_CRATES) || !(state.getBlock() instanceof OreCrateBlock block && block.getDescriptionId().contains("glass")))
-                    && validGlass(state, itemInStack)) {
-                String paneName = itemInStack.getDescriptionId().substring(itemInStack.getDescriptionId().indexOf("minecraft.") + 10);
-                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + paneName + "_crate");
+            else if(canApplyGlassFoundation(state, itemInStack)) {
+                String itemID = itemInStack.getDescriptionId(),
+                        glassType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
 
-                if(state.is(ModTags.Blocks.ORE_CRATES)) {
-                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
-                            new ItemStack(Items.IRON_BLOCK)));
-                }
+                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + glassType + "_crate");
 
+                returnBase(state, itemInStack, level, pos);
                 if(crateBlock != null) {
                     if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
                 sound = SoundEvents.GLASS_PLACE;
             }
-            else if(!state.is(ModTags.Blocks.ORE_CRATES) && itemInStack == Items.IRON_BLOCK) {
+            else if(!state.is(ModTags.Blocks.ORE_CRATES) && itemInStack == ModItems.IRON_FOUNDATION_ITEM.get()) {
                 Block crateBlock = getCrateBlock("block.criticalcrates.iron_crate");
 
-                if(state.getBlock() instanceof GlassCrateBlock) {
-                    returnGlassBase(state, level, pos);
-                }
-                else if(state.getBlock() instanceof OreCrateBlock block) {
-                    if(block.getDescriptionId().contains("glass")) {
-                        returnGlassBase(state, level, pos);
-                    }
-                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
-                            new ItemStack(ModItems.IRON_SUPPORTS_ITEM.get())));
-                }
-
+                returnBase(state, itemInStack, level, pos);
                 if(crateBlock != null) {
                     if(!player.isCreative()) stack.shrink(1);
                     blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
                 }
                 sound = SoundEvents.ANVIL_LAND;
             }
+            else if(canApplyWoodFoundation(state, itemInStack)) {
+                String itemID = itemInStack.getDescriptionId(),
+                        woodType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
+
+                Block crateBlock = getCrateBlock("block.criticalcrates." + iron + woodType + "_crate");
+
+                returnBase(state, itemInStack, level, pos);
+                if(crateBlock != null) {
+                    if(!player.isCreative()) stack.shrink(1);
+                    blockEntity = switchCrate(level, pos, state, crateBlock, dataTag);
+                }
+                sound = SoundEvents.WOOD_BREAK;
+            }
             else {
-                // Exit out if no change in upgrade
+                // Exit if no change in upgrade
                 return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
             }
 
@@ -663,43 +660,173 @@ public class CrateBlock extends BaseEntityBlock {
         return false;
     }
 
-    /// Respawn glass block for current block state
-    private void returnGlassBase(BlockState state, Level level, BlockPos pos) {
-        List<Item> glass = List.of(
-                Items.GLASS,
-                Items.WHITE_STAINED_GLASS,
-                Items.LIGHT_GRAY_STAINED_GLASS,
-                Items.GRAY_STAINED_GLASS,
-                Items.BLACK_STAINED_GLASS,
-                Items.BROWN_STAINED_GLASS,
-                Items.RED_STAINED_GLASS,
-                Items.ORANGE_STAINED_GLASS,
-                Items.YELLOW_STAINED_GLASS,
-                Items.LIME_STAINED_GLASS,
-                Items.GREEN_STAINED_GLASS,
-                Items.CYAN_STAINED_GLASS,
-                Items.LIGHT_BLUE_STAINED_GLASS,
-                Items.BLUE_STAINED_GLASS,
-                Items.PURPLE_STAINED_GLASS,
-                Items.MAGENTA_STAINED_GLASS,
-                Items.PINK_STAINED_GLASS
+    /// Check if crate is currently able to be changed with a wooden foundation item
+    private boolean canApplyWoodFoundation(BlockState state, Item item) {
+        List<Item> validFoundations = List.of(
+                ModItems.OAK_FOUNDATION_ITEM.get(),
+                ModItems.SPRUCE_FOUNDATION_ITEM.get(),
+                ModItems.BIRCH_FOUNDATION_ITEM.get(),
+                ModItems.JUNGLE_FOUNDATION_ITEM.get(),
+                ModItems.ACACIA_FOUNDATION_ITEM.get(),
+                ModItems.DARK_OAK_FOUNDATION_ITEM.get(),
+                ModItems.MANGROVE_FOUNDATION_ITEM.get(),
+                ModItems.CHERRY_FOUNDATION_ITEM.get(),
+                ModItems.BAMBOO_FOUNDATION_ITEM.get(),
+                ModItems.CRIMSON_FOUNDATION_ITEM.get(),
+                ModItems.WARPED_FOUNDATION_ITEM.get()
+        );
+
+        if(validFoundations.contains(item) && state.getBlock() instanceof CrateBlock crateBlock) {
+            String crateID = crateBlock.getDescriptionId(),
+                    crateType = crateID.substring(crateID.indexOf("s.") + 2, crateID.indexOf("_crate")),
+                    itemID = item.getDescriptionId(),
+                    woodType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
+
+            return !crateType.equals(woodType);
+        }
+
+        return false;
+    }
+    
+    /// Check if crate is currently able to be changed with a wooden foundation item
+    private boolean canApplyGlassFoundation(BlockState state, Item item) {
+        List<Item> validFoundations = List.of(
+            ModItems.GLASS_FOUNDATION_ITEM.get(),
+            ModItems.WHITE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIGHT_GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BLACK_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BROWN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.RED_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.ORANGE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.YELLOW_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIME_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.GREEN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.CYAN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIGHT_BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.PURPLE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.MAGENTA_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.PINK_STAINED_GLASS_FOUNDATION_ITEM.get()
+        );
+
+        if(validFoundations.contains(item) && state.getBlock() instanceof CrateBlock crateBlock) {
+            String crateID = crateBlock.getDescriptionId(),
+                    crateType = crateID.substring(crateID.indexOf("s.") + 2, crateID.indexOf("_crate")),
+                    itemID = item.getDescriptionId(),
+                    glassType = itemID.substring(itemID.indexOf("s.") + 2, itemID.indexOf("_foundation"));
+
+            return !crateType.equals(glassType);
+        }
+
+        return false;
+    }
+
+    /// Respawn base foundation for current block state
+    private void returnBase(BlockState state, Item foundation, Level level, BlockPos pos) {
+        if(state.getBlock() instanceof GlassCrateBlock) {
+            returnGlassBase(state, level, pos);
+        }
+        else if(!state.is(ModTags.Blocks.ORE_CRATES) && state.getBlock() instanceof OreCrateBlock block) {
+            if(block.getDescriptionId().contains("glass")) {
+                returnGlassBase(state, level, pos);
+            }
+            else {
+                returnWoodBase(state, level, pos);
+            }
+
+            if(foundation.getDescriptionId().contains("iron")) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                        new ItemStack(ModItems.IRON_SUPPORTS_ITEM.get())));
+            }
+        }
+        else if(state.is(ModTags.Blocks.ORE_CRATES)) {
+            level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                    new ItemStack(ModItems.IRON_FOUNDATION_ITEM.get())));
+        }
+        else {
+            returnWoodBase(state, level, pos);
+        }
+    }
+
+    /// Respawn wood foundation for current block state
+    private void returnWoodBase(BlockState state, Level level, BlockPos pos) {
+        List<Item> foundations = List.of(
+                ModItems.OAK_FOUNDATION_ITEM.get(),
+                ModItems.SPRUCE_FOUNDATION_ITEM.get(),
+                ModItems.BIRCH_FOUNDATION_ITEM.get(),
+                ModItems.JUNGLE_FOUNDATION_ITEM.get(),
+                ModItems.ACACIA_FOUNDATION_ITEM.get(),
+                ModItems.DARK_OAK_FOUNDATION_ITEM.get(),
+                ModItems.MANGROVE_FOUNDATION_ITEM.get(),
+                ModItems.CHERRY_FOUNDATION_ITEM.get(),
+                ModItems.BAMBOO_FOUNDATION_ITEM.get(),
+                ModItems.CRIMSON_FOUNDATION_ITEM.get(),
+                ModItems.WARPED_FOUNDATION_ITEM.get()
         );
 
         String baseBlockID = state.getBlock().getDescriptionId(),
                 baseID = baseBlockID.substring(baseBlockID.indexOf("s.") + 2),
-                baseGlass = baseID.substring(0, baseID.indexOf("_crate")), glassID, baseGlassID;
+                baseWood, foundationID, foundationType;
 
-        if(baseGlass.contains("iron_")) {
-            baseGlass = baseGlass.substring(baseGlass.indexOf("iron_") + 5);
+        if(baseID.contains("iron_")) {
+            baseWood = baseID.substring(baseID.indexOf("iron_") + 5, baseID.indexOf("_crate"));
+        }
+        else {
+            baseWood = baseID.substring(0, baseID.indexOf("_crate"));
         }
 
-        for(int i = 0; i < glass.size(); i++) {
-            glassID = glass.get(i).getDescriptionId();
-            baseGlassID = glassID.substring(glassID.indexOf("minecraft.") + 10);
+        for(Item foundation : foundations) {
+            foundationID = foundation.getDescriptionId();
+            foundationType = foundationID.substring(foundationID.indexOf("s.") + 2, foundationID.indexOf("_foundation"));
 
-            if(baseGlassID.equals(baseGlass)) {
+            if (foundationType.equals(baseWood)) {
                 level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
-                        new ItemStack(glass.get(i))));
+                        new ItemStack(foundation)));
+            }
+        }
+    }
+
+    /// Respawn glass foundation for current block state
+    private void returnGlassBase(BlockState state, Level level, BlockPos pos) {
+        List<Item> foundations = List.of(
+            ModItems.GLASS_FOUNDATION_ITEM.get(),
+            ModItems.WHITE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIGHT_GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BLACK_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BROWN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.RED_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.ORANGE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.YELLOW_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIME_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.GREEN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.CYAN_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.LIGHT_BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.PURPLE_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.MAGENTA_STAINED_GLASS_FOUNDATION_ITEM.get(),
+            ModItems.PINK_STAINED_GLASS_FOUNDATION_ITEM.get()
+        );
+
+        String baseBlockID = state.getBlock().getDescriptionId(),
+                baseID = baseBlockID.substring(baseBlockID.indexOf("s.") + 2),
+                baseGlass, foundationID, foundationType;
+
+        if(baseID.contains("iron_")) {
+            baseGlass = baseID.substring(baseID.indexOf("iron_") + 5, baseID.indexOf("_crate"));
+        }
+        else {
+            baseGlass = baseID.substring(0, baseID.indexOf("_crate"));
+        }
+
+        for(Item foundation : foundations) {
+            foundationID = foundation.getDescriptionId();
+            foundationType = foundationID.substring(foundationID.indexOf("s.") + 2, foundationID.indexOf("_foundation"));
+
+            if (foundationType.equals(baseGlass)) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(),
+                        new ItemStack(foundation)));
             }
         }
     }
@@ -715,7 +842,7 @@ public class CrateBlock extends BaseEntityBlock {
                 level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1f, 1f);
             }
         }
-        else if(sound == SoundEvents.ANVIL_USE) {
+        else if(sound == SoundEvents.ANVIL_USE || sound == SoundEvents.ANVIL_LAND) {
             level.playSound(null, pos, sound, SoundSource.BLOCKS, 0.5f, 1f);
         }
         else {
