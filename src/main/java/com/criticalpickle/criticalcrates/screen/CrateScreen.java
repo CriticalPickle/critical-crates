@@ -1,12 +1,13 @@
 package com.criticalpickle.criticalcrates.screen;
 
 import com.criticalpickle.criticalcrates.CriticalCrates;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.jspecify.annotations.NonNull;
 
 public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     private static final Identifier GUI_PNG =
@@ -17,20 +18,20 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(
-            RenderPipelines.GUI_TEXTURED,
-            GUI_PNG,
-            this.leftPos, this.topPos,
-            0, 0,
-            this.imageWidth, this.imageHeight,
-            256, 256
+                RenderPipelines.GUI_TEXTURED,
+                GUI_PNG,
+                this.leftPos, this.topPos,
+                0, 0,
+                this.imageWidth, this.imageHeight,
+                256, 256
         );
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(@NonNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
+        this.extractTooltip(guiGraphics, mouseX, mouseY);
     }
 }
