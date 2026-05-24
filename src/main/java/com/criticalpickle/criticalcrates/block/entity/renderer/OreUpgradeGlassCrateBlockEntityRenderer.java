@@ -1,18 +1,17 @@
 package com.criticalpickle.criticalcrates.block.entity.renderer;
 
-import com.criticalpickle.criticalcrates.block.entity.GlassCrateBlockEntity;
 import com.criticalpickle.criticalcrates.block.entity.OreCrateBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
@@ -40,7 +39,7 @@ public class OreUpgradeGlassCrateBlockEntityRenderer implements BlockEntityRende
         ItemStackRenderState itemRendererState = new ItemStackRenderState();
         OreCrateBlockEntity blockEntity = oreUpgradeGlassCrateBlockEntityRenderState.blockEntity;
         ItemStack stack = blockEntity.getInventory().copyToList().getFirst();
-        int lightTexture = LightTexture.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()),
+        int lightTexture = LightCoordsUtil.pack(blockEntity.getLevel().getBrightness(LightLayer.BLOCK, blockEntity.getBlockPos()),
                 blockEntity.getLevel().getBrightness(LightLayer.SKY, blockEntity.getBlockPos()));
 
         poseStack.pushPose();

@@ -14,10 +14,11 @@ import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.block.model.Variant;
-import net.minecraft.client.renderer.block.model.VariantMutator;
-import net.minecraft.client.renderer.item.BlockModelWrapper;
+import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.block.dispatch.VariantMutator;
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.renderer.item.SelectItemModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -75,8 +76,8 @@ public class ModModelProvider extends ModelProvider {
         BASE_TEMPLATE.create(
                 block,
                 new TextureMapping()
-                        .put(TextureSlot.SIDE, textureLoc)
-                        .put(TextureSlot.END, textureLocTop),
+                        .put(TextureSlot.SIDE, new Material(textureLoc))
+                        .put(TextureSlot.END, new Material(textureLocTop)),
                 blockModels.modelOutput
         );
 
@@ -110,8 +111,8 @@ public class ModModelProvider extends ModelProvider {
             template.getValue().create(
                     block,
                     new TextureMapping()
-                            .put(TextureSlot.SIDE, textureLoc)
-                            .put(TextureSlot.END, textureLocTop),
+                            .put(TextureSlot.SIDE, new Material(textureLoc))
+                            .put(TextureSlot.END, new Material(textureLocTop)),
                     blockModels.modelOutput
             );
         }
@@ -180,12 +181,6 @@ public class ModModelProvider extends ModelProvider {
         if(!crate) {
             throw new IllegalArgumentException("Block of " + blockName + " must be a crate from CriticalCrates!");
         }
-        else if(blockType.equals("glass") || blockName.contains("glass")) {
-            return new ModelTemplate(
-                    Optional.of(ModelLocationUtils.decorateItemModelLocation(CriticalCrates.MODID + ":" + blockName + key)),
-                    Optional.of(key), TextureSlot.END, TextureSlot.SIDE
-            ).extend().parent(ModelTemplates.CUBE_COLUMN.model.get()).renderType("translucent").build();
-        }
         else {
             return new ModelTemplate(
                     Optional.of(ModelLocationUtils.decorateItemModelLocation(CriticalCrates.MODID + ":" + blockName + key)),
@@ -199,42 +194,48 @@ public class ModModelProvider extends ModelProvider {
         String itemName = IDUtils.getItemID(item);
 
         itemModels.itemModelOutput.accept(item, new SelectItemModel.Unbaked(
+                Optional.empty(),
                 new SelectItemModel.UnbakedSwitch(
                         new ItemModelPropertyUtils.CrateDataValue(),
                         List.of(
                                 new SelectItemModel.SwitchCase(
                                         List.of("resistant"),
-                                        new BlockModelWrapper.Unbaked(
+                                        new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_resistant"),
+                                                Optional.empty(),
                                                 Collections.emptyList()
                                         )
                                 ),
                                 new SelectItemModel.SwitchCase(
                                         List.of("lamp"),
-                                        new BlockModelWrapper.Unbaked(
+                                        new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_lamp"),
+                                                Optional.empty(),
                                                 Collections.emptyList()
                                         )
                                 ),
                                 new SelectItemModel.SwitchCase(
                                         List.of("fireproof"),
-                                        new BlockModelWrapper.Unbaked(
+                                        new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_fireproof"),
+                                                Optional.empty(),
                                                 Collections.emptyList()
                                         )
                                 ),
                                 new SelectItemModel.SwitchCase(
                                         List.of("slimy"),
-                                        new BlockModelWrapper.Unbaked(
+                                        new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_slimy"),
+                                                Optional.empty(),
                                                 Collections.emptyList()
                                         )
                                 )
                         )
                 ),
                 Optional.of(
-                        new BlockModelWrapper.Unbaked(
+                        new CuboidItemModelWrapper.Unbaked(
                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName),
+                                Optional.empty(),
                                 Collections.emptyList()
                         )
                 )

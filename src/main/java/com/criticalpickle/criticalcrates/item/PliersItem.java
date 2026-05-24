@@ -4,17 +4,17 @@ import com.criticalpickle.criticalcrates.Config;
 import com.criticalpickle.criticalcrates.util.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.*;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -34,17 +34,18 @@ public class PliersItem extends Item {
     }
 
     @Override
-    public @NotNull ItemStack getCraftingRemainder(ItemStack stack) {
-        ItemStack copiedStack = stack.copy();
-        CustomData data = stack.get(DataComponents.CUSTOM_DATA);
-        ItemEnchantments enchants = EnchantmentHelper.getEnchantmentsForCrafting(copiedStack);
+    public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
+        CustomData data = instance.get(DataComponents.CUSTOM_DATA);
+        ItemEnchantments enchants = instance.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
         int unbreakingLvl = enchants.getLevel(EnchantmentUtils.getEnchantmentHolder(Enchantments.UNBREAKING));
-        boolean causeDamage = true;
+        boolean causeDamage = true, isBroken = data != null && data.copyTag().getBoolean("broken").isPresent()
+                && data.copyTag().getBoolean("broken").get();
 
-        if(data != null && data.copyTag().getBoolean("broken").get()) {
-            return ItemStack.EMPTY;
+        if(isBroken) {
+            return null;
         }
 
+        DataComponentPatch.Builder patchBuilder = DataComponentPatch.builder();
         if(unbreakingLvl > 0) {
             int chanceOfDamage = RandomSource.create().nextInt(1 + unbreakingLvl);
             if(chanceOfDamage != 0) {
@@ -53,19 +54,22 @@ public class PliersItem extends Item {
         }
 
         if(causeDamage) {
-            copiedStack.setDamageValue(copiedStack.getDamageValue() + 1);
+            int currentDamage = instance.getOrDefault(DataComponents.DAMAGE, 0);
+            int maxDamage = instance.getOrDefault(DataComponents.MAX_DAMAGE, 0);
 
-            if(copiedStack.getDamageValue() >= copiedStack.getMaxDamage()){
+            patchBuilder.set(DataComponents.DAMAGE, currentDamage + 1);
+
+            if(currentDamage >= maxDamage) {
                 // Reset for unbreaking to make sure it doesn't show empty bar when "broken" due to unbreaking desync
-                copiedStack.setDamageValue(copiedStack.getDamageValue() - 1);
+                patchBuilder.set(DataComponents.MAX_DAMAGE, currentDamage - 1);
 
                 CompoundTag dataTag = new CompoundTag();
                 dataTag.putBoolean("broken", true);
-                copiedStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
+                patchBuilder.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
             }
         }
 
-        return copiedStack;
+        return new ItemStackTemplate(instance.typeHolder(), patchBuilder.build());
     }
 
     @Override

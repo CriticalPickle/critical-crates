@@ -12,6 +12,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -284,7 +285,10 @@ public class CrateBlock extends BaseEntityBlock {
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
 
         if(dataTag.getBoolean("fireproof").get()) {
-            stack.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
+            level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+            stack.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(
+                    level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DamageTypeTags.IS_FIRE))
+            );
         }
 
         return stack;

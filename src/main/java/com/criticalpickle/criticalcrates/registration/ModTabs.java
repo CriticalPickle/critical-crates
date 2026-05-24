@@ -72,7 +72,9 @@ public class ModTabs {
                         dataTag.putBoolean("fireproof", true);
                         dataTag.putBoolean("slimy", false);
                         fireCrateStack.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
-                        fireCrateStack.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
+                        fireCrateStack.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(
+                                parameters.holders().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DamageTypeTags.IS_FIRE)
+                        ));
                         output.accept(fireCrateStack);
 
                         dataTag.putBoolean("explosion_resistant", false);

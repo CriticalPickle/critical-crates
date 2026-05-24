@@ -3,6 +3,7 @@ package com.criticalpickle.criticalcrates.util;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Unit;
@@ -30,7 +31,10 @@ public class DataComponentUtils {
 
         builder.set(DataComponents.CUSTOM_DATA, CustomData.of(dataTag));
         if(fireResist) {
-            builder.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(DamageTypeTags.IS_FIRE));
+            if(blockEntity.getLevel() != null)
+                builder.set(DataComponents.DAMAGE_RESISTANT, new DamageResistant(
+                    blockEntity.getLevel().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DamageTypeTags.IS_FIRE)
+                ));
         }
         blockEntity.setComponents(builder.build());
     }
