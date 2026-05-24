@@ -1,7 +1,6 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
-import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
@@ -300,7 +299,8 @@ public class CrateBlock extends BaseEntityBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
-        } else {
+        }
+        else {
             if (level.getBlockEntity(pos) instanceof CrateBlockEntity blockEntity) {
                 player.openMenu(new SimpleMenuProvider(blockEntity, blockEntity.getDisplayName()), pos);
                 level.playSound(null, pos, getInventoryOpenSound(), SoundSource.BLOCKS, 0.5f, 1f);

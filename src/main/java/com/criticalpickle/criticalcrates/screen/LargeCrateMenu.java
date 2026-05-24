@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class LargeCrateMenu extends CrateMenu {
     public LargeCrateMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, getBlockEntityFromBuffer(inventory, extraData));
     }
 
     public LargeCrateMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
