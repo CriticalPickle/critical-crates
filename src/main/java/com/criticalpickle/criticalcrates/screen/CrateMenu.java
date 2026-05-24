@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class CrateMenu extends AbstractContainerMenu {
@@ -25,7 +26,13 @@ public class CrateMenu extends AbstractContainerMenu {
     protected final Level level;
 
     public CrateMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, getBlockEntityFromBuffer(inventory, extraData));
+    }
+
+    /// Handle null case of FriendlyByteBuf by returning null
+    protected static BlockEntity getBlockEntityFromBuffer(Inventory inventory, FriendlyByteBuf extraData) {
+        if (extraData == null) return null;
+        return inventory.player.level().getBlockEntity(extraData.readBlockPos());
     }
 
     public CrateMenu(MenuType<?> menuType, int containerId, Inventory inventory, BlockEntity blockEntity) {
@@ -106,7 +113,7 @@ public class CrateMenu extends AbstractContainerMenu {
 
     /// Get the number of rows for the crate menu
     protected int getRows() {
-        return this.blockEntity.getInventory().size() / 9;
+        return GET_TE_INVENTORY_SLOT_COUNT() / 9;
     }
 
     /// Get the y coordinate for the crate menu
@@ -116,9 +123,22 @@ public class CrateMenu extends AbstractContainerMenu {
 
     /// Add the inventory of the crate
     private void addCrateInventory() {
-        for (int i = 0; i < getRows(); ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new ResourceHandlerSlot(this.blockEntity.getInventory(), this.blockEntity.getInventory()::set, l + i * 9, 8 + l * 18, getCrateY() + i * 18));
+        // Sometimes menu is opened before blockEntity is actually valid.
+        // Handle this exception by making a temporary dummy inventory as a placeholder
+        // until blockEntity is finally valid and packets can arrive.
+        if(this.blockEntity != null) {
+            for (int i = 0; i < getRows(); ++i) {
+                for (int l = 0; l < 9; ++l) {
+                    this.addSlot(new ResourceHandlerSlot(this.blockEntity.getInventory(), this.blockEntity.getInventory()::set, l + i * 9, 8 + l * 18, getCrateY() + i * 18));
+                }
+            }
+        }
+        else {
+            ItemStacksResourceHandler dummy = new ItemStacksResourceHandler(GET_TE_INVENTORY_SLOT_COUNT());
+            for (int i = 0; i < getRows(); ++i) {
+                for (int l = 0; l < 9; ++l) {
+                    this.addSlot(new ResourceHandlerSlot(dummy, dummy::set, l + i * 9, 8 + l * 18, getCrateY() + i * 18));
+                }
             }
         }
     }

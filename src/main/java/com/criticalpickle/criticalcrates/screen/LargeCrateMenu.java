@@ -7,7 +7,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class LargeCrateMenu extends CrateMenu {
     public LargeCrateMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, getBlockEntityFromBuffer(inventory, extraData));
+    }
+
+    /// Handle null case of FriendlyByteBuf by returning null
+    protected static BlockEntity getBlockEntityFromBuffer(Inventory inventory, FriendlyByteBuf extraData) {
+        if (extraData == null) return null;
+        return inventory.player.level().getBlockEntity(extraData.readBlockPos());
     }
 
     public LargeCrateMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
