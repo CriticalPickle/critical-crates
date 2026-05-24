@@ -12,21 +12,27 @@ import org.jspecify.annotations.NonNull;
 public class LargeCrateScreen extends AbstractContainerScreen<LargeCrateMenu> {
     private static final Identifier GUI_PNG =
             Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "textures/gui/crate/large_crate_gui.png");
-    private final int containerRows, imageHeight;
 
     public LargeCrateScreen(LargeCrateMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
-        containerRows = 6;
-        this.imageHeight = 114 + this.containerRows * 18;
-        this.inventoryLabelY = this.imageHeight - 94;
+        super(menu, playerInventory, title, 176, 114 + menu.getRows() * 18);
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_PNG, i, j, 0.0F, 0.0F, this.imageWidth, this.containerRows * 18 + 17, 256, 256);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_PNG, i, j + this.containerRows * 18 + 17, 0.0F, 126.0F, this.imageWidth, 96, 256, 256);
+        guiGraphics.blit(
+                RenderPipelines.GUI_TEXTURED, GUI_PNG,
+                i, j, 0.0F, 0.0F,
+                this.imageWidth, menu.getRows() * 18 + 17,
+                256, 256
+        );
+        guiGraphics.blit(
+                RenderPipelines.GUI_TEXTURED, GUI_PNG,
+                i, j + menu.getRows() * 18 + 17, 0.0F, 126.0F,
+                this.imageWidth, 96,
+                256, 256
+        );
     }
 
     @Override

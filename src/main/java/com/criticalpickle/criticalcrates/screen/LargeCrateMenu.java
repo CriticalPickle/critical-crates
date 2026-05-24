@@ -28,4 +28,9 @@ public class LargeCrateMenu extends CrateMenu {
     protected int getCrateY() {
         return 18;
     }
+
+    @Override
+    protected int getRows() {
+        return 6;
+    }
 }
