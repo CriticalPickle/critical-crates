@@ -4,6 +4,7 @@
   "container.criticalcrates.glass_crate": "Caja de cristal",
   "container.criticalcrates.ore_crate": "Caja de minerales",
   "container.criticalcrates.iron_crate": "Caja de hierro",
+  "container.criticalcrates.dirt_crate": "Caja de tierra",
 
   "block.criticalcrates.oak_crate": "Caja de roble",
   "block.criticalcrates.spruce_crate": "Caja de abeto",
@@ -62,6 +63,8 @@
   "block.criticalcrates.iron_magenta_stained_glass_crate": "Caja de cristal magenta",
   "block.criticalcrates.iron_pink_stained_glass_crate": "Caja de cristal rosa",
   "block.criticalcrates.iron_crate": "Caja de hierro",
+  "block.criticalcrates.iron_dirt_crate": "Caja de tierra",
+  "block.criticalcrates.dirt_crate": "Caja de tierra",
 
   "item.criticalcrates.pliers": "Alicates",
   "tooltip.pliers": "Pulsa SHIFT para ver más información",
@@ -107,6 +110,7 @@
   "item.criticalcrates.magenta_stained_glass_foundation": "Base de vidrio tintado magenta",
   "item.criticalcrates.pink_stained_glass_foundation": "Base de vidrio tintado rosa",
   "item.criticalcrates.iron_foundation": "Base de hierro",
+  "item.criticalcrates.dirt_foundation": "Base de tierra",
 
   "criticalcrates.configuration.title": "Configuración de Critical Crates",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "Configuración de Critical Crates",
