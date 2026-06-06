@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-28T11:26:23.7346992	Recipes
+// 1.21.1	2026-06-06T09:31:44.2597279	Recipes
 29b9a5eb9db3f3254f0d762ad25b6bc12d722483 data/criticalcrates/advancement/recipes/misc/acacia_crate.json
 99e976aec87f49183679795d4c23a0587f4f78bd data/criticalcrates/advancement/recipes/misc/acacia_foundation.json
 519fb1576d20a7be799c7238bca2d67baddaffd7 data/criticalcrates/advancement/recipes/misc/bamboo_crate.json
@@ -15,6 +15,7 @@ ef812910942cd3e658b21755cbd8ecb216c77fd4 data/criticalcrates/advancement/recipes
 2edb4ac25faad80c9bd48f89e56dd6e8921b873c data/criticalcrates/advancement/recipes/misc/cyan_stained_glass_foundation.json
 ea5d7ed5f9c2742d8349ef4d01221192e13d915d data/criticalcrates/advancement/recipes/misc/dark_oak_crate.json
 a7afbe9a26ab3c60c9b4e53b6fea22f25aed328a data/criticalcrates/advancement/recipes/misc/dark_oak_foundation.json
+8617ac7b80081877e61039556a25984ddaa4832c data/criticalcrates/advancement/recipes/misc/dirt_foundation.json
 0b1e064e3e2217a12d50c69ca7d7ae7844376fec data/criticalcrates/advancement/recipes/misc/fireproofing.json
 1476232e1edc5de829db721533344462db90abb9 data/criticalcrates/advancement/recipes/misc/glass_foundation.json
 a375db8f4569b976850b4e524cc310d71203db00 data/criticalcrates/advancement/recipes/misc/gray_stained_glass_foundation.json
@@ -63,6 +64,7 @@ e281e23f9a543718eb55f8c43079fe7ce7ec2b4a data/criticalcrates/recipe/brown_staine
 65f2eb28d1cb81d8fcbde82fa6f14afec077dd93 data/criticalcrates/recipe/cyan_stained_glass_foundation.json
 a3c8cfd4223abe3668f6ad8dd84e4c3d66da4414 data/criticalcrates/recipe/dark_oak_crate.json
 2e4ed97b485405f605122d4df486f2c938463441 data/criticalcrates/recipe/dark_oak_foundation.json
+e8c73aee9354af8ca11dd3af9be2d12918ec7711 data/criticalcrates/recipe/dirt_foundation.json
 62be3a5efb36fd8da2f07254ea138abf4dc5d672 data/criticalcrates/recipe/fireproofing.json
 38a5782de531c2bc1475d57af61721b4d81604f6 data/criticalcrates/recipe/glass_foundation.json
 1c4697fa5a51a1c4788bbe0e6d68236be8f5a6bb data/criticalcrates/recipe/gray_stained_glass_foundation.json

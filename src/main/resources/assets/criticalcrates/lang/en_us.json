@@ -4,6 +4,7 @@
   "container.criticalcrates.glass_crate": "Glass Crate",
   "container.criticalcrates.ore_crate": "Ore Crate",
   "container.criticalcrates.iron_crate": "Iron Crate",
+  "container.criticalcrates.dirt_crate": "Dirt Crate",
 
   "block.criticalcrates.oak_crate": "Oak Crate",
   "block.criticalcrates.spruce_crate": "Spruce Crate",
@@ -62,6 +63,8 @@
   "block.criticalcrates.iron_magenta_stained_glass_crate": "Magenta Stained Glass Crate",
   "block.criticalcrates.iron_pink_stained_glass_crate": "Pink Stained Glass Crate",
   "block.criticalcrates.iron_crate": "Iron Crate",
+  "block.criticalcrates.iron_dirt_crate": "Dirt Crate",
+  "block.criticalcrates.dirt_crate": "Dirt Crate",
 
   "item.criticalcrates.pliers": "Pliers",
   "tooltip.pliers": "Press SHIFT to view more info",
@@ -107,6 +110,7 @@
   "item.criticalcrates.magenta_stained_glass_foundation": "Magenta Stained Glass Foundation",
   "item.criticalcrates.pink_stained_glass_foundation": "Pink Stained Glass Foundation",
   "item.criticalcrates.iron_foundation": "Iron Foundation",
+  "item.criticalcrates.dirt_foundation": "Dirt Foundation",
 
   "criticalcrates.configuration.title": "Critical Crates Configs",
   "criticalcrates.configuration.section.criticalcrates.common.toml": "Critical Crates Configs",

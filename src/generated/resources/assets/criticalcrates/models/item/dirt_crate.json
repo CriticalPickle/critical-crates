@@ -1,0 +1,29 @@
+{
+  "parent": "criticalcrates:block/dirt_crate",
+  "overrides": [
+    {
+      "model": "criticalcrates:block/dirt_crate_resistant",
+      "predicate": {
+        "criticalcrates:resistant": 1.0
+      }
+    },
+    {
+      "model": "criticalcrates:block/dirt_crate_lamp",
+      "predicate": {
+        "criticalcrates:lamp": 1.0
+      }
+    },
+    {
+      "model": "criticalcrates:block/dirt_crate_fireproof",
+      "predicate": {
+        "criticalcrates:fire": 1.0
+      }
+    },
+    {
+      "model": "criticalcrates:block/dirt_crate_slimy",
+      "predicate": {
+        "criticalcrates:slimy": 1.0
+      }
+    }
+  ]
+}

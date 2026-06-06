@@ -45,6 +45,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.ORE_UPGRADED_CRATES)
                 .add(ModItems.getOreUpgradedCrateItems());
 
+        tag(ModTags.Items.SOIL_CRATES)
+                .add(ModItems.getSoilCrateItems());
+
         tag(ModTags.Items.CRATES)
                 .add(ModItems.getCrateItems());
 

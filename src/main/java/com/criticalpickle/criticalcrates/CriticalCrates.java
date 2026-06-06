@@ -65,6 +65,7 @@ public class CriticalCrates {
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.CRATE_BE.get(), CrateBlockEntity::getInventorySide);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.SOIL_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.ORE_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
     }
 

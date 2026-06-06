@@ -54,10 +54,13 @@ public class OreCrateBlockEntity extends CrateBlockEntity {
         if(this.getBlockState().is(ModBlocks.IRON_CRATE.get())) {
             return Component.translatable("container.criticalcrates.iron_crate");
         }
-        else if(this.getBlockState().getBlock().getDescriptionId().contains("glass")) {
+        else if(this.getBlockState().getBlock() instanceof OreCrateBlock block && block.isCrateType("glass")) {
             return Component.translatable("container.criticalcrates.glass_crate");
         }
-        else if(this.getBlockState().getBlock() instanceof OreCrateBlock block && block.getType().equals("iron")) {
+        else if(this.getBlockState().getBlock() instanceof  OreCrateBlock block && block.isCrateType("soil")) {
+            return Component.translatable("container.criticalcrates.dirt_crate");
+        }
+        else if(this.getBlockState().getBlock() instanceof OreCrateBlock block && block.isCrateType("wood")) {
             return Component.translatable("container.criticalcrates.crate");
         }
         return Component.translatable("container.criticalcrates.ore_crate");

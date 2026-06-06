@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "axis=x,moisture=0": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=1": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=2": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=3": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=4": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=5": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=6": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,moisture=7": {
+      "model": "criticalcrates:block/iron_dirt_crate_moist_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,moisture=0": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=1": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=2": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=3": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=4": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=5": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=6": {
+      "model": "criticalcrates:block/iron_dirt_crate"
+    },
+    "axis=y,moisture=7": {
+      "model": "criticalcrates:block/iron_dirt_crate_moist"
+    },
+    "axis=z,moisture=0": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=1": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=2": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=3": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=4": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=5": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=6": {
+      "model": "criticalcrates:block/iron_dirt_crate_horizontal",
+      "x": 90
+    },
+    "axis=z,moisture=7": {
+      "model": "criticalcrates:block/iron_dirt_crate_moist_horizontal",
+      "x": 90
+    }
+  }
+}

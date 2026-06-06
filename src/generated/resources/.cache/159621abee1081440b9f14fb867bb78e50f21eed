@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-28T18:09:03.2214944	Item Models: criticalcrates
+// 1.21.1	2026-05-30T16:46:12.5892012	Item Models: criticalcrates
 e7260b8df134dec218b6427ac4fc238262bb4d34 assets/criticalcrates/models/item/acacia_crate.json
 4408c6e976746e7225813c2996df672e7b3c4b58 assets/criticalcrates/models/item/acacia_crate_fireproof.json
 aafe9bf3f5f504094836c4483e12cefbc993b024 assets/criticalcrates/models/item/acacia_crate_lamp.json
@@ -59,6 +59,12 @@ ab6901c890e86b34ab2c1705457816c8a9c90d4c assets/criticalcrates/models/item/dark_
 2937c15d984be5df67eab046b2388f5c66f9eacf assets/criticalcrates/models/item/dark_oak_crate_resistant.json
 d17c0a728f012b5ddf6173ceeeaa880b5dbe9f7d assets/criticalcrates/models/item/dark_oak_crate_slimy.json
 ac25c2083afe8e91b9fe943e6bfaac3838747cbb assets/criticalcrates/models/item/dark_oak_foundation.json
+f3ae4a438be789ebc87fc9464727eee41a9ad8e1 assets/criticalcrates/models/item/dirt_crate.json
+36d46b86dda1834cdc15047af23208aa182df5d3 assets/criticalcrates/models/item/dirt_crate_fireproof.json
+6ed6b0614de09ff1a9590dbd7e3eb8993c6c4c98 assets/criticalcrates/models/item/dirt_crate_lamp.json
+f18c09552b5c91d4264425a409cd64dd21ed040d assets/criticalcrates/models/item/dirt_crate_resistant.json
+333cbce8de44029c9000a25873f9f353341bf905 assets/criticalcrates/models/item/dirt_crate_slimy.json
+8db3ee5634d88aeedbe24de2c157c86a48caaae2 assets/criticalcrates/models/item/dirt_foundation.json
 321d303445c0844d62949486ec9ea83a2a8db956 assets/criticalcrates/models/item/fireproofing.json
 8e42e94f9f74a26fd6480c069eec0c8afa8ede1e assets/criticalcrates/models/item/glass_crate.json
 47ed38f140615809b334efa4ecc9c19dca0aac53 assets/criticalcrates/models/item/glass_crate_fireproof.json
@@ -93,6 +99,7 @@ ad679922b41208ad2219335227727933c180345d assets/criticalcrates/models/item/iron_
 2d34a3cd69380234912153433eaa14ab523f7f39 assets/criticalcrates/models/item/iron_crimson_crate.json
 796ba297b4473c7c9432344a297427c60dd34143 assets/criticalcrates/models/item/iron_cyan_stained_glass_crate.json
 36f6f22006076a2ff6115dc4338f49ff79f311e5 assets/criticalcrates/models/item/iron_dark_oak_crate.json
+ee59ea7094dfdd6715b28494665fe439dbf93f45 assets/criticalcrates/models/item/iron_dirt_crate.json
 8a40289f6b65e85b501fe144bb6c3a031e8acdd6 assets/criticalcrates/models/item/iron_foundation.json
 a0bde9ccff3605a925dd1fd8fd8f3da5d5c75708 assets/criticalcrates/models/item/iron_glass_crate.json
 1cba534b969735570c6e97edf7aa8cae84fbc420 assets/criticalcrates/models/item/iron_gray_stained_glass_crate.json

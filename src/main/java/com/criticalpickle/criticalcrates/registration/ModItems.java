@@ -3,6 +3,7 @@ package com.criticalpickle.criticalcrates.registration;
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.block.OreCrateBlock;
+import com.criticalpickle.criticalcrates.block.SoilCrateBlock;
 import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.item.PliersItem;
 import net.minecraft.world.item.Item;
@@ -53,6 +54,7 @@ public class ModItems {
     public static final DeferredItem<Item> PINK_STAINED_GLASS_FOUNDATION_ITEM = ITEMS.registerSimpleItem("pink_stained_glass_foundation");
 
     public static final DeferredItem<Item> IRON_FOUNDATION_ITEM = ITEMS.registerSimpleItem("iron_foundation");
+    public static final DeferredItem<Item> DIRT_FOUNDATION_ITEM = ITEMS.registerSimpleItem("dirt_foundation");
 
     /// Get the items associated with crates
     public static Item[] getCrateItems() {
@@ -71,9 +73,8 @@ public class ModItems {
         return ITEMS.getEntries().stream().map(DeferredHolder::get)
                 .filter(item ->
                         item instanceof CrateBlockItem crateItem && !(crateItem.getBlock() instanceof GlassCrateBlock)
-                                && (!(crateItem.getBlock() instanceof OreCrateBlock oreCrate)
-                                    || (!oreCrate.getDescriptionId().contains("glass")
-                                        && !oreCrate.getDescriptionId().contains("iron_crate")))
+                                && !(crateItem.getBlock() instanceof SoilCrateBlock)
+                                && (!(crateItem.getBlock() instanceof OreCrateBlock oreCrate) || oreCrate.isCrateType("wood"))
                 ).toArray(Item[]::new);
     }
 
@@ -88,8 +89,7 @@ public class ModItems {
         return ITEMS.getEntries().stream().map(DeferredHolder::get)
                 .filter(item ->
                         item instanceof CrateBlockItem crateItem && (crateItem.getBlock() instanceof GlassCrateBlock
-                                || (crateItem.getBlock() instanceof OreCrateBlock oreCrate
-                                    && oreCrate.getDescriptionId().contains("glass")))
+                                || (crateItem.getBlock() instanceof OreCrateBlock oreCrate && oreCrate.isCrateType("glass")))
                 ).toArray(Item[]::new);
     }
 
@@ -104,7 +104,7 @@ public class ModItems {
         return ITEMS.getEntries().stream().map(DeferredHolder::get)
                 .filter(item ->
                         item instanceof CrateBlockItem crateItem && crateItem.getBlock() instanceof OreCrateBlock block
-                                && block.getDescriptionId().contains("iron_crate")
+                                && block.isCrateType("ore")
                 ).toArray(Item[]::new);
     }
 
@@ -118,14 +118,29 @@ public class ModItems {
     public static Item[] getOreUpgradedCrateItems() {
         return ITEMS.getEntries().stream().map(DeferredHolder::get)
                 .filter(item ->
-                        item instanceof CrateBlockItem crateItem && crateItem.getBlock() instanceof OreCrateBlock block
-                                && !block.getDescriptionId().contains("iron_crate")
+                        item instanceof CrateBlockItem crateItem && crateItem.getBlock() instanceof OreCrateBlock oreCrate
+                                && !oreCrate.isCrateType("ore")
                 ).toArray(Item[]::new);
     }
 
     /// Get an item associated with an ore upgraded crate dependent on the time of registration
     public static Item getOreUpgradedCrateItems(int index) {
         Item[] temp = getOreUpgradedCrateItems();
+        return temp[index];
+    }
+
+    /// Get items associated with soil crates
+    public static Item[] getSoilCrateItems() {
+        return ITEMS.getEntries().stream().map(DeferredHolder::get)
+                .filter(item ->
+                        item instanceof CrateBlockItem crateItem && (crateItem.getBlock() instanceof SoilCrateBlock
+                                || (crateItem.getBlock() instanceof OreCrateBlock oreCrate && oreCrate.isCrateType("soil")))
+                ).toArray(Item[]::new);
+    }
+
+    /// Get an item associated with a soil crate dependent on the time of registration
+    public static Item getSoilCrateItems(int index) {
+        Item[] temp = getSoilCrateItems();
         return temp[index];
     }
 

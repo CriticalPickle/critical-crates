@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "criticalcrates:block/ore_upgraded/iron_bamboo_crate_top",
+    "side": "criticalcrates:block/ore_upgraded/iron_bamboo_crate"
+  }
+}

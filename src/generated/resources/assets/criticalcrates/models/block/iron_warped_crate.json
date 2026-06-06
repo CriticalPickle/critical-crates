@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_column_horizontal",
+  "parent": "minecraft:block/cube_column",
   "textures": {
     "end": "criticalcrates:block/ore_upgraded/iron_warped_crate_top",
     "side": "criticalcrates:block/ore_upgraded/iron_warped_crate"

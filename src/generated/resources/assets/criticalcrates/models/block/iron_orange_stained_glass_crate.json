@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_column_horizontal",
+  "parent": "minecraft:block/cube_column",
   "render_type": "minecraft:translucent",
   "textures": {
     "end": "criticalcrates:block/ore_upgraded/iron_orange_stained_glass_crate_top",

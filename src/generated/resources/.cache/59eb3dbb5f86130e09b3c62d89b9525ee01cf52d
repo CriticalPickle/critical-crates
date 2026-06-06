@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-07T20:46:24.1754068	Loot Tables
+// 1.21.1	2026-05-30T13:52:03.4241986	Loot Tables
 588a97f4a597ab19c3f432b7a9558da626d06ae4 data/criticalcrates/loot_table/blocks/acacia_crate.json
 c42891cdb7c6837639a3cb2b3db84711e81661bb data/criticalcrates/loot_table/blocks/bamboo_crate.json
 f202a670adfeceab4d9414e576d492e743f9dd46 data/criticalcrates/loot_table/blocks/birch_crate.json
@@ -9,6 +9,7 @@ cfd4a0a1f577cf23dc002f61ca236dd72723e1fb data/criticalcrates/loot_table/blocks/c
 96ed12f1e3ccaa8449939f85716da226f4c5bf5c data/criticalcrates/loot_table/blocks/crimson_crate.json
 14ee0fde971d65aabd1115cddee4878bad545796 data/criticalcrates/loot_table/blocks/cyan_stained_glass_crate.json
 d6b25886209cc74013dd77f72750dcb94b5d72c7 data/criticalcrates/loot_table/blocks/dark_oak_crate.json
+6dbd4dc5b6ffc50d54919d3665ee4f5d4f476e9b data/criticalcrates/loot_table/blocks/dirt_crate.json
 463c382f062dd693ed9e3fd7887625d615d167c3 data/criticalcrates/loot_table/blocks/glass_crate.json
 de8c3ce6ca571763ca6b8b4d6e5d6e5f807b772d data/criticalcrates/loot_table/blocks/gray_stained_glass_crate.json
 c58ab5ab7d58f712c1c01114b131e4ff7c9f313b data/criticalcrates/loot_table/blocks/green_stained_glass_crate.json
@@ -23,6 +24,7 @@ f18a57dcba984a8c5cf428151335bbb3f33a5ab5 data/criticalcrates/loot_table/blocks/i
 ff8ac6d592e9a29c92141818a32a0c6e5b4203fe data/criticalcrates/loot_table/blocks/iron_crimson_crate.json
 6c7aa7187d05d37399957de2ffa396f8e138f559 data/criticalcrates/loot_table/blocks/iron_cyan_stained_glass_crate.json
 b23434dff7f9343c7c9cd573c03812559840af8a data/criticalcrates/loot_table/blocks/iron_dark_oak_crate.json
+d2dc3a6b83a13c0f3abf3643569779ec37fd97ea data/criticalcrates/loot_table/blocks/iron_dirt_crate.json
 2590ea56da48f103b5384135dfad8a782f3aff54 data/criticalcrates/loot_table/blocks/iron_glass_crate.json
 1fb86d3bdb30ce1dad112ed4c3958f0d2e28ce35 data/criticalcrates/loot_table/blocks/iron_gray_stained_glass_crate.json
 f3c43970eb0878cdef823dbc9dc7b079729e3ca8 data/criticalcrates/loot_table/blocks/iron_green_stained_glass_crate.json
