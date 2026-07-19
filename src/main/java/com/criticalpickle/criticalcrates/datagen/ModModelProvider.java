@@ -4,6 +4,7 @@ import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.block.CrateBlock;
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.block.OreCrateBlock;
+import com.criticalpickle.criticalcrates.block.SoilCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.util.IDUtils;
@@ -11,11 +12,12 @@ import com.criticalpickle.criticalcrates.util.ItemModelPropertyUtils;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
+import net.minecraft.client.renderer.block.dispatch.multipart.CombinedCondition;
+import net.minecraft.client.renderer.block.dispatch.multipart.Condition;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.resources.model.sprite.Material;
@@ -24,6 +26,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 
@@ -33,7 +36,7 @@ public class ModModelProvider extends ModelProvider {
     }
 
     @Override
-    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+    protected void registerModels(@NonNull BlockModelGenerators blockModels, @NonNull ItemModelGenerators itemModels) {
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
             if(!ModItems.getCrateItems(i).getDescriptionId().contains("iron")
                     || ModItems.getCrateItems(i).getDescriptionId().contains("iron_crate")) {
@@ -43,8 +46,8 @@ public class ModModelProvider extends ModelProvider {
         }
 
         for(int i = 0; i < ModBlocks.getCrates().length; i++) {
-            if(!ModBlocks.getCrates(i).equals(ModBlocks.IRON_CRATE.get()) && ModBlocks.getCrates(i) instanceof OreCrateBlock) {
-                axisCrateBlock(ModBlocks.getCrates(i), blockModels);
+            if(ModBlocks.getCrates(i) instanceof OreCrateBlock oreCrateBlock && !oreCrateBlock.isCrateType("ore")) {
+                axisCrateBlock(oreCrateBlock, blockModels);
             }
             else {
                 axisWithOtherPropertiesCrateBlock(ModBlocks.getCrates(i), blockModels);
@@ -64,120 +67,175 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
+    /// Gets the relating block type texture folder.
+    private String getBlockType(Block block) {
+        if (block instanceof GlassCrateBlock) {
+            return "glass";
+        }
+        else if (block instanceof OreCrateBlock oreCrateBlock) {
+            return !oreCrateBlock.getCrateType().equals("ore") ? "ore_upgraded" : "ore";
+        }
+        else if (block instanceof SoilCrateBlock) {
+            return "soil";
+        }
+        return "wood";
+    }
+
+    /// Constructs the model location for a block based on its name and state suffix.
+    private Identifier makeModelLoc(Block block, String suffix) {
+        String blockName = IDUtils.getItemID(block.asItem());
+        return Identifier.fromNamespaceAndPath(CriticalCrates.MODID,
+                "block/" + blockName + suffix);
+    }
+
+    /// Constructs the texture location for a block based on its type, name, and state suffix.
+    private Identifier makeTextureLoc(Block block, String suffix) {
+        String blockName = IDUtils.getItemID(block.asItem()), blockType = getBlockType(block);
+        return Identifier.fromNamespaceAndPath(CriticalCrates.MODID,
+                "block/" + blockType + "/" + blockName + suffix);
+    }
+
+    private static Condition constructCombinedCond(List<ModelCondition<?>> modelConditions) {
+        List<Condition> conditions = new ArrayList<>();
+        for (ModelCondition<?> modelCondition : modelConditions) {
+            conditions.add(modelCondition.toCondition());
+        }
+        return new CombinedCondition(CombinedCondition.Operation.AND, conditions);
+    }
+
+    private BlockModelDefinitionGenerator constructGenerator(Block block, Variant base, boolean onlyAxis, boolean addMoist) {
+        BlockModelDefinitionGenerator finalGenerator;
+        MultiVariantGenerator multiVariantGenerator = MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(base))
+                .with(PropertyDispatch.modify(CrateBlock.AXIS)
+                        .select(Direction.Axis.Y, BlockModelGenerators.NOP)
+                        .select(Direction.Axis.Z, BlockModelGenerators.X_ROT_90)
+                        .select(Direction.Axis.X, BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90))
+                );
+
+        finalGenerator = multiVariantGenerator;
+        if (onlyAxis && addMoist) {
+            multiVariantGenerator = multiVariantGenerator.with(PropertyDispatch.modify(SoilCrateBlock.MOISTURE)
+                    .generate(moist -> moist == 7 ?
+                            VariantMutator.MODEL.withValue(makeModelLoc(block, "_moist"))
+                            : BlockModelGenerators.NOP)
+            );
+            finalGenerator = multiVariantGenerator;
+        }
+        else if (block instanceof SoilCrateBlock) {
+            record SoilPart(String suffix, ModelCondition<?>... conditions) {}
+            final List<SoilPart> soilParts = List.of(
+                    new SoilPart("",
+                            ModelCondition.of(CrateBlock.EXPLOSION_RESIST, false),
+                            ModelCondition.of(CrateBlock.LAMP_UPGRADE, false),
+                            ModelCondition.of(CrateBlock.FIREPROOF, false),
+                            ModelCondition.of(CrateBlock.SLIMY, false)
+                    ),
+                    new SoilPart("_resistant",
+                            ModelCondition.of(CrateBlock.EXPLOSION_RESIST, true)
+                    ),
+                    new SoilPart("_lamp",
+                            ModelCondition.of(CrateBlock.LAMP_UPGRADE, true),
+                            ModelCondition.of(CrateBlock.LIT, false)
+                    ),
+                    new SoilPart("_lamp_on",
+                            ModelCondition.of(CrateBlock.LAMP_UPGRADE, true),
+                            ModelCondition.of(CrateBlock.LIT, true)
+                    ),
+                    new SoilPart("_fireproof",
+                            ModelCondition.of(CrateBlock.FIREPROOF, true)
+                    ),
+                    new SoilPart("_slimy",
+                            ModelCondition.of(CrateBlock.SLIMY, true)
+                    )
+            );
+
+            MultiPartGenerator multiPart = MultiPartGenerator.multiPart(block);
+            for (SoilPart soilPart : soilParts) {
+                for (boolean moist : new boolean[]{false, true}) {
+                    final ModelCondition<Integer> moistCondition = moist ?
+                            ModelCondition.of(SoilCrateBlock.MOISTURE, 7)
+                            : ModelCondition.of(SoilCrateBlock.MOISTURE, 0, 1, 2, 3, 4, 5, 6);
+                    final String suffix = moist ? "_moist" + soilPart.suffix() : soilPart.suffix();
+                    final Variant variant = new Variant(makeModelLoc(block, suffix));
+
+                    for (Direction.Axis axis : Direction.Axis.values()) {
+                        List<ModelCondition<?>> allConditions = new ArrayList<>(Arrays.stream(soilPart.conditions)
+                                .toList());
+                        allConditions.add(moistCondition);
+                        allConditions.add(ModelCondition.of(CrateBlock.AXIS, axis));
+
+                        final Variant axisVariant = switch (axis) {
+                            case Y -> variant;
+                            case Z -> variant.with(BlockModelGenerators.X_ROT_90);
+                            case X -> variant.with(BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90));
+                        };
+
+                        multiPart = multiPart.with(constructCombinedCond(allConditions),
+                                BlockModelGenerators.variant(axisVariant));
+                    }
+                }
+            }
+            finalGenerator = multiPart;
+        }
+        else if (!onlyAxis) {
+            multiVariantGenerator = multiVariantGenerator
+                    .with(PropertyDispatch.modify(CrateBlock.EXPLOSION_RESIST)
+                            .select(true, VariantMutator.MODEL.withValue(makeModelLoc(block, "_resistant")))
+                            .select(false, BlockModelGenerators.NOP)
+                    )
+                    .with(PropertyDispatch.modify(CrateBlock.LAMP_UPGRADE, CrateBlock.LIT)
+                            .select(true, false, VariantMutator.MODEL.withValue(makeModelLoc(block, "_lamp")))
+                            .select(true, true, VariantMutator.MODEL.withValue(makeModelLoc(block, "_lamp_on")))
+                            .select(false, false, BlockModelGenerators.NOP)
+                            .select(false, true, BlockModelGenerators.NOP)
+                    )
+                    .with(PropertyDispatch.modify(CrateBlock.FIREPROOF)
+                            .select(true, VariantMutator.MODEL.withValue(makeModelLoc(block, "_fireproof")))
+                            .select(false, BlockModelGenerators.NOP)
+                    )
+                    .with(PropertyDispatch.modify(CrateBlock.SLIMY)
+                            .select(true, VariantMutator.MODEL.withValue(makeModelLoc(block, "_slimy")))
+                            .select(false, BlockModelGenerators.NOP)
+                    );
+            finalGenerator = multiVariantGenerator;
+        }
+
+        return finalGenerator;
+    }
+
     /// Generate only axis property for crate
     private void axisCrateBlock(Block block, BlockModelGenerators blockModels) {
-        String blockName = IDUtils.getItemID(block.asItem()), blockType = "ore_upgraded";
-        Identifier baseLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName);
-        Variant base = new Variant(baseLoc);
+        String blockName = IDUtils.getItemID(block.asItem());
+        Variant base = new Variant(makeModelLoc(block, ""));
 
-        final ModelTemplate BASE_TEMPLATE = createTemplate(blockName, "", blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        Identifier textureLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName);
-        Identifier textureLocTop = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName + "_top");
-        BASE_TEMPLATE.create(
+        createTemplate(blockName, "", block.getDescriptionId().contains(CriticalCrates.MODID)).create(
                 block,
                 new TextureMapping()
-                        .put(TextureSlot.SIDE, new Material(textureLoc))
-                        .put(TextureSlot.END, new Material(textureLocTop)),
+                        .put(TextureSlot.SIDE, new Material(makeTextureLoc(block, "")))
+                        .put(TextureSlot.END, new Material(makeTextureLoc(block, "_top"))),
                 blockModels.modelOutput
         );
 
-        blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(base))
-                        .with(PropertyDispatch.modify(CrateBlock.AXIS)
-                                .select(Direction.Axis.Y, BlockModelGenerators.NOP)
-                                .select(Direction.Axis.Z, BlockModelGenerators.X_ROT_90)
-                                .select(Direction.Axis.X, BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90))
-                        )
-        );
-    }
-
-    /// Generate block models and states for crate
-    private void axisWithOtherPropertiesCrateBlock(Block block, BlockModelGenerators blockModels) {
-        String blockName = IDUtils.getItemID(block.asItem()), blockType
-                = block instanceof GlassCrateBlock ? "glass" : block instanceof OreCrateBlock ? "ore" : "wood";
-        Identifier baseLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName),
-                resistantLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_resistant"),
-                lampLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_lamp"),
-                lampOnLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_lamp_on"),
-                fireLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_fireproof"),
-                slimyLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockName + "_slimy");
-        Variant base = new Variant(baseLoc);
-
-        Map<String, ModelTemplate> templates = generateTemplates(block, blockName, blockType);
-
-        for(Map.Entry<String, ModelTemplate> template : templates.entrySet()) {
-            Identifier textureLoc = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName + template.getKey());
-            Identifier textureLocTop = Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + blockType + "/" + blockName + template.getKey() + "_top");
-            template.getValue().create(
+        BlockModelDefinitionGenerator finalGenerator;
+        if(block instanceof OreCrateBlock oreCrateBlock && !oreCrateBlock.isCrateType("soil")) {
+            finalGenerator = constructGenerator(block, base, true, false);
+        }
+        else {
+            final ModelTemplate MOIST_TEMPLATE = createTemplate(blockName, "_moist", block.getDescriptionId().contains(CriticalCrates.MODID));
+            MOIST_TEMPLATE.create(
                     block,
                     new TextureMapping()
-                            .put(TextureSlot.SIDE, new Material(textureLoc))
-                            .put(TextureSlot.END, new Material(textureLocTop)),
+                            .put(TextureSlot.SIDE, new Material(makeTextureLoc(block, "_moist")))
+                            .put(TextureSlot.END, new Material(makeTextureLoc(block, "_moist_top"))),
                     blockModels.modelOutput
             );
+            finalGenerator = constructGenerator(block, base, true, true);
         }
-
-        blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(base))
-                        .with(PropertyDispatch.modify(CrateBlock.AXIS)
-                                .select(Direction.Axis.Y, BlockModelGenerators.NOP)
-                                .select(Direction.Axis.Z, BlockModelGenerators.X_ROT_90)
-                                .select(Direction.Axis.X, BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90))
-                        )
-                        .with(PropertyDispatch.modify(CrateBlock.EXPLOSION_RESIST)
-                                .select(true, VariantMutator.MODEL.withValue(resistantLoc))
-                                .select(false, BlockModelGenerators.NOP)
-                        )
-                        .with(PropertyDispatch.modify(CrateBlock.LAMP_UPGRADE, CrateBlock.LIT)
-                                .select(true, false, VariantMutator.MODEL.withValue(lampLoc))
-                                .select(true, true, VariantMutator.MODEL.withValue(lampOnLoc))
-                                .select(false, false, BlockModelGenerators.NOP)
-                                .select(false, true, BlockModelGenerators.NOP)
-                        )
-                        .with(PropertyDispatch.modify(CrateBlock.FIREPROOF)
-                                .select(true, VariantMutator.MODEL.withValue(fireLoc))
-                                .select(false, BlockModelGenerators.NOP)
-                        )
-                        .with(PropertyDispatch.modify(CrateBlock.SLIMY)
-                                .select(true, VariantMutator.MODEL.withValue(slimyLoc))
-                                .select(false, BlockModelGenerators.NOP)
-                        )
-        );
-    }
-
-    /// Generate the model templates for crates
-    private static Map<String, ModelTemplate> generateTemplates(Block block, String blockName, String blockType) {
-        Map<String, ModelTemplate> templates = new HashMap<>();
-
-        String key = "";
-        final ModelTemplate BASE_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, BASE_TEMPLATE);
-
-        key = "_resistant";
-        final ModelTemplate RESISTANT_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, RESISTANT_TEMPLATE);
-
-        key = "_lamp";
-        final ModelTemplate LAMP_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, LAMP_TEMPLATE);
-
-        key = "_lamp_on";
-        final ModelTemplate LAMP_ON_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, LAMP_ON_TEMPLATE);
-
-        key = "_fireproof";
-        final ModelTemplate FIREPROOF_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, FIREPROOF_TEMPLATE);
-
-        key = "_slimy";
-        final ModelTemplate SLIMY_TEMPLATE = createTemplate(blockName, key, blockType, block.getDescriptionId().contains(CriticalCrates.MODID));
-        templates.put(key, SLIMY_TEMPLATE);
-
-        return templates;
+        blockModels.blockStateOutput.accept(finalGenerator);
     }
 
     /// Create a new template based on passed in values
-    private static ModelTemplate createTemplate(String blockName, String key, String blockType, boolean crate) {
+    private static ModelTemplate createTemplate(String blockName, String key, boolean crate) {
         if(!crate) {
             throw new IllegalArgumentException("Block of " + blockName + " must be a crate from CriticalCrates!");
         }
@@ -189,16 +247,64 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
+    /// Generate the model templates for crates
+    private static Map<String, ModelTemplate> generateTemplates(Block block, String blockName) {
+        Map<String, ModelTemplate> templates = new HashMap<>();
+        List<String> keys = List.of(
+                "",
+                "_resistant",
+                "_lamp",
+                "_lamp_on",
+                "_fireproof",
+                "_slimy"
+        );
+
+        for (String key : keys) {
+            final ModelTemplate base_template = createTemplate(blockName, key, block.getDescriptionId().contains(CriticalCrates.MODID));
+            templates.put(key, base_template);
+
+            if (block instanceof SoilCrateBlock) {
+                final ModelTemplate moist_template = createTemplate(blockName, "_moist" + key, block.getDescriptionId().contains(CriticalCrates.MODID));
+                templates.put("_moist" + key, moist_template);
+            }
+        }
+
+        return templates;
+    }
+
+    /// Generate block models and states for crate
+    private void axisWithOtherPropertiesCrateBlock(Block block, BlockModelGenerators blockModels) {
+        String blockName = IDUtils.getItemID(block.asItem());
+        Variant base = new Variant(makeModelLoc(block, ""));
+
+        Map<String, ModelTemplate> templates = generateTemplates(block, blockName);
+
+        for(Map.Entry<String, ModelTemplate> template : templates.entrySet()) {
+            template.getValue().create(
+                    block,
+                    new TextureMapping()
+                            .put(TextureSlot.SIDE,
+                                    new Material(makeTextureLoc(block, template.getKey())))
+                            .put(TextureSlot.END,
+                                    new Material(makeTextureLoc(block, template.getKey() + "_top"))),
+                    blockModels.modelOutput
+            );
+        }
+
+        BlockModelDefinitionGenerator generator = constructGenerator(block, base, false, false);
+        blockModels.blockStateOutput.accept(generator);
+    }
+
     /// Generate crate item models that are dependent on custom data components
     private void blockItemWithOverrides(Item item, ItemModelGenerators itemModels) {
         String itemName = IDUtils.getItemID(item);
 
         itemModels.itemModelOutput.accept(item, new SelectItemModel.Unbaked(
                 Optional.empty(),
-                new SelectItemModel.UnbakedSwitch(
+                new SelectItemModel.UnbakedSwitch<>(
                         new ItemModelPropertyUtils.CrateDataValue(),
                         List.of(
-                                new SelectItemModel.SwitchCase(
+                                new SelectItemModel.SwitchCase<>(
                                         List.of("resistant"),
                                         new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_resistant"),
@@ -206,7 +312,7 @@ public class ModModelProvider extends ModelProvider {
                                                 Collections.emptyList()
                                         )
                                 ),
-                                new SelectItemModel.SwitchCase(
+                                new SelectItemModel.SwitchCase<>(
                                         List.of("lamp"),
                                         new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_lamp"),
@@ -214,7 +320,7 @@ public class ModModelProvider extends ModelProvider {
                                                 Collections.emptyList()
                                         )
                                 ),
-                                new SelectItemModel.SwitchCase(
+                                new SelectItemModel.SwitchCase<>(
                                         List.of("fireproof"),
                                         new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_fireproof"),
@@ -222,7 +328,7 @@ public class ModModelProvider extends ModelProvider {
                                                 Collections.emptyList()
                                         )
                                 ),
-                                new SelectItemModel.SwitchCase(
+                                new SelectItemModel.SwitchCase<>(
                                         List.of("slimy"),
                                         new CuboidItemModelWrapper.Unbaked(
                                                 Identifier.fromNamespaceAndPath(CriticalCrates.MODID, "block/" + itemName + "_slimy"),

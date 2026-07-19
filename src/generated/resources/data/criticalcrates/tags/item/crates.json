@@ -56,6 +56,8 @@
     "criticalcrates:iron_magenta_stained_glass_crate",
     "criticalcrates:pink_stained_glass_crate",
     "criticalcrates:iron_pink_stained_glass_crate",
-    "criticalcrates:iron_crate"
+    "criticalcrates:iron_crate",
+    "criticalcrates:dirt_crate",
+    "criticalcrates:iron_dirt_crate"
   ]
 }

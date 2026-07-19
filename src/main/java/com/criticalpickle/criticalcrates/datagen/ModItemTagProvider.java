@@ -58,6 +58,11 @@ public class ModItemTagProvider extends TagsProvider<Item> {
             builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getOreUpgradedCrateItems(i))));
         }
 
+        builder = this.getOrCreateRawBuilder(ModTags.Items.SOIL_CRATES);
+        for(int i = 0; i < ModItems.getSoilCrateItems().length; i++) {
+            builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getSoilCrateItems(i))));
+        }
+
         builder = this.getOrCreateRawBuilder(ModTags.Items.CRATES);
         for(int i = 0; i < ModItems.getCrateItems().length; i++) {
             builder.addElement(Identifier.fromNamespaceAndPath("criticalcrates", IDUtils.getItemID(ModItems.getCrateItems(i))));

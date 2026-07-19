@@ -66,6 +66,7 @@ public class CriticalCrates {
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.CRATE_BE.get(), CrateBlockEntity::getInventorySide);
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.GLASS_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.ORE_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.SOIL_CRATE_BE.get(), CrateBlockEntity::getInventorySide);
     }
 
     // Add sound event to pliers item breaking in crafting table

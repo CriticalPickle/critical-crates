@@ -67,6 +67,8 @@ public class ModRecipeProvider extends RecipeProvider {
 
         simpleFoundation(ModItems.IRON_FOUNDATION_ITEM.get(), Blocks.IRON_BLOCK, "ore_foundation");
 
+        simpleFoundation(ModItems.DIRT_FOUNDATION_ITEM.get(), Blocks.DIRT, "soil_foundation");
+
         ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), 8)
                 .requires(Items.OBSIDIAN)
                 .requires(ModItems.PLIERS_ITEM.get())

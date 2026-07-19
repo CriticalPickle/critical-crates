@@ -1,4 +1,4 @@
-// 26.1.2	2026-05-24T11:05:10.5959874	CriticalCrates Recipes
+// 26.1.2	2026-06-07T12:51:06.6900545	CriticalCrates Recipes
 29b9a5eb9db3f3254f0d762ad25b6bc12d722483 data/criticalcrates/advancement/recipes/misc/acacia_crate.json
 99e976aec87f49183679795d4c23a0587f4f78bd data/criticalcrates/advancement/recipes/misc/acacia_foundation.json
 519fb1576d20a7be799c7238bca2d67baddaffd7 data/criticalcrates/advancement/recipes/misc/bamboo_crate.json
@@ -15,6 +15,7 @@ ef812910942cd3e658b21755cbd8ecb216c77fd4 data/criticalcrates/advancement/recipes
 2edb4ac25faad80c9bd48f89e56dd6e8921b873c data/criticalcrates/advancement/recipes/misc/cyan_stained_glass_foundation.json
 ea5d7ed5f9c2742d8349ef4d01221192e13d915d data/criticalcrates/advancement/recipes/misc/dark_oak_crate.json
 a7afbe9a26ab3c60c9b4e53b6fea22f25aed328a data/criticalcrates/advancement/recipes/misc/dark_oak_foundation.json
+8617ac7b80081877e61039556a25984ddaa4832c data/criticalcrates/advancement/recipes/misc/dirt_foundation.json
 0b1e064e3e2217a12d50c69ca7d7ae7844376fec data/criticalcrates/advancement/recipes/misc/fireproofing.json
 1476232e1edc5de829db721533344462db90abb9 data/criticalcrates/advancement/recipes/misc/glass_foundation.json
 a375db8f4569b976850b4e524cc310d71203db00 data/criticalcrates/advancement/recipes/misc/gray_stained_glass_foundation.json
@@ -63,6 +64,7 @@ daede42806290da35f5cf48ff855f1ba14c5c6d7 data/criticalcrates/recipe/bamboo_found
 12f36d11b0a3681f8fdde9d501dc9aaa113f6fd8 data/criticalcrates/recipe/cyan_stained_glass_foundation.json
 af8a43d322d852ce81e0ca0b78e5dfa5bc4fcae1 data/criticalcrates/recipe/dark_oak_crate.json
 754cc55a0ecd1af4afcd7834b0385371a98f7053 data/criticalcrates/recipe/dark_oak_foundation.json
+de8375b63b3ef2f91412a75166c3769a735d17a6 data/criticalcrates/recipe/dirt_foundation.json
 7ef42b2675b3a9cb2008f90acb87e27a756e8d0d data/criticalcrates/recipe/fireproofing.json
 1e9324910ff42cf55b203a4bb437ef16db45fd70 data/criticalcrates/recipe/glass_foundation.json
 99f23337b2d9496c075d57c75f3cb512b777e168 data/criticalcrates/recipe/gray_stained_glass_foundation.json

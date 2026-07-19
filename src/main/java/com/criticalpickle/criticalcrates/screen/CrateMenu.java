@@ -148,6 +148,9 @@ public class CrateMenu extends AbstractContainerMenu {
         if(blockEntity.getBlockState().getBlock().getDescriptionId().contains("glass")) {
             return SoundEvents.COPPER_BREAK;
         }
+        else if(blockEntity.getBlockState().getBlock().getDescriptionId().contains("dirt")) {
+            return SoundEvents.ROOTED_DIRT_BREAK;
+        }
         else if(blockEntity instanceof OreCrateBlockEntity && blockEntity.getBlockState().is(ModBlocks.IRON_CRATE.get())) {
             return SoundEvents.CHERRY_WOOD_TRAPDOOR_CLOSE;
         }

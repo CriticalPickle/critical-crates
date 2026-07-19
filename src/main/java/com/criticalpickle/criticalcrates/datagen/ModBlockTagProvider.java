@@ -33,6 +33,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModTags.Blocks.ORE_UPGRADED_CRATES)
                 .add(ModBlocks.getOreUpgradedCrates());
 
+        tag(ModTags.Blocks.SOIL_CRATES)
+                .add(ModBlocks.getSoilCrates());
+
         this.tag(ModTags.Blocks.CRATES)
                 .add(ModBlocks.getCrates());
     }

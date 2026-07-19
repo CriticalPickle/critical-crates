@@ -1,0 +1,778 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate"
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist"
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "false"
+          },
+          {
+            "lamp_upgrade": "false"
+          },
+          {
+            "fireproof": "false"
+          },
+          {
+            "slimy": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_resistant",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_resistant"
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_resistant",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_resistant",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_resistant"
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_resistant",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "explosion_resistant": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp"
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp"
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "false"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp_on",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp_on"
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_lamp_on",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp_on",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp_on"
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_lamp_on",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "lamp_upgrade": "true"
+          },
+          {
+            "lit": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_fireproof",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_fireproof"
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_fireproof",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_fireproof",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_fireproof"
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_fireproof",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "fireproof": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_slimy",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_slimy"
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_slimy",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "0|1|2|3|4|5|6"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_slimy",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "x"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_slimy"
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "y"
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "criticalcrates:block/dirt_crate_moist_slimy",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "slimy": "true"
+          },
+          {
+            "moisture": "7"
+          },
+          {
+            "axis": "z"
+          }
+        ]
+      }
+    }
+  ]
+}
