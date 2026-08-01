@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "group": "slimy_framing",
   "ingredients": [
     "minecraft:slime_ball",

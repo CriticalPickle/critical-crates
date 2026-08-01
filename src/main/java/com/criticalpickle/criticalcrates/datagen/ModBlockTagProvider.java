@@ -18,25 +18,17 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        this.tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(ModBlocks.getWoodCrates());
+        ModBlocks.getWoodCrateKeys().forEach(key -> this.tag(BlockTags.MINEABLE_WITH_AXE).add(key));
+        ModBlocks.getWoodCrateKeys().forEach(key -> this.tag(ModTags.Blocks.WOODEN_CRATES).add(key));
 
-        this.tag(ModTags.Blocks.WOODEN_CRATES)
-                .add(ModBlocks.getWoodCrates());
+        ModBlocks.getGlassCrateKeys().forEach(key -> this.tag(ModTags.Blocks.GLASS_CRATES).add(key));
 
-        this.tag(ModTags.Blocks.GLASS_CRATES)
-                .add(ModBlocks.getGlassCrates());
+        ModBlocks.getOreCrateKeys().forEach(key -> this.tag(ModTags.Blocks.ORE_CRATES).add(key));
 
-        tag(ModTags.Blocks.ORE_CRATES)
-                .add(ModBlocks.getOreCrates());
+        ModBlocks.getOreUpgradedCrateKeys().forEach(key -> this.tag(ModTags.Blocks.ORE_UPGRADED_CRATES).add(key));
 
-        tag(ModTags.Blocks.ORE_UPGRADED_CRATES)
-                .add(ModBlocks.getOreUpgradedCrates());
+        ModBlocks.getSoilCrateKeys().forEach(key -> this.tag(ModTags.Blocks.SOIL_CRATES).add(key));
 
-        tag(ModTags.Blocks.SOIL_CRATES)
-                .add(ModBlocks.getSoilCrates());
-
-        this.tag(ModTags.Blocks.CRATES)
-                .add(ModBlocks.getCrates());
+        ModBlocks.getCrateKeys().forEach(key -> this.tag(ModTags.Blocks.CRATES).add(key));
     }
 }

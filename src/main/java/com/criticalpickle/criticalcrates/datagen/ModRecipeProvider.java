@@ -48,22 +48,22 @@ public class ModRecipeProvider extends RecipeProvider {
         simpleFoundation(ModItems.WARPED_FOUNDATION_ITEM.get(), Blocks.WARPED_PLANKS, "wood_foundation");
 
         simpleFoundation(ModItems.GLASS_FOUNDATION_ITEM.get(), Blocks.GLASS, "glass_foundation");
-        simpleFoundation(ModItems.WHITE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.WHITE_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.LIGHT_GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.LIGHT_GRAY_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.GRAY_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.BLACK_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.BLACK_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.BROWN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.BROWN_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.RED_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.RED_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.ORANGE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.ORANGE_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.YELLOW_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.YELLOW_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.LIME_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.LIME_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.GREEN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.GREEN_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.CYAN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.CYAN_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.LIGHT_BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.LIGHT_BLUE_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.BLUE_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.PURPLE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.PURPLE_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.MAGENTA_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.MAGENTA_STAINED_GLASS, "glass_foundation");
-        simpleFoundation(ModItems.PINK_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.PINK_STAINED_GLASS, "glass_foundation");
+        simpleFoundation(ModItems.WHITE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.white(), "glass_foundation");
+        simpleFoundation(ModItems.LIGHT_GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.lightGray(), "glass_foundation");
+        simpleFoundation(ModItems.GRAY_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.gray(), "glass_foundation");
+        simpleFoundation(ModItems.BLACK_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.black(), "glass_foundation");
+        simpleFoundation(ModItems.BROWN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.brown(), "glass_foundation");
+        simpleFoundation(ModItems.RED_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.red(), "glass_foundation");
+        simpleFoundation(ModItems.ORANGE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.orange(), "glass_foundation");
+        simpleFoundation(ModItems.YELLOW_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.yellow(), "glass_foundation");
+        simpleFoundation(ModItems.LIME_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.lime(), "glass_foundation");
+        simpleFoundation(ModItems.GREEN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.green(), "glass_foundation");
+        simpleFoundation(ModItems.CYAN_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.cyan(), "glass_foundation");
+        simpleFoundation(ModItems.LIGHT_BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.lightBlue(), "glass_foundation");
+        simpleFoundation(ModItems.BLUE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.blue(), "glass_foundation");
+        simpleFoundation(ModItems.PURPLE_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.purple(), "glass_foundation");
+        simpleFoundation(ModItems.MAGENTA_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.magenta(), "glass_foundation");
+        simpleFoundation(ModItems.PINK_STAINED_GLASS_FOUNDATION_ITEM.get(), Blocks.STAINED_GLASS.pink(), "glass_foundation");
 
         simpleFoundation(ModItems.IRON_FOUNDATION_ITEM.get(), Blocks.IRON_BLOCK, "ore_foundation");
 

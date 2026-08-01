@@ -2,7 +2,6 @@ package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.Config;
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
-import com.criticalpickle.criticalcrates.item.CrateBlockItem;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
 import com.criticalpickle.criticalcrates.registration.ModTags;
@@ -24,12 +23,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.DamageResistant;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -49,7 +46,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -182,20 +178,22 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void updateEntityMovementAfterFallOn(BlockGetter level, Entity entity) {
+    public float getBounceRestitution(Level level, BlockPos pos, BlockState blockState, Entity entity) {
         if(!level.getBlockState(entity.getOnPos()).getValue(SLIMY) || entity.isSuppressingBounce()) {
-            super.updateEntityMovementAfterFallOn(level, entity);
+            return super.getBounceRestitution(level, pos, blockState, entity);
         }
         else {
-            this.bounceUp(entity);
+            return 1.0F;
         }
     }
 
-    private void bounceUp(Entity entity) {
-        Vec3 vec3 = entity.getDeltaMovement();
-        if (vec3.y < 0.0) {
-            double d0 = entity instanceof LivingEntity ? 1.0 : 0.8;
-            entity.setDeltaMovement(vec3.x, -vec3.y * d0, vec3.z);
+    @Override
+    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @org.jspecify.annotations.Nullable Entity entity) {
+        if(!level.getBlockState(entity.getOnPos()).getValue(SLIMY) || entity.isSuppressingBounce()) {
+            return super.getFriction(state, level, pos, entity);
+        }
+        else {
+            return 0.8F;
         }
     }
 

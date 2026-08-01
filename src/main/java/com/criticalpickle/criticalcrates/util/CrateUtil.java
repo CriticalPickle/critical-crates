@@ -147,24 +147,7 @@ public class CrateUtil {
     public static boolean canDye(BlockState state, Item item) {
         if((Config.STAINED_CRATES_DYEABLE.getAsBoolean() || Config.GLASS_CRATES_DYEABLE.getAsBoolean())
                 && state.is(ModTags.Blocks.GLASS_CRATES)) {
-            List<Item> dye = List.of(
-                    Items.WHITE_DYE,
-                    Items.LIGHT_GRAY_DYE,
-                    Items.GRAY_DYE,
-                    Items.BLACK_DYE,
-                    Items.BROWN_DYE,
-                    Items.RED_DYE,
-                    Items.ORANGE_DYE,
-                    Items.YELLOW_DYE,
-                    Items.LIME_DYE,
-                    Items.GREEN_DYE,
-                    Items.CYAN_DYE,
-                    Items.LIGHT_BLUE_DYE,
-                    Items.BLUE_DYE,
-                    Items.PURPLE_DYE,
-                    Items.MAGENTA_DYE,
-                    Items.PINK_DYE
-            );
+            List<Item> dye = Items.DYE.asList();
 
             if(dye.contains(item)) {
                 String crateID = state.getBlock().getDescriptionId(),

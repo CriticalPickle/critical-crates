@@ -20,6 +20,8 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -50,38 +52,38 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> GLASS_CRATE = registerCrateBlockWithItem("glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "glass_crate")))));
     public static final DeferredBlock<Block> IRON_GLASS_CRATE = registerCrateBlockWithItem("iron_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> WHITE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("white_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "white_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_WHITE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_white_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_white_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> LIGHT_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("light_gray_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "light_gray_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_LIGHT_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_light_gray_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_light_gray_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("gray_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "gray_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_gray_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_gray_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> BLACK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("black_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "black_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_BLACK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_black_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_black_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> BROWN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("brown_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "brown_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_BROWN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_brown_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_brown_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> RED_STAINED_GLASS_CRATE = registerCrateBlockWithItem("red_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "red_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_RED_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_red_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_red_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> ORANGE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("orange_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "orange_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_ORANGE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_orange_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_orange_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> YELLOW_STAINED_GLASS_CRATE = registerCrateBlockWithItem("yellow_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "yellow_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_YELLOW_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_yellow_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_yellow_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> LIME_STAINED_GLASS_CRATE = registerCrateBlockWithItem("lime_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "lime_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_LIME_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_lime_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_lime_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> GREEN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("green_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "green_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_GREEN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_green_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_green_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> CYAN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("cyan_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "cyan_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_CYAN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_cyan_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_cyan_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> LIGHT_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("light_blue_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "light_blue_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_LIGHT_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_light_blue_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_light_blue_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("blue_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLUE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "blue_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_blue_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLUE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_blue_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> PURPLE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("purple_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "purple_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_PURPLE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_purple_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_purple_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> MAGENTA_STAINED_GLASS_CRATE = registerCrateBlockWithItem("magenta_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "magenta_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_MAGENTA_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_magenta_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_magenta_stained_glass_crate"))), "iron", "glass"));
-    public static final DeferredBlock<Block> PINK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("pink_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "pink_stained_glass_crate")))));
-    public static final DeferredBlock<Block> IRON_PINK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_pink_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_STAINED_GLASS).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_pink_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> WHITE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("white_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.white()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "white_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_WHITE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_white_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.white()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_white_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> LIGHT_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("light_gray_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lightGray()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "light_gray_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_LIGHT_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_light_gray_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lightGray()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_light_gray_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("gray_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.gray()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "gray_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_GRAY_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_gray_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.gray()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_gray_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> BLACK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("black_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.black()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "black_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_BLACK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_black_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.black()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_black_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> BROWN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("brown_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.brown()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "brown_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_BROWN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_brown_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.brown()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_brown_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> RED_STAINED_GLASS_CRATE = registerCrateBlockWithItem("red_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.red()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "red_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_RED_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_red_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.red()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_red_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> ORANGE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("orange_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.orange()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "orange_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_ORANGE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_orange_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.orange()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_orange_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> YELLOW_STAINED_GLASS_CRATE = registerCrateBlockWithItem("yellow_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.yellow()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "yellow_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_YELLOW_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_yellow_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.yellow()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_yellow_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> LIME_STAINED_GLASS_CRATE = registerCrateBlockWithItem("lime_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lime()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "lime_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_LIME_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_lime_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lime()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_lime_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> GREEN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("green_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.green()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "green_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_GREEN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_green_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.green()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_green_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> CYAN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("cyan_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.cyan()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "cyan_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_CYAN_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_cyan_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.cyan()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_cyan_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> LIGHT_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("light_blue_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lightBlue()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "light_blue_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_LIGHT_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_light_blue_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.lightBlue()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_light_blue_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("blue_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.blue()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "blue_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_BLUE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_blue_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.blue()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_blue_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> PURPLE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("purple_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.purple()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "purple_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_PURPLE_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_purple_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.purple()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_purple_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> MAGENTA_STAINED_GLASS_CRATE = registerCrateBlockWithItem("magenta_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.magenta()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "magenta_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_MAGENTA_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_magenta_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.magenta()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_magenta_stained_glass_crate"))), "iron", "glass"));
+    public static final DeferredBlock<Block> PINK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("pink_stained_glass_crate", () -> new GlassCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.pink()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "pink_stained_glass_crate")))));
+    public static final DeferredBlock<Block> IRON_PINK_STAINED_GLASS_CRATE = registerCrateBlockWithItem("iron_pink_stained_glass_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STAINED_GLASS.pink()).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_pink_stained_glass_crate"))), "iron", "glass"));
 
     public static final DeferredBlock<Block> IRON_CRATE = registerCrateBlockWithItem("iron_crate", () -> new OreCrateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("criticalcrates", "iron_crate"))), "iron", "ore"));
 
@@ -100,6 +102,14 @@ public class ModBlocks {
                 .filter(block -> block instanceof CrateBlock).toArray(Block[]::new);
     }
 
+    /// Get all resource keys of crates as list
+    public static List<ResourceKey<Block>> getCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(holder -> holder.get() instanceof CrateBlock)
+                .map(DeferredHolder::getKey)
+                .toList();
+    }
+
     /// Get a crate block at an index dependent on the time of registration
     public static Block getCrates(int index) {
         Block[] temp = getCrates();
@@ -113,6 +123,17 @@ public class ModBlocks {
                         block instanceof CrateBlock && !(block instanceof GlassCrateBlock) && !(block instanceof SoilCrateBlock)
                                 && (!(block instanceof OreCrateBlock oreCrate) || oreCrate.isCrateType("wood"))
                 ).toArray(Block[]::new);
+    }
+
+    /// Get all resource keys of wooden crates as list
+    public static List<ResourceKey<Block>> getWoodCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(holder ->
+                        holder.get() instanceof CrateBlock && !(holder.get() instanceof GlassCrateBlock) && !(holder.get() instanceof SoilCrateBlock)
+                                && (!(holder.get() instanceof OreCrateBlock oreCrate) || oreCrate.isCrateType("wood"))
+                )
+                .map(DeferredHolder::getKey)
+                .toList();
     }
 
     /// Get a wooden crate block at an index dependent on the time of registration
@@ -139,6 +160,17 @@ public class ModBlocks {
                 ).toArray(Block[]::new);
     }
 
+    /// Get all resource keys of glass crates as list
+    public static List<ResourceKey<Block>> getGlassCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(holder ->
+                        holder.get() instanceof GlassCrateBlock || (holder.get() instanceof OreCrateBlock oreCrate
+                                && oreCrate.isCrateType("glass"))
+                )
+                .map(DeferredHolder::getKey)
+                .toList();
+    }
+
     /// Get a glass crate block at an index dependent on the time of registration
     public static Block getGlassCrates(int index) {
         Block[] temp = getGlassCrates();
@@ -159,6 +191,16 @@ public class ModBlocks {
                 ).toArray(Block[]::new);
     }
 
+    /// Get all resource keys of ore crates as list
+    public static List<ResourceKey<Block>> getOreCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(block ->
+                        block.get() instanceof OreCrateBlock oreCrate && oreCrate.isCrateType("ore")
+                )
+                .map(DeferredHolder::getKey)
+                .toList();
+    }
+
     /// Get an ore crate block at an index dependent on the time of registration
     public static Block getOreCrates(int index) {
         Block[] temp = getOreCrates();
@@ -171,6 +213,16 @@ public class ModBlocks {
                 .filter(block ->
                         block instanceof OreCrateBlock oreCrate && !oreCrate.isCrateType("ore")
                 ).toArray(Block[]::new);
+    }
+
+    /// Get all resource keys of ore upgraded crates as list
+    public static List<ResourceKey<Block>> getOreUpgradedCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(block ->
+                        block.get() instanceof OreCrateBlock oreCrate && !oreCrate.isCrateType("ore")
+                )
+                .map(DeferredHolder::getKey)
+                .toList();
     }
 
     /// Get an ore upgraded crate block at an index dependent on the time of registration
@@ -192,6 +244,17 @@ public class ModBlocks {
                         block instanceof SoilCrateBlock || (block instanceof OreCrateBlock oreCrate
                                 && oreCrate.isCrateType("soil"))
                 ).toArray(Block[]::new);
+    }
+
+    /// Get all resource keys of soil crates as list
+    public static List<ResourceKey<Block>> getSoilCrateKeys() {
+        return BLOCKS.getEntries().stream()
+                .filter(block ->
+                        block.get() instanceof SoilCrateBlock || (block.get() instanceof OreCrateBlock oreCrate
+                                && oreCrate.isCrateType("soil"))
+                )
+                .map(DeferredHolder::getKey)
+                .toList();
     }
 
     /// Get a soil crate block at an index dependent on the time of registration

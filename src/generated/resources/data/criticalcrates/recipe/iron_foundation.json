@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "group": "ore_foundation",
   "ingredients": [
     "minecraft:iron_block",

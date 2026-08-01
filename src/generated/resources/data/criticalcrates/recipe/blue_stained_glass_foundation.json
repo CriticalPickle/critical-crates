@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "group": "glass_foundation",
   "ingredients": [
     "minecraft:blue_stained_glass",
