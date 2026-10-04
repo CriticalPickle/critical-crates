@@ -12,6 +12,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
@@ -21,7 +22,7 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, Player player) {
+    public void onCraftedBy(@NonNull ItemStack stack, @NonNull Player player) {
         super.onCraftedBy(stack, player);
         checkTags(stack);
     }
@@ -58,7 +59,10 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+    public void appendHoverText(
+            @NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay tooltipDisplay,
+            @NonNull Consumer<Component> tooltipAdder, @NonNull TooltipFlag flag
+    ) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         CustomData data = stack.get(DataComponents.CUSTOM_DATA);
         boolean resistant = false, lamp = false, fire = false, slimy = false;

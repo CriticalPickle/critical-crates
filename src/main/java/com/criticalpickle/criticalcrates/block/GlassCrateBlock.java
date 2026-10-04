@@ -9,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class GlassCrateBlock extends CrateBlock {
     public GlassCrateBlock(Properties properties) {
@@ -16,7 +17,7 @@ public class GlassCrateBlock extends CrateBlock {
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos blockPos, BlockState blockState) {
         if(blockState.getValue(SWITCH)) {
             GlassCrateBlockEntity crateBlockEntity = new GlassCrateBlockEntity(blockPos, blockState);
             crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());

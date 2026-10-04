@@ -18,7 +18,9 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void extractBackground(
+            @NonNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick
+    ) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(
                 RenderPipelines.GUI_TEXTURED,
@@ -31,7 +33,9 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     }
 
     @Override
-    public void extractRenderState(@NonNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(
+            @NonNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick
+    ) {
         super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
         this.extractTooltip(guiGraphics, mouseX, mouseY);
     }

@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.neoforged.neoforge.common.FarmlandWaterManager;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class OreCrateBlock extends CrateBlock {
     protected String oreType, crateType;
@@ -51,7 +52,7 @@ public class OreCrateBlock extends CrateBlock {
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos blockPos, BlockState blockState) {
         if(blockState.getValue(SWITCH)) {
             OreCrateBlockEntity crateBlockEntity = new OreCrateBlockEntity(blockPos, blockState, this.inventorySize);
             crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());
@@ -132,7 +133,7 @@ public class OreCrateBlock extends CrateBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+    public float getExplosionResistance(BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Explosion explosion) {
         return state.getValue(EXPLOSION_RESIST) ? 1200f : 6f;
     }
 

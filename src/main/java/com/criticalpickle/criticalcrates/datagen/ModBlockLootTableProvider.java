@@ -2,13 +2,11 @@ package com.criticalpickle.criticalcrates.datagen;
 
 import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
-import com.criticalpickle.criticalcrates.util.EnchantmentUtils;
 import net.minecraft.advancements.predicates.DataComponentMatchers;
 import net.minecraft.advancements.predicates.EnchantmentPredicate;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.predicates.MinMaxBounds;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.predicates.DataComponentPredicates;
 import net.minecraft.core.component.predicates.EnchantmentsPredicate;
@@ -24,16 +22,14 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Set;
 
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
-    private static LootTableSubProvider.Context lookupProvider;
-
     protected ModBlockLootTableProvider(LootTableSubProvider.Context registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
-        lookupProvider = registries;
     }
 
     @Override
@@ -76,7 +72,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
+    protected @NonNull Iterable<Block> getKnownBlocks() {
         return ModBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator;
     }
 }

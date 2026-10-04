@@ -1,6 +1,5 @@
 package com.criticalpickle.criticalcrates.block.entity;
 
-import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModBlockEntities;
 import com.criticalpickle.criticalcrates.screen.CrateMenu;
 import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
@@ -28,13 +27,14 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import static com.criticalpickle.criticalcrates.block.CrateBlock.SWITCH;
 
 public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(27) {
         @Override
-        protected void onContentsChanged(int index, ItemStack previousContents) {
+        protected void onContentsChanged(int index, @NonNull ItemStack previousContents) {
             setChanged();
             if(level != null && !level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
@@ -51,7 +51,7 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
 
         @Override
-        public ItemResource getResource(int i) {
+        public @NonNull ItemResource getResource(int i) {
             return handler.getResource(i);
         }
 
@@ -61,22 +61,26 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
         }
 
         @Override
-        public long getCapacityAsLong(int i, ItemResource resource) {
+        public long getCapacityAsLong(int i, @NonNull ItemResource resource) {
             return handler.getCapacityAsLong(i, resource);
         }
 
         @Override
-        public boolean isValid(int i, ItemResource resource) {
+        public boolean isValid(int i, @NonNull ItemResource resource) {
             return handler.isValid(i, resource);
         }
 
         @Override
-        public int insert(int i, ItemResource resource, int amount, TransactionContext transactionContext) {
+        public int insert(
+                int i, @NonNull ItemResource resource, int amount, @NonNull TransactionContext transactionContext
+        ) {
             return isInsert ? handler.insert(i, resource, amount, transactionContext) : 0;
         }
 
         @Override
-        public int extract(int i, ItemResource resource, int amount, TransactionContext transactionContext) {
+        public int extract(
+                int i, @NonNull ItemResource resource, int amount, @NonNull TransactionContext transactionContext
+        ) {
             return isExtract ? handler.extract(i, resource, amount, transactionContext) : 0;
         }
     }
@@ -104,7 +108,7 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void preRemoveSideEffects(@NonNull BlockPos pos, BlockState state) {
         if(state.getValue(SWITCH)) {
             CacheSwitchInventory.cache(getInventory());
         }
@@ -158,13 +162,13 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
+    protected void saveAdditional(@NonNull ValueOutput output) {
         super.saveAdditional(output);
         getInventory().serialize(output);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
+    protected void loadAdditional(@NonNull ValueInput input) {
         super.loadAdditional(input);
         getInventory().deserialize(input);
 
@@ -182,17 +186,17 @@ public class CrateBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    public @NonNull CompoundTag getUpdateTag(HolderLookup.@NonNull Provider registries) {
         return saveWithoutMetadata(registries);
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NonNull Component getDisplayName() {
         return Component.translatable("container.criticalcrates.crate");
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int id, @NonNull Inventory inventory, @NonNull Player player) {
         return new CrateMenu(id, inventory, this);
     }
 }

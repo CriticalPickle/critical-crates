@@ -3,8 +3,6 @@ package com.criticalpickle.criticalcrates.datagen;
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,8 +16,6 @@ import java.util.Set;
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherClientData(GatherDataEvent.Client event) {
-        final DataGenerator generator = event.getGenerator();
-        final PackOutput packOutput = generator.getPackOutput();
         final RegistrySetBuilder builder = new RegistrySetBuilder()
                 .add(Registries.LOOT_TABLE, new LootTableProvider(
                                 Set.of(),

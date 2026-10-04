@@ -40,7 +40,7 @@ public class SoilCrateBlock extends CrateBlock {
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos blockPos, BlockState blockState) {
         if(blockState.getValue(SWITCH)) {
             SoilCrateBlockEntity crateBlockEntity = new SoilCrateBlockEntity(blockPos, blockState);
             crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());

@@ -2,7 +2,6 @@ package com.criticalpickle.criticalcrates.block.entity.renderer;
 
 import com.criticalpickle.criticalcrates.block.entity.GlassCrateBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -17,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class GlassCrateBlockEntityRenderer implements BlockEntityRenderer<GlassCrateBlockEntity, GlassCrateBlockEntityRenderState> {
@@ -24,19 +24,26 @@ public class GlassCrateBlockEntityRenderer implements BlockEntityRenderer<GlassC
     }
 
     @Override
-    public GlassCrateBlockEntityRenderState createRenderState() {
+    public @NonNull GlassCrateBlockEntityRenderState createRenderState() {
         return new GlassCrateBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(GlassCrateBlockEntity blockEntity, GlassCrateBlockEntityRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(
+            @NonNull GlassCrateBlockEntity blockEntity, @NonNull GlassCrateBlockEntityRenderState renderState,
+            float partialTick, @NonNull Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
+    ) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
 
         renderState.blockEntity = blockEntity;
     }
 
     @Override
-    public void submit(GlassCrateBlockEntityRenderState glassCrateBlockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+    public void submit(
+            GlassCrateBlockEntityRenderState glassCrateBlockEntityRenderState, PoseStack poseStack,
+            @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState
+    ) {
         ItemStackRenderState itemRendererState = new ItemStackRenderState();
         GlassCrateBlockEntity blockEntity = glassCrateBlockEntityRenderState.blockEntity;
         ItemStack stack = blockEntity.getInventory().copyToList().getFirst();

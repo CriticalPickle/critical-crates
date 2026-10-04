@@ -47,6 +47,7 @@ import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class CrateBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
@@ -99,24 +100,32 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public boolean isFlammable(
+            @NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Direction direction
+    ) {
         return hasFireEffect(state);
     }
 
     @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getFlammability(
+            @NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Direction direction
+    ) {
         // Most Wood (5) or No Effect (0)
         return hasFireEffect(state) ? 5 : 0;
     }
 
     @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getFireSpreadSpeed(
+            @NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Direction direction
+    ) {
         // Most Wood (15) or No Effect (0)
         return hasFireEffect(state) ? 20 : 0;
     }
 
     @Override
-    public boolean ignitedByLava(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public boolean ignitedByLava(
+            @NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Direction direction
+    ) {
         return hasFireEffect(state);
     }
 
@@ -126,13 +135,15 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+    public float getExplosionResistance(
+            BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull Explosion explosion
+    ) {
         //Obsidian (1200) or Barrel (2.5)
         return state.getValue(EXPLOSION_RESIST) ? 1200f : 2.5f;
     }
 
     @Override
-    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+    public int getLightEmission(BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos) {
         return state.getValue(LIT) ? 15 : 0;
     }
 
@@ -142,12 +153,17 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction p_435855_) {
+    protected int getAnalogOutputSignal(
+            @NonNull BlockState state, Level level, @NonNull BlockPos pos, @NonNull Direction direction
+    ) {
         return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
     }
 
     @Override
-    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance) {
+    public void fallOn(
+            @NonNull Level level, BlockState state, @NonNull BlockPos pos,
+            @NonNull Entity entity, double fallDistance
+    ) {
         if(!state.getValue(SLIMY) || entity.isSuppressingBounce()) {
             super.fallOn(level, state, pos, entity, fallDistance);
         }
@@ -157,7 +173,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+    public void stepOn(@NonNull Level level, @NonNull BlockPos pos, BlockState state, @NonNull Entity entity) {
         if(state.getValue(SLIMY)) {
             double d0 = Math.abs(entity.getDeltaMovement().y);
             if (d0 < 0.1 && !entity.isSteppingCarefully()) {
@@ -169,7 +185,9 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getBounceRestitution(Level level, BlockPos pos, BlockState blockState, Entity entity) {
+    public float getBounceRestitution(
+            Level level, @NonNull BlockPos pos, @NonNull BlockState blockState, Entity entity
+    ) {
         if(!level.getBlockState(entity.getOnPos()).getValue(SLIMY) || entity.isSuppressingBounce()) {
             return super.getBounceRestitution(level, pos, blockState, entity);
         }
@@ -179,7 +197,9 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @org.jspecify.annotations.Nullable Entity entity) {
+    public float getFriction(
+            @NonNull BlockState state, LevelReader level, @NonNull BlockPos pos, @Nullable Entity entity
+    ) {
         if(!level.getBlockState(entity.getOnPos()).getValue(SLIMY) || entity.isSuppressingBounce()) {
             return super.getFriction(state, level, pos, entity);
         }
@@ -189,7 +209,9 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+    protected float getDestroyProgress(
+            BlockState state, @NonNull Player player, @NonNull BlockGetter level, @NonNull BlockPos pos
+    ) {
         if(state.getValue(SLIMY)) {
             // Return float greater than 1 for instant slime-like breaking
             return 1.01F;
@@ -198,12 +220,12 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
+    protected @NonNull BlockState rotate(@NonNull BlockState state, @NonNull Rotation rotation) {
         return rotatePillar(state, rotation);
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos blockPos, BlockState blockState) {
         if(blockState.getValue(SWITCH)) {
             CrateBlockEntity crateBlockEntity = new CrateBlockEntity(blockPos, blockState);
             crateBlockEntity.copyInventory(CacheSwitchInventory.getCache());
@@ -213,19 +235,25 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull RenderShape getRenderShape(BlockState state) {
+    protected @NotNull RenderShape getRenderShape(@NonNull BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+    protected void onPlace(
+            BlockState state, @NonNull Level level, @NonNull BlockPos pos,
+            @NonNull BlockState oldState, boolean movedByPiston
+    ) {
         if (state.getValue(LAMP_UPGRADE) && oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
             this.checkAndFlip(state, serverlevel, pos);
         }
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, Orientation orientation, boolean movedByPiston) {
+    protected void neighborChanged(
+            BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Block neighborBlock,
+            Orientation orientation, boolean movedByPiston
+    ) {
         if (state.getValue(LAMP_UPGRADE) && level instanceof ServerLevel serverlevel) {
             this.checkAndFlip(state, serverlevel, pos);
         }
@@ -244,7 +272,10 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+    public @NonNull ItemStack getCloneItemStack(
+            @NonNull LevelReader level, @NonNull BlockPos pos, BlockState state,
+            boolean includeData, @NonNull Player player
+    ) {
         ItemStack stack = new ItemStack(this);
         CompoundTag dataTag = new CompoundTag();
 
@@ -265,7 +296,10 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected @NonNull InteractionResult useWithoutItem(
+            @NonNull BlockState state, Level level, @NonNull BlockPos pos,
+            @NonNull Player player, @NonNull BlockHitResult hitResult
+    ) {
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
@@ -284,7 +318,10 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NonNull InteractionResult useItemOn(
+            @NonNull ItemStack stack, @NonNull BlockState state, Level level, @NonNull BlockPos pos,
+            @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult
+    ) {
         if(!level.isClientSide()) {
             Item itemInHand = stack.getItem();
             CompoundTag dataTag = new CompoundTag();
@@ -435,7 +472,9 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     /// Switch state of crate to state of "crateBlock"
-    private BlockEntity switchCrate(Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag) {
+    private BlockEntity switchCrate(
+            Level level, BlockPos pos, BlockState state, Block crateBlock, CompoundTag dataTag
+    ) {
         boolean resistant, lamp, fire, slimy;
         if(hasUpgrades(state)) {
             if(state.getValue(EXPLOSION_RESIST)) {

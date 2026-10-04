@@ -13,6 +13,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.*;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -23,12 +24,12 @@ public class PliersItem extends Item {
     }
 
     @Override
-    public boolean isDamageable(ItemStack stack) {
+    public boolean isDamageable(@NonNull ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+    public boolean supportsEnchantment(@NonNull ItemStack stack, @NonNull Holder<Enchantment> enchantment) {
         return true;
     }
 
@@ -72,7 +73,10 @@ public class PliersItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+    public void appendHoverText(
+            @NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay tooltipDisplay,
+            @NonNull Consumer<Component> tooltipAdder, @NonNull TooltipFlag flag
+    ) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         if(Config.ADDONS_REMOVABLE.getAsBoolean()) {
             if(flag.hasShiftDown()) {

@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class OreCrateBlockEntity extends CrateBlockEntity {
     public ItemStacksResourceHandler inventory;
@@ -22,7 +23,7 @@ public class OreCrateBlockEntity extends CrateBlockEntity {
         super(ModBlockEntities.ORE_CRATE_BE.get(), pos, blockState);
         inventory = new ItemStacksResourceHandler(54) {
             @Override
-            protected void onContentsChanged(int index, ItemStack previousContents) {
+            protected void onContentsChanged(int index, @NonNull ItemStack previousContents) {
                 setChanged();
                 if(level != null && !level.isClientSide()) {
                     level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
@@ -35,7 +36,7 @@ public class OreCrateBlockEntity extends CrateBlockEntity {
         super(ModBlockEntities.ORE_CRATE_BE.get(), pos, blockState);
         inventory = new ItemStacksResourceHandler(inventorySize) {
             @Override
-            protected void onContentsChanged(int index, ItemStack previousContents) {
+            protected void onContentsChanged(int index, @NonNull ItemStack previousContents) {
                 setChanged();
                 if(level != null && !level.isClientSide()) {
                     level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
@@ -50,7 +51,7 @@ public class OreCrateBlockEntity extends CrateBlockEntity {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NonNull Component getDisplayName() {
         if(this.getBlockState().is(ModBlocks.IRON_CRATE.get())) {
             return Component.translatable("container.criticalcrates.iron_crate");
         }
@@ -67,7 +68,7 @@ public class OreCrateBlockEntity extends CrateBlockEntity {
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int id, @NonNull Inventory inventory, @NonNull Player player) {
         // Future use may require different menus for different ores.
         return new LargeCrateMenu(id, inventory, this);
     }

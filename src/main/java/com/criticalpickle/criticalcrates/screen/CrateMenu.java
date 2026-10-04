@@ -1,7 +1,6 @@
 package com.criticalpickle.criticalcrates.screen;
 
 import com.criticalpickle.criticalcrates.block.entity.CrateBlockEntity;
-import com.criticalpickle.criticalcrates.block.entity.GlassCrateBlockEntity;
 import com.criticalpickle.criticalcrates.block.entity.OreCrateBlockEntity;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModMenuTypes;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
+import org.jspecify.annotations.NonNull;
 
 public class CrateMenu extends AbstractContainerMenu {
     public final CrateBlockEntity blockEntity;
@@ -74,7 +74,7 @@ public class CrateMenu extends AbstractContainerMenu {
     protected final int TE_INVENTORY_SLOT_COUNT = GET_TE_INVENTORY_SLOT_COUNT();
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex) {
+    public @NonNull ItemStack quickMoveStack(@NonNull Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
         if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
         ItemStack sourceStack = sourceSlot.getItem();
@@ -107,7 +107,7 @@ public class CrateMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NonNull Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, blockEntity.getBlockState().getBlock());
     }
 
@@ -160,7 +160,7 @@ public class CrateMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NonNull Player player) {
         super.removed(player);
 
         if (!player.level().isClientSide()) {

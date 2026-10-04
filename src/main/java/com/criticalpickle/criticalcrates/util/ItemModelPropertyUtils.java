@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class ItemModelPropertyUtils {
@@ -20,7 +21,10 @@ public class ItemModelPropertyUtils {
         );
 
         @Override
-        public @Nullable String get(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i, ItemDisplayContext itemDisplayContext) {
+        public @NonNull String get(
+                ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity,
+                int i, @NonNull ItemDisplayContext itemDisplayContext
+        ) {
             if(itemStack.getComponents().get(DataComponents.CUSTOM_DATA) != null) {
                 CompoundTag dataTag = itemStack.getComponents().get(DataComponents.CUSTOM_DATA).copyTag();
                 if(dataTag.getBooleanOr("explosion_resistant", false)) {
@@ -40,7 +44,7 @@ public class ItemModelPropertyUtils {
         }
 
         @Override
-        public Codec<String> valueCodec() {
+        public @NonNull Codec<String> valueCodec() {
             return Codec.STRING;
         }
 
@@ -56,7 +60,7 @@ public class ItemModelPropertyUtils {
         public static final MapCodec<ResistantProperty> MAP_CODEC = MapCodec.unit(new ResistantProperty());
 
         @Override
-        public MapCodec<? extends ConditionalItemModelProperty> type() {
+        public @NonNull MapCodec<? extends ConditionalItemModelProperty> type() {
             return MAP_CODEC;
         }
 
@@ -74,12 +78,15 @@ public class ItemModelPropertyUtils {
         public static final MapCodec<LampProperty> MAP_CODEC = MapCodec.unit(new LampProperty());
 
         @Override
-        public MapCodec<? extends ConditionalItemModelProperty> type() {
+        public @NonNull MapCodec<? extends ConditionalItemModelProperty> type() {
             return MAP_CODEC;
         }
 
         @Override
-        public boolean get(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i, ItemDisplayContext itemDisplayContext) {
+        public boolean get(
+                ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity,
+                int i, @NonNull ItemDisplayContext itemDisplayContext
+        ) {
             if(itemStack.getComponents().get(DataComponents.CUSTOM_DATA) != null) {
                 CompoundTag dataTag = itemStack.getComponents().get(DataComponents.CUSTOM_DATA).copyTag();
                 return dataTag.getBooleanOr("lamp_upgrade", false);
@@ -92,12 +99,15 @@ public class ItemModelPropertyUtils {
         public static final MapCodec<FireproofProperty> MAP_CODEC = MapCodec.unit(new FireproofProperty());
 
         @Override
-        public MapCodec<? extends ConditionalItemModelProperty> type() {
+        public @NonNull MapCodec<? extends ConditionalItemModelProperty> type() {
             return MAP_CODEC;
         }
 
         @Override
-        public boolean get(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i, ItemDisplayContext itemDisplayContext) {
+        public boolean get(
+                ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity,
+                int i, @NonNull ItemDisplayContext itemDisplayContext
+        ) {
             if(itemStack.getComponents().get(DataComponents.CUSTOM_DATA) != null) {
                 CompoundTag dataTag = itemStack.getComponents().get(DataComponents.CUSTOM_DATA).copyTag();
                 return dataTag.getBooleanOr("fireproof", false);
