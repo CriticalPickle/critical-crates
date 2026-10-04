@@ -40,7 +40,6 @@ public class PliersItem extends Item {
             DataComponentPatch.Builder builder, DataComponentPatch src, DataComponentType<T> key
     ) {
         Objects.requireNonNull(src.getPatch(key)).ifPresent(value -> builder.set(key, value));
-
     }
 
     @Override
