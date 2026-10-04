@@ -18,12 +18,11 @@ public class DataGenerators {
     public static void gatherClientData(GatherDataEvent.Client event) {
         final RegistrySetBuilder builder = new RegistrySetBuilder()
                 .add(Registries.LOOT_TABLE, new LootTableProvider(
-                                Set.of(),
-                                List.of(new LootTableProvider.SubProviderEntry(
-                                        ModBlockLootTableProvider::new, LootContextParamSets.BLOCK
-                                ))
-                        )
-                )
+                        Set.of(),
+                        List.of(new LootTableProvider.SubProviderEntry(
+                                ModBlockLootTableProvider::new, LootContextParamSets.BLOCK
+                        ))
+                ))
                 .add(ModRecipeProvider.create());
 
         event.createBlockAndItemTags(
@@ -31,9 +30,7 @@ public class DataGenerators {
                 (output, lookup, _)
                         -> new ModItemTagProvider(output, lookup)
         );
-
         event.createReloadableRegistryObjects(builder);
-
         event.createProvider(ModModelProvider::new);
     }
 }
