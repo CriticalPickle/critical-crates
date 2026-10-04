@@ -4,8 +4,7 @@ import com.criticalpickle.criticalcrates.Config;
 import com.criticalpickle.criticalcrates.util.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -16,6 +15,7 @@ import net.minecraft.world.item.enchantment.*;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class PliersItem extends Item {
@@ -33,34 +33,46 @@ public class PliersItem extends Item {
         return true;
     }
 
+    /// Copies components from source component patch into builder.
+    private static <T> void copyComponents(
+            DataComponentPatch.Builder builder, DataComponentPatch src, DataComponentType<T> key
+    ) {
+        builder.set(key, Objects.requireNonNull(src.getPatch(key)));
+    }
+
     @Override
     public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
-        CustomData data = instance.get(DataComponents.CUSTOM_DATA);
-        ItemEnchantments enchants = instance.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
-        int unbreakingLvl = enchants.getLevel(EnchantmentUtils.getEnchantmentHolder(Enchantments.UNBREAKING));
-        boolean causeDamage = true, isBroken = data != null && data.copyTag().getBoolean("broken").isPresent()
+        final CustomData data = instance.get(DataComponents.CUSTOM_DATA);
+        final boolean isBroken = data != null && data.copyTag().getBoolean("broken").isPresent()
                 && data.copyTag().getBoolean("broken").get();
 
-        if(isBroken) {
-            return null;
-        }
+        if(isBroken) return null;
 
-        DataComponentPatch.Builder patchBuilder = DataComponentPatch.builder();
-        if(unbreakingLvl > 0) {
-            int chanceOfDamage = RandomSource.create().nextInt(1 + unbreakingLvl);
-            if(chanceOfDamage != 0) {
-                causeDamage = false;
-            }
-        }
+        final ItemEnchantments enchants = instance.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+        final int unbreakingLvl = enchants.getLevel(EnchantmentUtils.getEnchantmentHolder(Enchantments.UNBREAKING));
+        boolean causeDamage = true;
+
+        if(unbreakingLvl > 0) causeDamage = RandomSource.create().nextInt(1 + unbreakingLvl) == 0;
+
+        final DataComponentPatch oldComponents = switch (instance) {
+            case ItemStack stack -> stack.getComponentsPatch();
+            case ItemStackTemplate template -> template.components();
+            default -> DataComponentPatch.EMPTY;
+        };
+        final DataComponentPatch.Builder patchBuilder = DataComponentPatch.builder();
+
+        // Add old components to new patch builder
+        oldComponents.keySet().forEach(key -> copyComponents(patchBuilder, oldComponents, key));
 
         if(causeDamage) {
-            int currentDamage = instance.getOrDefault(DataComponents.DAMAGE, 0);
-            int maxDamage = instance.getOrDefault(DataComponents.MAX_DAMAGE, 0);
+            final int currentDamage = instance.getOrDefault(DataComponents.DAMAGE, 0);
+            final int maxDamage = instance.getOrDefault(DataComponents.MAX_DAMAGE, 0);
 
             patchBuilder.set(DataComponents.DAMAGE, currentDamage + 1);
 
             if(currentDamage >= maxDamage) {
-                // Reset for unbreaking to make sure it doesn't show empty bar when "broken" due to unbreaking desync
+                // Reset for unbreaking to make sure it doesn't show
+                // empty bar when "broken" due to unbreaking desync.
                 patchBuilder.set(DataComponents.MAX_DAMAGE, currentDamage - 1);
 
                 CompoundTag dataTag = new CompoundTag();
