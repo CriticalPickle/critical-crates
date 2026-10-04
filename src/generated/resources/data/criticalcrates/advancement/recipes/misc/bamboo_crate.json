@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:bamboo_crate"
+        "recipes": "criticalcrates:bamboo_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

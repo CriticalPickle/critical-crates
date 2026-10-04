@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import org.jspecify.annotations.Nullable;
 
 public class OreUpgradeGlassCrateBlockEntityRenderer implements BlockEntityRenderer<OreCrateBlockEntity, OreUpgradeGlassCrateBlockEntityRenderState>  {
@@ -45,7 +46,7 @@ public class OreUpgradeGlassCrateBlockEntityRenderer implements BlockEntityRende
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.5f, 0.5f);
         poseStack.scale(0.75f, 0.75f, 0.75f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.getRenderingRotation()));
+        poseStack.mulPose(new Matrix4f().rotate(blockEntity.getRenderingRotation(), 0.0F, 1.0F, 0.0F));
 
         Minecraft.getInstance().getItemModelResolver().updateForTopItem(itemRendererState, stack,
                 ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);

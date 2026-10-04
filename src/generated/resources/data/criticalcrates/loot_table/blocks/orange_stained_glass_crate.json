@@ -2,35 +2,36 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "conditions": [
-        {
-          "condition": "minecraft:match_tool",
-          "predicate": {
-            "components": {
-              "minecraft:enchantments": {
-                "minecraft:silk_touch": 1
+      "condition": {
+        "type": "minecraft:match_tool",
+        "predicate": {
+          "predicates": {
+            "minecraft:enchantments": [
+              {
+                "enchantments": "minecraft:silk_touch",
+                "levels": {
+                  "min": 1
+                }
               }
-            }
+            ]
           }
         }
-      ],
+      },
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_components",
-              "include": [
-                "minecraft:custom_data",
-                "minecraft:damage_resistant"
-              ],
-              "source": "block_entity"
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:copy_components",
+            "include": [
+              "minecraft:custom_data",
+              "minecraft:damage_resistant"
+            ],
+            "source": "block_entity"
+          },
           "name": "criticalcrates:orange_stained_glass_crate"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "criticalcrates:blocks/orange_stained_glass_crate"

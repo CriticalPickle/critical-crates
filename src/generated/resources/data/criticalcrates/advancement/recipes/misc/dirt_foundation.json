@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:dirt_foundation"
+        "recipes": "criticalcrates:dirt_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -47,7 +47,7 @@ public class CriticalCrates {
         modEventBus.addListener(ModRegistration::addCreative);
 
         // Register NeoForge's ModConfigSpec so that FML can create and load the config file
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.LOCAL, Config.SPEC);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

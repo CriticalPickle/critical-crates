@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:fireproofing"
+        "recipes": "criticalcrates:fireproofing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:dark_oak_crate"
+        "recipes": "criticalcrates:dark_oak_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

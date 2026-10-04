@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:cherry_foundation"
+        "recipes": "criticalcrates:cherry_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

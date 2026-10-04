@@ -8,7 +8,6 @@ import com.criticalpickle.criticalcrates.registration.ModTags;
 import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import com.criticalpickle.criticalcrates.util.DataComponentUtils;
 import static com.criticalpickle.criticalcrates.util.CrateUtil.*;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -49,10 +48,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public class CrateBlock extends BaseEntityBlock {
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
     public static final BooleanProperty SWITCH = BooleanProperty.create("switch");
     public static final BooleanProperty EXPLOSION_RESIST = BooleanProperty.create("explosion_resistant");
@@ -61,11 +57,6 @@ public class CrateBlock extends BaseEntityBlock {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty FIREPROOF = BooleanProperty.create("fireproof");
     public static final BooleanProperty SLIMY = BooleanProperty.create("slimy");
-
-    @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     public CrateBlock(Properties properties) {
         super(properties);

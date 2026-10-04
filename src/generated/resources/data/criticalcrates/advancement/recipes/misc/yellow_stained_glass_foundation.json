@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:yellow_stained_glass_foundation"
+        "recipes": "criticalcrates:yellow_stained_glass_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

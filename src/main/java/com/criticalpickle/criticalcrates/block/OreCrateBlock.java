@@ -1,8 +1,6 @@
 package com.criticalpickle.criticalcrates.block;
 
 import com.criticalpickle.criticalcrates.block.entity.OreCrateBlockEntity;
-import com.criticalpickle.criticalcrates.registration.ModTags;
-import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.util.CacheSwitchInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -80,15 +78,11 @@ public class OreCrateBlock extends CrateBlock {
 
     /// Logic to check for water in a 4-block radius
     private static boolean isNearWater(LevelReader level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-
-        for(BlockPos blockPos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 1, 4))) {
-            if (state.canBeHydrated(level, pos, level.getFluidState(blockPos), blockPos)) {
-                return true;
-            }
-        }
-
-        return FarmlandWaterManager.hasBlockWaterTicket(level, pos);
+        final BlockState currentState = level.getBlockState(pos);
+        final boolean canBeHydrated = level.findBlocksIn(pos.offset(-4, 0, -4), pos.offset(4, 1, 4))
+                .filterState((state) -> currentState.canBeHydrated(level, pos, state.getFluidState()))
+                .anyMatched();
+        return canBeHydrated || FarmlandWaterManager.hasBlockWaterTicket(level, pos);
     }
 
     @Override

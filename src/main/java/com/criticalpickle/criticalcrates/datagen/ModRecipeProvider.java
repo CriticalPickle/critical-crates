@@ -3,22 +3,42 @@ package com.criticalpickle.criticalcrates.datagen;
 import com.criticalpickle.criticalcrates.CriticalCrates;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.registration.ModItems;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.MultiRegistryBootstrap;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
 public class ModRecipeProvider extends RecipeProvider {
-    protected ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-        super(registries, output);
+    protected ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput);
+    }
+
+    public static MultiRegistryBootstrap create() {
+        return new MultiRegistryBootstrap() {
+            @Override
+            public @NonNull Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+                return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+            }
+
+            @Override
+            public void run(@NonNull BootstrapGetter registries) {
+                new ModRecipeProvider(
+                        registries.get(Registries.RECIPE), registries.get(Registries.ADVANCEMENT)
+                ).buildRecipes();
+            }
+        };
     }
 
     @Override
@@ -69,26 +89,26 @@ public class ModRecipeProvider extends RecipeProvider {
 
         simpleFoundation(ModItems.DIRT_FOUNDATION_ITEM.get(), Blocks.DIRT, "soil_foundation");
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.OBSIDIAN_REINFORCEMENT_ITEM.get(), 8)
                 .requires(Items.OBSIDIAN)
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.LAMP_SIMULATOR_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.LAMP_SIMULATOR_ITEM.get(), 8)
                 .requires(Items.REDSTONE_LAMP)
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.FIREPROOFING_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.FIREPROOFING_ITEM.get(), 8)
                 .requires(Items.MAGMA_CREAM)
                 .requires(Items.IRON_INGOT)
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
                 .requires(Items.SLIME_BALL)
                 .requires(Items.IRON_INGOT)
                 .requires(ModItems.PLIERS_ITEM.get())
@@ -96,28 +116,28 @@ public class ModRecipeProvider extends RecipeProvider {
                 .group("slimy_framing")
                 .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.SLIMY_FRAMING_ITEM.get(), 8)
                 .requires(Items.SLIME_BLOCK)
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .group("slimy_framing")
                 .save(this.output, CriticalCrates.MODID + ":slimy_framing_2");
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.IRON_SUPPORTS_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.IRON_SUPPORTS_ITEM.get(), 8)
                 .requires(Items.IRON_INGOT, 6)
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .group("iron_supports")
                 .save(this.output);
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.IRON_SUPPORTS_ITEM.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.IRON_SUPPORTS_ITEM.get(), 8)
                 .requires(ModItems.IRON_FOUNDATION_ITEM.get())
                 .requires(ModItems.PLIERS_ITEM.get())
                 .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                 .group("iron_supports")
                 .save(this.output,CriticalCrates.MODID + ":iron_supports_2");
 
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItems.SOAP.get(), 8)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, ModItems.SOAP.get(), 8)
                 .requires(Items.WATER_BUCKET)
                 .requires(Items.PORKCHOP)
                 .requires(Items.SCAFFOLDING)
@@ -128,7 +148,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     /// Generate a simple wooden crate recipe
     private void simpleWoodenCrate(Block crateBlock, Item woodSlab, Item woodPlank, String unlockedString) {
-        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, crateBlock, 1)
+        ShapedRecipeBuilder.shaped(this.items, RecipeCategory.MISC, crateBlock, 1)
                 .pattern("---")
                 .pattern("# #")
                 .pattern("---")
@@ -142,7 +162,7 @@ public class ModRecipeProvider extends RecipeProvider {
     /// Generate a simple foundation recipe
     private void simpleFoundation(Item foundation, Block blockType, @Nullable String groupName) {
         if(groupName != null) {
-            ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, foundation, 2)
+            ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, foundation, 2)
                     .requires(blockType)
                     .requires(ModItems.PLIERS_ITEM.get())
                     .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
@@ -150,27 +170,11 @@ public class ModRecipeProvider extends RecipeProvider {
                     .save(output);
         }
         else {
-            ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, foundation, 2)
+            ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.MISC, foundation, 2)
                     .requires(blockType)
                     .requires(ModItems.PLIERS_ITEM.get())
                     .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                     .save(output);
-        }
-    }
-
-    public static class Runner extends RecipeProvider.Runner {
-        protected Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
-            super(packOutput, registries);
-        }
-
-        @Override
-        protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider provider, @NotNull RecipeOutput recipeOutput) {
-            return new ModRecipeProvider(provider, recipeOutput);
-        }
-
-        @Override
-        public @NotNull String getName() {
-            return "CriticalCrates Recipes";
         }
     }
 }

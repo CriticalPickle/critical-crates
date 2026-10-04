@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:warped_foundation"
+        "recipes": "criticalcrates:warped_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

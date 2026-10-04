@@ -5,20 +5,18 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_components",
-              "include": [
-                "minecraft:custom_data",
-                "minecraft:damage_resistant"
-              ],
-              "source": "block_entity"
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:copy_components",
+            "include": [
+              "minecraft:custom_data",
+              "minecraft:damage_resistant"
+            ],
+            "source": "block_entity"
+          },
           "name": "criticalcrates:iron_birch_crate"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "criticalcrates:blocks/iron_birch_crate"

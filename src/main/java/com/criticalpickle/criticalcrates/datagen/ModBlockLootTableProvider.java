@@ -4,12 +4,16 @@ import com.criticalpickle.criticalcrates.block.GlassCrateBlock;
 import com.criticalpickle.criticalcrates.registration.ModBlocks;
 import com.criticalpickle.criticalcrates.util.EnchantmentUtils;
 import net.minecraft.advancements.predicates.DataComponentMatchers;
+import net.minecraft.advancements.predicates.EnchantmentPredicate;
 import net.minecraft.advancements.predicates.ItemPredicate;
+import net.minecraft.advancements.predicates.MinMaxBounds;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.predicates.DataComponentPredicates;
+import net.minecraft.core.component.predicates.EnchantmentsPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -19,14 +23,15 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
+import java.util.List;
 import java.util.Set;
 
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
-    private static HolderLookup.Provider lookupProvider;
+    private static LootTableSubProvider.Context lookupProvider;
 
-    protected ModBlockLootTableProvider(HolderLookup.Provider registries) {
+    protected ModBlockLootTableProvider(LootTableSubProvider.Context registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
         lookupProvider = registries;
     }
@@ -38,11 +43,17 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
             if(ModBlocks.getCrates(i) instanceof GlassCrateBlock) {
                 add(ModBlocks.getCrates(i), LootTable.lootTable()
                         .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
+                                .setRolls(ContextIntProviders.exactly(1))
                                 .when(MatchTool.toolMatches(ItemPredicate.Builder.item().withComponents(
-                                        DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.expect(
-                                                DataComponents.ENCHANTMENTS, EnchantmentUtils.enchantmentKeyToItemEnchantments(Enchantments.SILK_TOUCH, 1, lookupProvider)
-                                        )).build())))
+                                        DataComponentMatchers.Builder.components().partial(
+                                                DataComponentPredicates.ENCHANTMENTS, EnchantmentsPredicate.enchantments(
+                                                        List.of(new EnchantmentPredicate(
+                                                                this.enchantments.getOrThrow(Enchantments.SILK_TOUCH),
+                                                                MinMaxBounds.Ints.atLeast(1)
+                                                        ))
+                                                )
+                                        ).build()
+                                )))
                                 .add(LootItem.lootTableItem(ModBlocks.getCrates(i))
                                         .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.contextParam())
                                                 .include(DataComponents.CUSTOM_DATA).include(DataComponents.DAMAGE_RESISTANT))
@@ -53,7 +64,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
             else {
                 add(ModBlocks.getCrates(i), LootTable.lootTable()
                         .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
+                                .setRolls(ContextIntProviders.exactly(1))
                                 .add(LootItem.lootTableItem(ModBlocks.getCrates(i))
                                         .apply(CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.contextParam())
                                                 .include(DataComponents.CUSTOM_DATA).include(DataComponents.DAMAGE_RESISTANT))

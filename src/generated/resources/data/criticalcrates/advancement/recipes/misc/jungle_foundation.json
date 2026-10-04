@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:jungle_foundation"
+        "recipes": "criticalcrates:jungle_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

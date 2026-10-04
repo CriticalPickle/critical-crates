@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:glass_foundation"
+        "recipes": "criticalcrates:glass_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

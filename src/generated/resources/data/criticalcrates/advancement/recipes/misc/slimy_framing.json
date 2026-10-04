@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:slimy_framing"
+        "recipes": "criticalcrates:slimy_framing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:soap"
+        "recipes": "criticalcrates:soap"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

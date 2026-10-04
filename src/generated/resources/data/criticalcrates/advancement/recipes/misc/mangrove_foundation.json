@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:mangrove_foundation"
+        "recipes": "criticalcrates:mangrove_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

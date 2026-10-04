@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:spruce_foundation"
+        "recipes": "criticalcrates:spruce_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

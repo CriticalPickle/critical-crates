@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:birch_foundation"
+        "recipes": "criticalcrates:birch_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:acacia_crate"
+        "recipes": "criticalcrates:acacia_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

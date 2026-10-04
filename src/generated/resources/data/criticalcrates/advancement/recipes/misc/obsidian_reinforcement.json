@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:obsidian_reinforcement"
+        "recipes": "criticalcrates:obsidian_reinforcement"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

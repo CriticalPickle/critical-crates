@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:lamp_simulator"
+        "recipes": "criticalcrates:lamp_simulator"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

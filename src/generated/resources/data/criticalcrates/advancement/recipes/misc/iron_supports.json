@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:iron_supports"
+        "recipes": "criticalcrates:iron_supports"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -19,7 +19,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends TagsProvider<Item> {
 
-
     protected ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, Registries.ITEM, registries, CriticalCrates.MODID);
     }

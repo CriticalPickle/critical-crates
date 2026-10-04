@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "criticalcrates:crimson_foundation"
+        "recipes": "criticalcrates:crimson_foundation"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
