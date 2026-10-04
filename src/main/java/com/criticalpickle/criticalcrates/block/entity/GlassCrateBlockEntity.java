@@ -14,7 +14,7 @@ public class GlassCrateBlockEntity extends CrateBlockEntity {
     }
 
     public float getRenderingRotation() {
-        rotation += 0.5f;
+        rotation += 0.01f;
         if(rotation >= 360) {
             rotation = 0;
         }
