@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_crates",
+  "key": {
+    "#": "minecraft:poplar_planks",
+    "-": "minecraft:poplar_slab"
+  },
+  "pattern": [
+    "---",
+    "# #",
+    "---"
+  ],
+  "result": {
+    "id": "criticalcrates:poplar_crate"
+  }
+}

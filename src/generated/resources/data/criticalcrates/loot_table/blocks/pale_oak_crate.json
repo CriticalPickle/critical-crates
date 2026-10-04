@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "modifier": {
+            "type": "minecraft:copy_components",
+            "include": [
+              "minecraft:custom_data",
+              "minecraft:damage_resistant"
+            ],
+            "source": "block_entity"
+          },
+          "name": "criticalcrates:pale_oak_crate"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "criticalcrates:blocks/pale_oak_crate"
+}

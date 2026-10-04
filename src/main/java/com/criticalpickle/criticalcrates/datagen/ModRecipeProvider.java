@@ -52,6 +52,8 @@ public class ModRecipeProvider extends RecipeProvider {
         simpleWoodenCrate(ModBlocks.MANGROVE_CRATE.get(), Items.MANGROVE_SLAB, Items.MANGROVE_PLANKS, "has_mangrove_slab");
         simpleWoodenCrate(ModBlocks.CHERRY_CRATE.get(), Items.CHERRY_SLAB, Items.CHERRY_PLANKS, "has_cherry_slab");
         simpleWoodenCrate(ModBlocks.BAMBOO_CRATE.get(), Items.BAMBOO_SLAB, Items.BAMBOO_PLANKS, "has_bamboo_slab");
+        simpleWoodenCrate(ModBlocks.PALE_OAK_CRATE.get(), Items.PALE_OAK_SLAB, Items.PALE_OAK_PLANKS, "has_pale_oak_slab");
+        simpleWoodenCrate(ModBlocks.POPLAR_CRATE.get(), Items.POPLAR_SLAB, Items.POPLAR_PLANKS, "has_poplar_slab");
         simpleWoodenCrate(ModBlocks.CRIMSON_CRATE.get(), Items.CRIMSON_SLAB, Items.CRIMSON_PLANKS, "has_crimson_slab");
         simpleWoodenCrate(ModBlocks.WARPED_CRATE.get(), Items.WARPED_SLAB, Items.WARPED_PLANKS, "has_warped_slab");
 
@@ -64,6 +66,8 @@ public class ModRecipeProvider extends RecipeProvider {
         simpleFoundation(ModItems.MANGROVE_FOUNDATION_ITEM.get(), Blocks.MANGROVE_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.CHERRY_FOUNDATION_ITEM.get(), Blocks.CHERRY_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.BAMBOO_FOUNDATION_ITEM.get(), Blocks.BAMBOO_PLANKS, "wood_foundation");
+        simpleFoundation(ModItems.PALE_OAK_FOUNDATION_ITEM.get(), Blocks.PALE_OAK_PLANKS, "wood_foundation");
+        simpleFoundation(ModItems.POPLAR_FOUNDATION_ITEM.get(), Blocks.POPLAR_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.CRIMSON_FOUNDATION_ITEM.get(), Blocks.CRIMSON_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.WARPED_FOUNDATION_ITEM.get(), Blocks.WARPED_PLANKS, "wood_foundation");
 
