@@ -105,7 +105,7 @@ public class ModBlocks {
     public static List<ResourceKey<Block>> getCrateKeys() {
         return BLOCKS.getEntries().stream()
                 .filter(holder -> holder.get() instanceof CrateBlock)
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
@@ -131,7 +131,7 @@ public class ModBlocks {
                         holder.get() instanceof CrateBlock && !(holder.get() instanceof GlassCrateBlock) && !(holder.get() instanceof SoilCrateBlock)
                                 && (!(holder.get() instanceof OreCrateBlock oreCrate) || oreCrate.isCrateType("wood"))
                 )
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
@@ -166,7 +166,7 @@ public class ModBlocks {
                         holder.get() instanceof GlassCrateBlock || (holder.get() instanceof OreCrateBlock oreCrate
                                 && oreCrate.isCrateType("glass"))
                 )
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
@@ -196,7 +196,7 @@ public class ModBlocks {
                 .filter(block ->
                         block.get() instanceof OreCrateBlock oreCrate && oreCrate.isCrateType("ore")
                 )
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
@@ -220,7 +220,7 @@ public class ModBlocks {
                 .filter(block ->
                         block.get() instanceof OreCrateBlock oreCrate && !oreCrate.isCrateType("ore")
                 )
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
@@ -252,7 +252,7 @@ public class ModBlocks {
                         block.get() instanceof SoilCrateBlock || (block.get() instanceof OreCrateBlock oreCrate
                                 && oreCrate.isCrateType("soil"))
                 )
-                .map(DeferredHolder::getKey)
+                .map(DeferredHolder::key)
                 .toList();
     }
 
