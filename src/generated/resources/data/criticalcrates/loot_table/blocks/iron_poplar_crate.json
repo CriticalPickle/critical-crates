@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:custom_data",
+                "minecraft:damage_resistant"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "criticalcrates:iron_poplar_crate"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "criticalcrates:blocks/iron_poplar_crate"
+}

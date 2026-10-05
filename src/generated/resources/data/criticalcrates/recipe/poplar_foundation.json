@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wood_foundation",
+  "ingredients": [
+    "#minecraft:planks",
+    "minecraft:bone_meal",
+    "criticalcrates:pliers"
+  ],
+  "result": {
+    "count": 2,
+    "id": "criticalcrates:poplar_foundation"
+  }
+}

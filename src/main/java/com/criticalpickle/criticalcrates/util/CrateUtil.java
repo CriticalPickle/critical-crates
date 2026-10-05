@@ -180,6 +180,8 @@ public class CrateUtil {
                 ModItems.MANGROVE_FOUNDATION_ITEM.get(),
                 ModItems.CHERRY_FOUNDATION_ITEM.get(),
                 ModItems.BAMBOO_FOUNDATION_ITEM.get(),
+                ModItems.PALE_OAK_FOUNDATION_ITEM.get(),
+                ModItems.POPLAR_FOUNDATION_ITEM.get(),
                 ModItems.CRIMSON_FOUNDATION_ITEM.get(),
                 ModItems.WARPED_FOUNDATION_ITEM.get()
         );
@@ -252,6 +254,8 @@ public class CrateUtil {
                 ModItems.MANGROVE_FOUNDATION_ITEM.get(),
                 ModItems.CHERRY_FOUNDATION_ITEM.get(),
                 ModItems.BAMBOO_FOUNDATION_ITEM.get(),
+                ModItems.PALE_OAK_FOUNDATION_ITEM.get(),
+                ModItems.POPLAR_FOUNDATION_ITEM.get(),
                 ModItems.CRIMSON_FOUNDATION_ITEM.get(),
                 ModItems.WARPED_FOUNDATION_ITEM.get()
         );

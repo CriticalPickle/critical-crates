@@ -7,6 +7,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -32,6 +34,8 @@ public class ModRecipeProvider extends RecipeProvider {
         simpleWoodenCrate(ModBlocks.MANGROVE_CRATE.get(), Items.MANGROVE_SLAB, Items.MANGROVE_PLANKS, "has_mangrove_slab");
         simpleWoodenCrate(ModBlocks.CHERRY_CRATE.get(), Items.CHERRY_SLAB, Items.CHERRY_PLANKS, "has_cherry_slab");
         simpleWoodenCrate(ModBlocks.BAMBOO_CRATE.get(), Items.BAMBOO_SLAB, Items.BAMBOO_PLANKS, "has_bamboo_slab");
+        simpleWoodenCrate(ModBlocks.PALE_OAK_CRATE.get(), Items.PALE_OAK_SLAB, Items.PALE_OAK_PLANKS, "has_pale_oak_slab");
+        substituteWoodenCrate(ModBlocks.POPLAR_CRATE.get(), Items.BONE_MEAL, "has_bone_meal");
         simpleWoodenCrate(ModBlocks.CRIMSON_CRATE.get(), Items.CRIMSON_SLAB, Items.CRIMSON_PLANKS, "has_crimson_slab");
         simpleWoodenCrate(ModBlocks.WARPED_CRATE.get(), Items.WARPED_SLAB, Items.WARPED_PLANKS, "has_warped_slab");
 
@@ -44,6 +48,8 @@ public class ModRecipeProvider extends RecipeProvider {
         simpleFoundation(ModItems.MANGROVE_FOUNDATION_ITEM.get(), Blocks.MANGROVE_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.CHERRY_FOUNDATION_ITEM.get(), Blocks.CHERRY_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.BAMBOO_FOUNDATION_ITEM.get(), Blocks.BAMBOO_PLANKS, "wood_foundation");
+        simpleFoundation(ModItems.PALE_OAK_FOUNDATION_ITEM.get(), Blocks.PALE_OAK_PLANKS, "wood_foundation");
+        substituteFoundation(ModItems.POPLAR_FOUNDATION_ITEM.get(), Items.BONE_MEAL, ItemTags.PLANKS, "wood_foundation");
         simpleFoundation(ModItems.CRIMSON_FOUNDATION_ITEM.get(), Blocks.CRIMSON_PLANKS, "wood_foundation");
         simpleFoundation(ModItems.WARPED_FOUNDATION_ITEM.get(), Blocks.WARPED_PLANKS, "wood_foundation");
 
@@ -139,6 +145,20 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output);
     }
 
+    /// Generate a wooden crate recipe with a substitute
+    private void substituteWoodenCrate(Block crateBlock, Item substitute, String unlockedString) {
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, crateBlock, 1)
+                .pattern("---")
+                .pattern("#S#")
+                .pattern("---")
+                .define('S', substitute)
+                .define('-', ItemTags.WOODEN_SLABS)
+                .define('#', ItemTags.PLANKS)
+                .unlockedBy(unlockedString, has(substitute))
+                .group("wooden_crates")
+                .save(this.output);
+    }
+
     /// Generate a simple foundation recipe
     private void simpleFoundation(Item foundation, Block blockType, @Nullable String groupName) {
         if(groupName != null) {
@@ -152,6 +172,29 @@ public class ModRecipeProvider extends RecipeProvider {
         else {
             ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, foundation, 2)
                     .requires(blockType)
+                    .requires(ModItems.PLIERS_ITEM.get())
+                    .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                    .save(output);
+        }
+    }
+
+    /// Generate a foundation recipe with a substitute
+    private void substituteFoundation(
+            Item foundation, Item substitute, TagKey<Item> typeTag, @Nullable String groupName
+    ) {
+        if(groupName != null) {
+            ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, foundation, 2)
+                    .requires(typeTag)
+                    .requires(substitute)
+                    .requires(ModItems.PLIERS_ITEM.get())
+                    .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                    .group(groupName)
+                    .save(output);
+        }
+        else {
+            ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, foundation, 2)
+                    .requires(typeTag)
+                    .requires(substitute)
                     .requires(ModItems.PLIERS_ITEM.get())
                     .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                     .save(output);
