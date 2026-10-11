@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_crates",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "-": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "S": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "pattern": [
+    "---",
+    "#S#",
+    "---"
+  ],
+  "result": {
+    "count": 1,
+    "id": "criticalcrates:pale_oak_crate"
+  }
+}

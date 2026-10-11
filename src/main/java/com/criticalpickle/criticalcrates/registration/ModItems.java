@@ -32,6 +32,8 @@ public class ModItems {
     public static final DeferredItem<Item> MANGROVE_FOUNDATION_ITEM = ITEMS.registerSimpleItem("mangrove_foundation");
     public static final DeferredItem<Item> CHERRY_FOUNDATION_ITEM = ITEMS.registerSimpleItem("cherry_foundation");
     public static final DeferredItem<Item> BAMBOO_FOUNDATION_ITEM = ITEMS.registerSimpleItem("bamboo_foundation");
+    public static final DeferredItem<Item> PALE_OAK_FOUNDATION_ITEM = ITEMS.registerSimpleItem("pale_oak_foundation");
+    public static final DeferredItem<Item> POPLAR_FOUNDATION_ITEM = ITEMS.registerSimpleItem("poplar_foundation");
     public static final DeferredItem<Item> CRIMSON_FOUNDATION_ITEM = ITEMS.registerSimpleItem("crimson_foundation");
     public static final DeferredItem<Item> WARPED_FOUNDATION_ITEM = ITEMS.registerSimpleItem("warped_foundation");
 

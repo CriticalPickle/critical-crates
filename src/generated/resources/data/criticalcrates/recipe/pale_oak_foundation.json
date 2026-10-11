@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "wood_foundation",
+  "ingredients": [
+    {
+      "tag": "minecraft:planks"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "criticalcrates:pliers"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "criticalcrates:pale_oak_foundation"
+  }
+}

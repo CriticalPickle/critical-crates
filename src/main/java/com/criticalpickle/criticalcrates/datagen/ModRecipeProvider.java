@@ -6,11 +6,14 @@ import com.criticalpickle.criticalcrates.registration.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -21,7 +24,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput recipeOutput) {
+    protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
         simpleWoodenCrate(ModBlocks.OAK_CRATE.get(), Items.OAK_SLAB, Items.OAK_PLANKS, "has_oak_slab", recipeOutput);
         simpleWoodenCrate(ModBlocks.SPRUCE_CRATE.get(), Items.SPRUCE_SLAB, Items.SPRUCE_PLANKS, "has_spruce_slab", recipeOutput);
         simpleWoodenCrate(ModBlocks.BIRCH_CRATE.get(), Items.BIRCH_SLAB, Items.BIRCH_PLANKS, "has_birch_slab", recipeOutput);
@@ -31,6 +34,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         simpleWoodenCrate(ModBlocks.MANGROVE_CRATE.get(), Items.MANGROVE_SLAB, Items.MANGROVE_PLANKS, "has_mangrove_slab", recipeOutput);
         simpleWoodenCrate(ModBlocks.CHERRY_CRATE.get(), Items.CHERRY_SLAB, Items.CHERRY_PLANKS, "has_cherry_slab", recipeOutput);
         simpleWoodenCrate(ModBlocks.BAMBOO_CRATE.get(), Items.BAMBOO_SLAB, Items.BAMBOO_PLANKS, "has_bamboo_slab", recipeOutput);
+        substituteWoodenCrate(ModBlocks.PALE_OAK_CRATE.get(), Items.BONE_MEAL, "has_bone_meal", recipeOutput);
+        substituteWoodenCrate(ModBlocks.POPLAR_CRATE.get(), Items.INK_SAC, "has_ink_sac", recipeOutput);
         simpleWoodenCrate(ModBlocks.CRIMSON_CRATE.get(), Items.CRIMSON_SLAB, Items.CRIMSON_PLANKS, "has_crimson_slab", recipeOutput);
         simpleWoodenCrate(ModBlocks.WARPED_CRATE.get(), Items.WARPED_SLAB, Items.WARPED_PLANKS, "has_warped_slab", recipeOutput);
 
@@ -43,6 +48,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         simpleFoundation(ModItems.MANGROVE_FOUNDATION_ITEM.get(), Blocks.MANGROVE_PLANKS, "wood_foundation", recipeOutput);
         simpleFoundation(ModItems.CHERRY_FOUNDATION_ITEM.get(), Blocks.CHERRY_PLANKS, "wood_foundation", recipeOutput);
         simpleFoundation(ModItems.BAMBOO_FOUNDATION_ITEM.get(), Blocks.BAMBOO_PLANKS, "wood_foundation", recipeOutput);
+        substituteFoundation(ModItems.PALE_OAK_FOUNDATION_ITEM.get(), Items.BONE_MEAL, ItemTags.PLANKS, "wood_foundation", recipeOutput);
+        substituteFoundation(ModItems.POPLAR_FOUNDATION_ITEM.get(), Items.INK_SAC, ItemTags.PLANKS, "wood_foundation", recipeOutput);
         simpleFoundation(ModItems.CRIMSON_FOUNDATION_ITEM.get(), Blocks.CRIMSON_PLANKS, "wood_foundation", recipeOutput);
         simpleFoundation(ModItems.WARPED_FOUNDATION_ITEM.get(), Blocks.WARPED_PLANKS, "wood_foundation", recipeOutput);
 
@@ -138,6 +145,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(output);
     }
 
+    /// Generate a wooden crate recipe with a substitute
+    private void substituteWoodenCrate(Block crateBlock, Item substitute, String unlockedString, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, crateBlock, 1)
+                .pattern("---")
+                .pattern("#S#")
+                .pattern("---")
+                .define('S', substitute)
+                .define('-', ItemTags.WOODEN_SLABS)
+                .define('#', ItemTags.PLANKS)
+                .unlockedBy(unlockedString, has(substitute))
+                .group("wooden_crates")
+                .save(output);
+    }
+
     /// Generate a simple foundation recipe
     private void simpleFoundation(Item foundation, Block blockType, @Nullable String groupName, RecipeOutput output) {
         if(groupName != null) {
@@ -151,6 +172,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         else {
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, foundation, 2)
                     .requires(blockType)
+                    .requires(ModItems.PLIERS_ITEM.get())
+                    .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                    .save(output);
+        }
+    }
+
+    /// Generate a foundation recipe with a substitute
+    private void substituteFoundation(
+            Item foundation, Item substitute, TagKey<Item> typeTag, @Nullable String groupName, RecipeOutput output
+    ) {
+        if(groupName != null) {
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, foundation, 2)
+                    .requires(typeTag)
+                    .requires(substitute)
+                    .requires(ModItems.PLIERS_ITEM.get())
+                    .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
+                    .group(groupName)
+                    .save(output);
+        }
+        else {
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, foundation, 2)
+                    .requires(typeTag)
+                    .requires(substitute)
                     .requires(ModItems.PLIERS_ITEM.get())
                     .unlockedBy("has_pliers", has(ModItems.PLIERS_ITEM.get()))
                     .save(output);
