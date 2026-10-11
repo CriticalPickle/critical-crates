@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_crates",
+  "key": {
+    "#": "#minecraft:planks",
+    "-": "#minecraft:wooden_slabs",
+    "S": "minecraft:ink_sac"
+  },
+  "pattern": [
+    "---",
+    "#S#",
+    "---"
+  ],
+  "result": {
+    "id": "criticalcrates:poplar_crate"
+  }
+}
