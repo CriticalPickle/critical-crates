@@ -3,7 +3,7 @@
   "group": "wood_foundation",
   "ingredients": [
     "#minecraft:planks",
-    "minecraft:bone_meal",
+    "minecraft:ink_sac",
     "criticalcrates:pliers"
   ],
   "result": {

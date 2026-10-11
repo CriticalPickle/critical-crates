@@ -4,7 +4,7 @@
   "key": {
     "#": "#minecraft:planks",
     "-": "#minecraft:wooden_slabs",
-    "S": "minecraft:bone_meal"
+    "S": "minecraft:ink_sac"
   },
   "pattern": [
     "---",
