@@ -7,7 +7,7 @@ to allow the player to attempt to solve storage or item destruction. However, pi
 only handle being upgraded once.
 
 This mod is currently only developed and maintained for Minecraft [NeoForge](https://neoforged.net/) in version [1.21.1](https://github.com/CriticalPickle/critical-crates/tree/master), 
-26.1.x (this github branch), [26.2](https://github.com/CriticalPickle/critical-crates/tree/mc-v26.2.x), and [26.3](https://github.com/CriticalPickle/critical-crates/tree/mc-v26.3.x) but may be updated to newer and different versions/loaders in 
+26.1.x (this github branch), [26.2](https://github.com/CriticalPickle/critical-crates/tree/mc-v26.2.x), and [26.3](https://github.com/CriticalPickle/critical-crates/tree/mc-v26.3.x), but may be updated to newer and different versions/loaders in 
 the future. Various older versions of the mod are also available for [1.21.11](https://github.com/CriticalPickle/critical-crates/tree/mc-v1.21.11), but 1.21.11 will not be updated past 
 mod version 0.2.0.
 
